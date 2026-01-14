@@ -60,6 +60,55 @@ The cardinality of a set describes its size. like $|\mathbb{N}| = \aleph_0$
 \[\exists \text{ injection } f: A \mapsto B, |A| \leq |B|\]
 \[\exists \text{ surjection } f: A \mapsto B, |A| \geq |B|\]
 \section{}
-A finite set is a set that contains, well finite amount of element. 
-A countable set is either finite or has the same cardinality
+A finite set is a set that contains, well finite amount of element. For example $\emptyset$\\
+A countable set is either finite or has the same cardinality as $\mathbb{N}$. for example $\mathbb{Z^+}$\\
+An uncountable set is a set that has the same cardinality as $\mathbb{R}$. for example $\mathcal{P}(\mathbb{N})$
+\section{}
+A function is a mapping from a set to another set. $f: D_f \mapsto R_f$, where $R_f \subseteq CoDomain_f$. Codomain 
+is the set where the elements a function can possibly maps to, while range is the set of elements which the function 
+actually maps to.
+\section{}
+The power set of $S$ is a set of all subsets of $S$, which has cardinality $2^{|S|}$ For example $f: \emptyset \mapsto \{\emptyset\}$
+\section{}
+Base case: 
+\[\sum_{k=0}^{0} k^2 = \frac{0(0+1)(2\times0+1)}{6} = 0\]
+Inductive case: Suppose 
+\[\sum_{k=0}^{n}k^2 = \frac{n(n+1)(2n+1)}{6}\]
+\begin{align*}
+  \sum_{k=0}^{n+1}k^2 &= \frac{n(n+1)(2n+1)}{6} + (n+1)^2\\
+  &= \frac{1}{6}(2n^3 + 3n^2 + n + 6n^2 + 12n + 6)\\
+  &= \frac{1}{6}(2n^3 + 9n^2 + 13n + 6)\\
+  &= \frac{1}{6}((n+1)(2n^2+7n+6))\\
+  &= \frac{1}{6}(n+1)(n+2)(2n+3) 
+\end{align*}
+\section{}
+Base case: $h = 1, |V| = 2^1 - 1 = 1$
+Inductive steps: strong induction: \\
+Suppose a CBST of height $h$ has $2^h - 1$ nodes, and a CBST with height $h - 1$ has $2^{h - 1} - 1$ nodes, 
+The number of leaves $ = 2^{h} - 1 - (2^{h - 1} - 1) = 2^{h - 1}$, to add a new level each leaf grows 2 new leave, total $2 \cdot 2^{h - 1} = 2^h$
+Thus a CBST of height $h + 1$ has $2^h - 1 + 2^h = 2^{h+1} - 1$
+\section{}
+A string $w$ over an alphabet $\Sigma$ is a finitely long sequence of characters from $\Sigma$. A langauge is all strings formed from an alphabet based on certain rules. 
+$\Sigma^*$ is a regular language that consists of all finitely long sequence from $\Sigma$.
+\section{}
+A regular language: the empty language $\emptyset$. proof: trivial, a DFA that accepts nothing.\\
+A context free language: valid parentheses, rules:
+\begin{align*}
+  S &\rightarrow \epsilon\\
+  S &\rightarrow SS  \\
+  S &\rightarrow (S)
+\end{align*}
+\section{} 
+A turing machine is a state machine defined as such: $\{Q, \Gamma, \Sigma, \delta, b, s, f\}$ each represents:
+the set of states, alphabet symbols, tape sympols, transition rules $(Q - F\times \Gamma) \mapsto (Q\times \Gamma \times \{L, R\})$, blank symbol, starting and final states. 
+Languages can be either accepted or rejected by a Turing machine is called recursive. Languages that may be accepted but not guarenteed to terminate on a Turing machine is recursively enumerable.
+\section{}
+Decideable means always terminate of a Turing machine, either accepted or rejected in finite amount of time. For example $\emptyset$, as regular languages are decidable. 
+\section{}
+Post's correspondence problem is undecidable. 
+\section{}
+One turing machine terminate on a string in time polynomial wrt input size. Meaning the language is in complexity class P
+\section{}
+NP complexity class consists of languages that can be accepted or rejected a non-deterministic turing machine in polynomial time wrt input size.
+
 \end{document}
