@@ -1,0 +1,166 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}    
+\usepackage[T1]{fontenc}       
+\usepackage{lmodern}           
+\usepackage{amsmath}   
+\usepackage{amssymb}   
+\usepackage{geometry}  
+\usepackage{enumerate} 
+\usepackage{xcolor}  
+\usepackage{amsthm}
+\usepackage{pdfpages}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\usepackage{listings}  
+\usepackage{tikz-cd}
+\usepackage{forest}     
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{arrows.meta,decorations.pathreplacing,calc}
+\lstset{frame=tb,
+  language=C,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,   
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{brown},
+  stringstyle=\color{orange},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+\geometry{top=1in, bottom=1in, left=1in, right=1in}
+% ctrl shift D to toggle night 
+\begin{document}
+
+\title{Week 2: Propositional Logic}
+\author{Wang Xiyu}
+\date{}
+\maketitle
+Propositional logic is about, well, logics about propositions. A prposition is basically a statement that can be 
+evaluated to true or false. For example "1+1=2" and "1+1=3" are both propositions. 
+\section{Syntax}
+\begin{definition}
+    Syntax decides what are allowed to be written
+\end{definition}
+\subsection{Well-formed Formula (WFF)}
+A formula $\psi$ is obtained by composing $p \in P$ with $c\in C$, where $P$ is the set of propositions and $C$ is the set of connectors. here we use
+any set of complete logic, like $C = \{\neg, \lor\}$. This is not a percise definition as counter examples that do not form 
+a valid formula can be formulated based on this, for example $\neg \lor p$ means nothing. To formalize the definition we may attempt to define a language with the following grammar:
+\[\Sigma = P\cup C\cup \{(, )\}\]
+\[FORM :\{\psi = p \in P | \neg \psi | \psi \lor \psi | (\psi) \}\]
+However this is a recursive definition as the definition of the a formula $\psi$ involves itself. We need to find a declarative way to define this recursive/inductive construction. 
+
+\begin{definition}
+    FORM is \textbf{the smallest} set of strings over $\Sigma$ where 
+    \begin{enumerate}
+        \item $P \subseteq FORM$
+        \item $\forall \psi \in FORM, \neg \psi \in FORM$
+        \item $\forall \psi_1, \psi_2 \in FORM, \psi_1 \lor \psi_2 \in FORM$
+    \end{enumerate}
+\end{definition}
+We can see as a construction rule, we are admitting strings into the set of formula, but we need to somewhat impose restriction on what is not acceptable. 
+\subsection{Closed Set}
+Let's remove the attributive \textbf{the smallest} first and define another set that contains all the set that satisfy these rules listed above:
+\begin{definition}
+    Closed is a set of strings over $\Sigma$ where 
+    \begin{enumerate}
+        \item $P \subseteq Closed$
+        \item $\forall \psi \in Closed, \neg \psi \in Closed$
+        \item $\forall \psi_1, \psi_2 \in Closed, \psi_1 \lor \psi_2 \in Closed$
+    \end{enumerate}
+\end{definition}
+\subsubsection{All Closed Set}
+And we define a set ACS (All-closed sets). We can define FORM via the following constriction:
+\[FORM = \bigcap ACS\]
+Suppose $BCS = \emptyset$ and from definition
+\[U_0 = \bigcap BCS = \{w \in \Sigma^* | \forall S \in BCS, w \in S\}\]
+However, $BCS = \emptyset$, The statement $\forall S \in BCS, w \in S$ is vacuously true $\forall w \in \Sigma^*$, which means that
+\[U_0 = \Sigma^* = \bigcap BCS\]
+A contradiction.
+Therefore we have proved that ACS cannot be empty, thus $\forall P, \exists S$ such that $S$ is a closed set. 
+\subsection{FORM is the minimum of the set of Closed}
+First let's prove that FORM is closed. It seems to be trivial that the intersection of closed sets is closed but formal proof is still needed.
+We denote a set from the intersection construction as $T_0$.
+\begin{lemma}
+    $T_0$ is closed 
+\end{lemma}
+We are proving that the set $T_0$ we get from the intersection construction still satisfy the rules that define what is closed. 
+\begin{proof}
+    From rule 1,
+    \begin{align*}
+        \forall S &\in ACS, P \subseteq S\\
+        &\implies \forall p \in P, \forall S \in ACS, p \in S \\
+        &\implies \forall p \in P, p \in \bigcap ACS\\
+        &\implies P \in T_0
+    \end{align*}
+    From rule 2, 
+    \begin{align*}
+        \forall S &\in ACS, T_0 \subseteq S\\
+        \text{let } w &\in T_0, \forall S \in ACS, w \in S, \neg w \in S\\
+        & \implies \forall w \in T_0, \neg w \in \bigcap ACS\\
+        & \implies \forall w \in T_0, \neg w \in T_0
+    \end{align*}
+    From rule 3,
+    \begin{align*}
+        \forall S&\in ACS, T_0 \subseteq S\\
+        \text{let } w_1, w_2 &\in T_0, \forall S \in ACS, w_1 \lor w_2 \in S\\
+        & \implies \forall w_1, w_2 \in T_0, w_1 \lor w_2 \in \bigcap ACS\\
+        & \implies \forall w_1, w_2 \in T_0, w_1 \lor w_2 \in T_0
+    \end{align*}
+\end{proof}
+\begin{lemma}
+    $T_0$ is \textbf{a} smallest Closed set
+\end{lemma}
+\begin{proof}
+    The proof of minimality is trivial. $T_0 = \bigcap ACS \implies \forall S \in ACS, T_0 \subseteq S$
+\end{proof}
+\begin{lemma}
+    $T_0$ is \textbf{the} smallest Closed set (unique). In other word, 
+    \[\forall T_0' \in \{T | \forall S \in ACS, T \subseteq S\}, T_0' = T_0\]
+\end{lemma}
+\begin{proof}
+Suppose otherwise, $\exists T_0' \in ACS \neq T_0$. 
+\begin{align*}
+    T_0, T_0' \in ACS &\implies \forall S \in ACS, T_0 \subseteq S, T_0' \subseteq S\\
+    &\implies T_0 \subseteq T_0'\land T_0' \subseteq T_0\\
+    &\implies T_0 = T_0'
+\end{align*}
+A contradiction.
+\end{proof}
+Now we can use the generative rule to define formula, which is called \textbf{Backus-Naur form}. Note that a context-free grammar is a type of formal language. 
+Backus Naur form is a specification language for this type of grammar. It is used to describe language syntax.
+
+\section{Sematics}
+\begin{definition}
+    Sematics describe meanings.
+\end{definition}
+\subsection{Truth Assignment/Proposition evaluation}
+A truth assignment or an evaluation of propositions is a function that maps from the set of propositions to true and false.
+\[v: P \rightarrow \{T, F\}\]
+\[v \in [P \rightarrow \{T, F\}]\]
+\begin{example}
+    Consider $v = \{p_1 \mapsto T, p_2 \mapsto F\}$, we can derive
+    \begin{align*}
+    v&(p_1) = T\\
+    v&(p_2)= F\\
+    v&(\neg p_2) = T\\
+    v&(p_1\lor p_2) = T \text{ etc.}
+    \end{align*}
+\end{example}
+\subsection{Entail/Model}
+We denote entailment of an evaluation function to formula as 
+\[v \models \psi\]
+We also define the following rule 
+\begin{align*}
+    \forall p \in P, v\models p &\iff v(p)\\
+     v\models \psi &\iff v\nvDash \neg \psi\\
+     v \models \psi_1 \lor \psi_2 &\iff (v\models \psi_1) \lor (v\models \psi_2)
+\end{align*}
+\end{document}
