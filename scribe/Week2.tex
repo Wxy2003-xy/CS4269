@@ -169,6 +169,46 @@ We also define the following rule
 \section*{Tutorial}
 \subsection{Generic closure}
 \begin{definition}
-Given a universe set $U$ and an operator set $\mathcal{O}$, where $\forall f \in \mathcal{O}, f$ is a function that mapes , $f$ has arity $ r = arity(f)$. 
+Given a universe set $U$ and an operator set $\mathcal{O}$,
+ where $\forall f:U \times r \text{ times } \times U \mapsto \mathcal{P}(U) \in \mathcal{O}$. $f$ has arity $ r = arity(f)$. 
+ We define a set $S \subseteq U$ to be $(I, O)$-closed if the following hold:
+ \begin{enumerate}
+    \item $I \subseteq S$
+    \item $\forall f \in O, e_1, e_2, \dots, e_r \in I, f(e_1, e_2, \dots, e_r) \in S$
+ \end{enumerate}
 \end{definition}
+\begin{lemma}
+    There exists a smallest (I, O)-closed set. 
+\end{lemma}
+\subsection*{Q1}
+Claim: The smallest (I, O)-closed set can be constructed by taking the intersection of all (I,O)-closed set, ie.
+\[AIOCS = \{S \subseteq U | S \text{ S is (I,O)-closed}\}\]
+\[T_0 = \bigcap AIOCS\]
+\subsubsection*{Existence}
+First we prove the existence of such a set. 
+\begin{proof}
+    Suppose otherwise, 
+    \begin{align*}
+T_0 = \bigcap AIOCS = \emptyset \\
+T_0 = \{x \in \mathcal{P}(U) | \forall S \in AIOCS, x \in S\}\\
+T_0 = \emptyset \implies x \in S \text{ is vacuously true } \forall x \in \mathcal{P}(U) \implies T_0 = \mathcal{P}(U)
+    \end{align*}
+    contradiction.
+\end{proof}
+\subsubsection*{Closed}
+Now we prove that $T_0$ is (I,O)-closed.
+\begin{proof}
+    Property 1:
+    \begin{align*}
+        \forall S \in AIOCS, I \subseteq S \\
+        \implies \forall i \in I, \forall S \in AIOCS, i \in S\\
+        \implies \forall i \in I, i \in \bigcap AIOCS\\
+        \implies \forall i \in I, i \in T_0
+    \end{align*}
+    Property 2:
+    \begin{align*}
+        \forall S \in AIOCS, T_0 \subseteq S\\
+        \text{Let } 
+    \end{align*}
+\end{proof}
 \end{document}

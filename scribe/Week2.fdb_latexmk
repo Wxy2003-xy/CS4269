@@ -1,7 +1,7 @@
 # Fdb version 4
-["pdflatex"] 1769346983.47621 "/home/wxy/Desktop/CS4269/scribe/Week2.tex" "Week2.pdf" "Week2" 1769346983.75933 0
+["pdflatex"] 1769529658.83845 "/home/wxy/Desktop/CS4269/scribe/Week2.tex" "Week2.pdf" "Week2" 1769529659.12115 0
   "/etc/texmf/web2c/texmf.cnf" 1755103353.17925 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/wxy/Desktop/CS4269/scribe/Week2.tex" 1769346983.35375 7166 d1d369b745f61d39635f5bfbd8fa1468 ""
+  "/home/wxy/Desktop/CS4269/scribe/Week2.tex" 1769529658.71749 8580 d669805a76b75572632c35acd83d4805 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/ecrm1000.tfm" 1136768653 3584 adb004a0c8e7c46ee66cad73671f37b4 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm" 1246382020 916 f87d7c45f9c908e672703b83b72241a3 ""
@@ -190,6 +190,7 @@
   "/usr/share/texmf/fonts/type1/public/lm/lmbxi10.pfb" 1255129361 112766 bdd4fa8b13a0d7dd137624085bd31d40 ""
   "/usr/share/texmf/fonts/type1/public/lm/lmex10.pfb" 1254269338 23055 2e5b42921de910eaa97b85df04ca4891 ""
   "/usr/share/texmf/fonts/type1/public/lm/lmmi10.pfb" 1254269338 30388 702fae6a5f0e6e9c48a1d872b442ffcf ""
+  "/usr/share/texmf/fonts/type1/public/lm/lmmi7.pfb" 1254269338 30789 be3ebdf20b6442cc4aaf81a81e17daf4 ""
   "/usr/share/texmf/fonts/type1/public/lm/lmr10.pfb" 1255129361 119235 f35b44530a1d90eb90fe15d9cba67ea0 ""
   "/usr/share/texmf/fonts/type1/public/lm/lmr12.pfb" 1255129361 113634 f99c44d58bae0863375faf0e1d74d612 ""
   "/usr/share/texmf/fonts/type1/public/lm/lmr17.pfb" 1255129361 119752 1bd8d06e4079df624bf59ce3ad7c9aa6 ""
@@ -206,8 +207,8 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1755103356.29607 128028 f533b797fba58d231669ea19e894e23e ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1755151943 6800792 bb14ca614cdc1af8992e085e8f19649b ""
-  "Week2.aux" 1769346983.72 1033 17b0012666c0a76097092c94341cf691 "pdflatex"
-  "Week2.tex" 1769346983.35375 7166 d1d369b745f61d39635f5bfbd8fa1468 ""
+  "Week2.aux" 1769529659.08081 1033 6d3490e4f1f4b5e2a33128e057c116c8 "pdflatex"
+  "Week2.tex" 1769529658.71749 8580 d669805a76b75572632c35acd83d4805 ""
   (generated)
   "Week2.aux"
   "Week2.log"
