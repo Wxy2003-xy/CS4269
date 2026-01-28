@@ -40,7 +40,7 @@
 % ctrl shift D to toggle night 
 \begin{document}
 
-\title{Week 2: Propositional Logic}
+\title{Week 2-3: Propositional Logic}
 \author{Wang Xiyu}
 \date{}
 \maketitle
@@ -137,6 +137,27 @@ A contradiction.
 \end{proof}
 Now we can use the generative rule to define formula, which is called \textbf{Backus-Naur form}. Note that a context-free grammar is a type of formal language. 
 Backus Naur form is a specification language for this type of grammar. It is used to describe language syntax.
+\subsection{Subformula}
+\begin{definition}
+$\phi_1$ is a subformula of $\phi_2$, denoted by 
+\[\phi_1 \preccurlyeq \phi_2\]
+as a relation is 
+\begin{itemize}
+    \item reflexive: $\forall \phi \in FORM, \phi \preccurlyeq \phi$
+    \item transitive: $\forall \phi_1, \phi_2, \phi_3 \in FORM, (\phi_1 \preccurlyeq \phi_2) \land (\phi_2 \preccurlyeq \phi_3) \implies \phi_1 \preccurlyeq \phi_3$
+\end{itemize}  
+Inductive definition:
+\begin{align*}
+    \forall \phi \in FORM, \phi \preccurlyeq (\neg \phi)\\
+    \forall \phi_1, \phi_2 \in FORM, \phi_1 \preccurlyeq (\phi_1 \lor \phi_2)\\
+    \phi_2 \preccurlyeq (\phi_1 \lor \phi_2)
+\end{align*}
+\end{definition}
+We might intuitively think that subformula can be defined using the notion of substring, since we have been considering formula as concatenation of 
+proposition and connector symbols. However based on out inductive definition, we can come up with the following counter example to a definition using substring: 
+A formula $\phi_1$ is a subformula of $\phi_2$ if and only if $\phi_1$ is a well-formed formula, and is a substring to $\phi_2$
+\[p \lor q \not\preccurlyeq \neg p \lor q\]
+\textcolor{red}{What if we tighten the syntax by strictly enforce the use of parenthese whenver we can}
 
 \section{Sematics}
 \begin{definition}
@@ -164,11 +185,86 @@ We also indeuctively define the following rule
      v\models \psi &\iff v\nvDash \neg \psi\\
      v \models \psi_1 \lor \psi_2 &\iff (v\models \psi_1) \lor (v\models \psi_2)
 \end{align*}
-\subsection*{Subformula}
-\begin{definition}
-    
-\end{definition}
 
+\subsection{Logical Equivalence}
+\begin{definition}
+    Syntax definition of logical equivalence is as follows: 
+    \[\phi_1 \equiv \phi_2 \iff \forall v: P \mapsto \{T, F\} (v\models \phi_1),  v \models \phi_2\]
+\end{definition}
+\begin{example}
+    \[p \lor (\neg p) \equiv q \lor (\neg q)\]
+
+\begin{align*}
+    &\forall v \models (p \lor (\neg p)), \\
+    &v \models p \text{ or } v \models (\neg p)\\
+    &v \models p \text{ or } v \not\models p\\
+    &\forall v: P \mapsto \{T, F\}, 
+\end{align*}
+\textcolor{red}{TODO}
+\end{example}
+\subsection{Satisfiability of Formula}
+\begin{definition}
+    Let $\phi \in FORM, \phi $ is satisfiable 
+    \[\iff \exists v: P \mapsto \{T, F\}, v \models \phi\]
+\end{definition}
+\begin{definition}
+    Tautology: $\phi$ is a tautology $\iff \forall v, v \models \phi$
+\end{definition}
+\begin{example}
+    \[\phi = \neg(p \lor (\neg p))\]
+    From example 2.4, we have 
+    \begin{align*}
+        &\forall v, v \models (p \lor (\neg p))\\
+        &\implies \forall v, v \not\models \neg(p \lor (\neg p))
+    \end{align*}
+    Thus $\phi$ is NOT satisfiable.
+\end{example}
+
+\subsection{Satisfiability of a set of formula}
+\subsubsection*{Set Satisfication}
+\begin{definition}
+    Let $\Gamma \subseteq FORM$, 
+    \[v \models \Gamma \iff \forall \phi \in \Gamma, v \models \phi\]
+\end{definition}
+\subsubsection*{Set Satisfiability}
+\begin{definition}
+        Let $\Gamma \subseteq FORM$, $\Gamma$ is satisfiable 
+    \[\iff \exists v, \forall \phi \in \Gamma, v \models \phi\]
+\end{definition}
+\begin{example}
+     $\Gamma = \emptyset$, $\Gamma$ is satisfiable.
+    \begin{proof}
+        Consider $v: P \mapsto \{T, F\}, v(p) = T \forall p \in P$, 
+        $\forall \phi \in \Gamma, v \models \phi$ is vacuously true.
+    \end{proof}
+\end{example}
+\begin{example}
+     $\Gamma = FORM$, $\Gamma$ is NOT satisfiable.
+     \begin{proof}
+        Suppose otherwise,
+        \begin{align*}
+            \exists v, \forall \phi &\in \Gamma, v \models \phi\\
+            \forall \phi &\in \Gamma, (\neg \phi) \in \Gamma\\
+            &v \models (\neg \phi)
+        \end{align*}
+        A contradiction.
+     \end{proof}
+\end{example}
+\subsubsection{Relevance}
+\begin{definition}
+    Define set $OCCUR(\phi) \subseteq P$, which contains propositions appear in $\phi$. Inductively defined as
+    \begin{align*}
+        &OCCUR(\phi) = \{p\} \iff \phi \equiv p,p \in P\\
+        &OCCUR(\neg \phi) = OCCUR(\phi)\\
+        &OCCUR(\phi_1 \lor \phi_2) = OCCUR(\phi_1) \cup OCCUR(\phi_2)
+    \end{align*} 
+\end{definition}
+\begin{lemma}
+    Let $\phi \in FORM$, let $v_1, v_2$ be valuations over $P$. 
+    \[\forall p \in OCCUR(\phi), v_1(p) = v_2(p) \implies (v_1 \models \phi \implies v_2 \models \phi)\]
+    $v_1, v_2$ can be different valuations over $p' \notin OCCUR(\phi)$
+\end{lemma}
+\subsection{Modelling Computations as Propositional Logic}
 \section*{Tutorial}
 \subsection{Generic closure}
 * Define $\mathcal{P}(U)$ as a collection of all ordering of all elemenst in the power set $\mathscr{P}(U)$
