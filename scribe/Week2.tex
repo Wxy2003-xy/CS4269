@@ -9,6 +9,7 @@
 \usepackage{xcolor}  
 \usepackage{amsthm}
 \usepackage{pdfpages}
+\usepackage{mathrsfs}
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{corollary}[theorem]{Corollary}
@@ -35,7 +36,7 @@
   breakatwhitespace=true,
   tabsize=3
 }
-\geometry{top=1in, bottom=1in, left=1in, right=1in}
+\geometry{top=1in, bottom=1in, left=2in, right=2in}
 % ctrl shift D to toggle night 
 \begin{document}
 
@@ -142,7 +143,7 @@ Backus Naur form is a specification language for this type of grammar. It is use
     Sematics describe meanings.
 \end{definition}
 \subsection{Truth Assignment/Proposition evaluation}
-A truth assignment or an evaluation of propositions is a function that maps from the set of propositions to true and false.
+A truth assignment or a valuation of propositions is a function that maps from the set of propositions to true and false.
 \[v: P \rightarrow \{T, F\}\]
 \[v \in [P \rightarrow \{T, F\}]\]
 \begin{example}
@@ -157,17 +158,20 @@ A truth assignment or an evaluation of propositions is a function that maps from
 \subsection{Entail/Model}
 We denote entailment of an evaluation function to formula as 
 \[v \models \psi\]
-We also define the following rule 
+We also indeuctively define the following rule 
 \begin{align*}
     \forall p \in P, v\models p &\iff v(p)\\
      v\models \psi &\iff v\nvDash \neg \psi\\
      v \models \psi_1 \lor \psi_2 &\iff (v\models \psi_1) \lor (v\models \psi_2)
 \end{align*}
-
-
+\subsection*{Subformula}
+\begin{definition}
+    
+\end{definition}
 
 \section*{Tutorial}
 \subsection{Generic closure}
+* Define $\mathcal{P}(U)$ as a collection of all ordering of all elemenst in the power set $\mathscr{P}(U)$
 \begin{definition}
 Given a universe set $U$ and an operator set $\mathcal{O}$,
  where $\forall f:U \times r \text{ times } \times U \mapsto \mathcal{P}(U) \in \mathcal{O}$. $f$ has arity $ r = arity(f)$. 
@@ -208,7 +212,67 @@ Now we prove that $T_0$ is (I,O)-closed.
     Property 2:
     \begin{align*}
         \forall S \in AIOCS, T_0 \subseteq S\\
-        \text{Let } 
+        \text{Let } e_1, e_2, \dots, e_r \in T_0, \forall S \in AIOCS, e_1, e_2, \dots, e_r \in S \\
+        \implies \exists f \in \mathcal{O}, f(e_1, e_2, \dots, e_r) \in S\\
+        \implies \forall e_1, e_2, \dots, e_r \in T_0, \exists f \in \mathcal{O}, f(e_1, e_2, \dots, e_r) \in \bigcap AIOCS\\
+        \implies f(e_1, e_2, \dots, e_r) \in T_0
     \end{align*}
 \end{proof}
+\subsubsection*{Uniqueness}
+Claim: 
+\[\forall T_0' \in \{T \in \mathcal{P}(U)| \forall S \in AIOCS, T \subseteq S\}, T_0' = T_0\]
+\begin{proof}
+    Suppose otherwise, $\exists T_0' \in AIOCS, T_0' \neq T_0$. 
+    \begin{align*}
+        T_0, T_0' \in AIOCS \implies \forall S \in AIOCS, T_0 \subseteq S, T_0' \subseteq S\\
+        \implies T_0 \subseteq T_0', T_0' \subseteq T_0\\
+        \implies T_0 = T_0'
+    \end{align*}
+\end{proof}
+\section*{Q2}
+\subsection*{2.1}
+\[w_1 = \epsilon \notin FORM\]
+Claim: $\forall w \in FORM, |w| > 0$
+\begin{proof}
+    Base case:
+    \begin{align*}
+        \forall p \in P, |p| = 1
+    \end{align*}
+    Inductive Hypothesis:\\
+
+\end{proof}
+\section*{Q3}
+\begin{enumerate}
+    \item $\mathbb{N}: I = \{0\}, O = \{f(x) = x + 1\}$
+    \item $Odd: I = \{1\}, O = \{f(x) = x + 2\}$ 
+    \item $\mathbb{Q}: I = \{0\}, O = \{f(x) = -x, f(x) = x + 1, f(x, y) = \frac{x}{y}\}$
+    \item $\{\frac{x}{3} | x \in \mathbb{N}\} \setminus \mathbb{N}: I = \{\frac{1}{3}\}, O = \{f(x) = 3x+1 | 3 ? \frac{1}{3} : x + \frac{1}{3}\}$
+\end{enumerate}
+
+\section*{Q4}
+\subsection*{4.1}
+$I = \{t\}, O = \{f(v) = succ(v)\}$
+\subsection*{4.2}
+$I = \{s\} \cup \{v\in V | v \in succ^r(s)\}, O = \{f(v) = succ^d(v)\}$
+\section*{Q5}
+\subsection*{5.1}
+$I = \{(v, v) | v \in V\}, O = \{f(u, u') = \{(u', v) | v \in V, succ(u') = v\}\}$
+
+\section*{Q6}
+\subsection*{6.1}
+Base case: $FORM_0 \subseteq FORM_1$
+    as \[FORM_1 = FORM_0 \cup \{(\neg w)| w \in FORM_0\} \cup \{(w_1 \lor w_2) | w_1, w_2 \in FORM_0\}\]
+    Wait this is just trivial
+\subsection*{6.2}
+Claim: \[\exists i \geq 0, FORM_i = FORM_{i+1}\]
+It is obvious that $\forall i \geq 0, FORM_i$ is finite. Suppose 
+
+\subsection*{6.3}
+\subsection*{6.4}
+
+\section*{Q7}
+Claim: $INDFORM$ is (P, C)-closed
+\section*{Q8}
+\section*{Q9}
+
 \end{document}
