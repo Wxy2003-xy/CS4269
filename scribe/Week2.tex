@@ -265,6 +265,70 @@ We also indeuctively define the following rule
     $v_1, v_2$ can be different valuations over $p' \notin OCCUR(\phi)$
 \end{lemma}
 \subsection{Modelling Computations as Propositional Logic}
+Computation problems can be considered as membership check of an encoded problem instance to a language. 
+\[L = \{p | \langle M, p\rangle\}\]
+Here instead of arbituary encoding, we consider problem encoding with propositional logics only, 
+and solve with SAT solvers by deciding whether the set of formula we form from any instance of the problem is satisfiable.
+That is 
+\[Encode: p \mapsto FORM, \forall p, \exists v \models Encode(p) \iff p \in L\]
+The rules of such modelling include:
+\begin{itemize}
+    \item Propositional logics only
+    \item The final expression must one well formed fomula
+    \item for problem of size $n$, the size of the formula $\phi$ must be in $O(poly(n))$
+\end{itemize}
+Note that there can be different definition on the size of the 
+\begin{itemize}
+    \item problem: in unary, binary etc; 
+    \item Formula: Whether by the number of nodes in the syntax tree or length of the string \textcolor{red}{Anything else?}
+\end{itemize}
+
+\begin{example}
+    Graph coloring problem: given a undirected graph $G = (V, E)$, whether there exists a $k$ coloring of all vertices such that no neighbouring vertices have the same color.\\
+    Consider the following construction of a proposition set $P$:
+    \[P = \{p_{v, i} | v \in V, i \in [1, k]\}\]
+    The valuation of proposition $p_{v, i}$ conceptually represents vertex $v$ is assigned color $i$. \\
+    We can formulate constriants as well formed formula, and use conjunction to connect the formula to model satisfaction of multiple constraints. 
+    \begin{corollary}
+        $\forall \phi_1, \phi_2 \in FORM, (\phi_1 \land \pi_2) \in FORM$
+    \end{corollary}
+    First let us list down the constraints of this problems, including implicit ones in plain words
+    \begin{enumerate}
+        \item Neighbouring vertices have different colors.
+        \item All vertices as assigned with exactly one color.
+    \end{enumerate}
+    \subsubsection*{1. $\phi_{nbr}$}
+    First lets formula the constraint between any 2 vertices, 
+    \[\forall (\alpha, \beta) \in E, c(v_\alpha) \neq c(v_\beta)\]
+    And from our proposition set, $c(v_\gamma) = i \iff \exists v, v\models p_{\gamma, i}$. As such we have 
+    \[\phi_{\alpha, \beta, i} = \neg(p_{\alpha, i} \land p_{\beta, i})\]
+    This models vertex $\alpha$ and vertex $\beta$ are not colored with color $i$ at the same time.
+    For every color this needs to hold, thus we have 
+    \[\phi_{nbr(\alpha, \beta)} = \bigwedge_{i \in [1, k]} \phi_{\alpha, \beta, i}\]
+    For every pair of neighbouring vertices this also needs to hold. Therefore we have 
+    \[\phi_{nbr} = \bigwedge_{(\alpha, \beta) \in E}\phi_{nbr(\alpha, \beta)}\]
+    \subsubsection*{2. $\phi_{exactly-1}$}
+    To model exactly 1 coloring on each vertex, we can formulate $\phi_{\geq 1}$ and $\phi_{\leq 1}$ first and use conjunction to connect them.
+    Given our propositions, to make sure vertex $v$ is at least assign a color ($\phi_{v, \geq 1}$), 
+    \[\phi_{v, \geq 1} = \bigvee_{i \in [1, k]} p_{v, i}\]
+    This needs to hold for every vertex, thus we have 
+    \[\phi_{\geq 1} = \bigwedge_{v \in V} \phi_{v, \geq 1}\]
+    Then we need to model at most 1, (or less than 2) coloring on each vertex. Vertex $v$ is not assignment with both color $i$ and $j$ can be formulated as 
+    \[\phi_{v, i, j,\leq 1} = \neg(p_{v, i} \land p_{v, j})\]
+    This needs to hold for every distinct pair of colors, thus
+    \[\phi_{v, \leq 1} = \bigwedge_{i \neq j \in [1, k]} \phi_{v, i, j, \leq 1}\]
+    For all vertices
+    \[\phi_{\leq} = \bigwedge_{v\in V} \phi_{v, \leq}\]
+    Finally we have 
+    \[\phi_{exactly-1} = \phi_{\leq 1} \land \phi_{\geq 1}\]
+    And the overall formula for an instance of $G = (V, E)$ becomes 
+    \[\phi = \phi_{nbr} \land \phi_{exactly-1}\]
+\end{example}
+Similar to reduction, we need also now to show that 
+\[\exists v: P \mapsto \{T, F\}, v \models \phi \iff \langle G = (V, E), k\rangle \in L_{color}\]
+\textcolor{red}{TODO}
+
+\newpage
 \section*{Tutorial}
 \subsection{Generic closure}
 * Define $\mathcal{P}(U)$ as a collection of all ordering of all elemenst in the power set $\mathscr{P}(U)$
