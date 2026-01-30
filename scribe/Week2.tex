@@ -651,13 +651,27 @@ Define
     \begin{align*}
         FORM_{i+1} = \bigcup_{k = 0}^i AltFORM_k \cup \{(\neg \phi) | \phi \in \bigcup_{k = 0}^i AltFORM_k\} \cup \{(\phi_1 \lor \phi_2) | \phi_1, \phi_2 \in \bigcup_{k = 0}^i AltFORM_k\}\\
         \supseteq \bigcup_{k = 0}^i AltFORM_k \cup \{(\neg \phi) | \phi \in AltFORM_i\} \cup \{(\phi_1 \lor \phi_2) | \phi_1, \phi_2 \in \bigcup_{k = 0}^i AltFORM_k\}\\
-        = \bigcup_{k = 0}^{i+1} AltFORM_k
     \end{align*}
+    \[\bigcup_{k = 0}^{i+1} AltFORM_k \subseteq FORM_{i+1}\]
+    Now we prove the other way:
+    \[\forall \phi \in FORM_{i+1}, \phi \in \bigcup_{k = 0}^i AltFORM_k \text{ or } \phi = (\neg \psi), \psi \in \bigcup_{k = 0}^i AltFORM_k \text{ or } \phi = (\psi_1 \lor \psi_2), \psi_1, \psi_2 \in \bigcup_{k = 0}^i AltFORM_k\]
+    Case 1:
     \begin{align*}
         \phi \in \bigcup_{k = 0}^i AltFORM_k \rightarrow \phi \in \bigcup_{k = 0}^{i+1} AltFORM_k\\
-        \exists \psi \in  \bigcup_{k = 0}^i AltFORM_k \rightarrow \exists j \leq i, \psi \in AltFORM_j \rightarrow \forall \phi = (\neg \psi), \psi \in AltFORM_j, \phi \in AltFORM_{j+1}\\
+    \end{align*}
+    Case 2:
+    \begin{align*}
+        \psi \in  \bigcup_{k = 0}^i AltFORM_k \rightarrow \exists j \leq i, \psi \in AltFORM_j\\
+        \phi = (\neg \psi), \psi \in AltFORM_j, \phi \in AltFORM_{j+1}\\
         \rightarrow \phi \in  \bigcup_{k = 0}^{i+1} AltFORM_k
     \end{align*}
+    Case 3:
+    \begin{align*}
+        \psi_1, \psi_2 \in  \bigcup_{k = 0}^i AltFORM_k \rightarrow \exists j,l \leq i, \psi_1 \in AltFORM_j, \psi_2 \in AltFORM_l\\
+        \phi = (\psi_1 \lor \psi_2), \psi_1 \in AltFORM_j, \psi_2 \in AltFORM_l, \phi \in AltFORM_{j+1}\\
+        \rightarrow \phi \in  \bigcup_{k = 0}^{i+1} AltFORM_k
+    \end{align*}
+    \[FORM_{i+1} \subseteq  \bigcup_{k = 0}^{i+1} AltFORM_k \rightarrow FORM_{i+1} =  \bigcup_{k = 0}^{i+1} AltFORM_k\]
 \end{proof}
 
 \section*{Formation Sequences}
@@ -673,11 +687,41 @@ $\rho = w_1,\dots,w_k$ such that for each $i$:
 The sequence belongs to $w$ if $w_k = w$.
 \end{definition}
 
-\subsection*{Question 9}
-Give two distinct formation sequences that belong to the given formula.
+\section*{Q9}
+Give two distinct formation sequences that belong to 
+\[w = ((\neg p_1) \lor ((\neg p_3) \lor (\neg(p_2 \lor (\neg p_1)))))\]
+Two distinct formation sequences $\rho_1, \rho_2$ are:
 
+\subsubsection*{$\rho_1$:}
+\begin{align*}
+    w_1 &= p_1\\
+    w_2 &= (\neg w_1)\\
+    w_3 &= p_2\\
+    w_4 &= (w_3\lor w_2)\\
+    w_5 &= (\neg w_4)\\
+    w_6 &= (p_3)\\
+    w_7 &= (\neg w_6)\\
+    w_8 &= (w_7 \lor w_5)\\
+    w_9 &= (w_2 \lor w_8)\\
+\end{align*}
+
+\subsubsection*{$\rho_2$:}
+\begin{align*}
+w_1 &= p_1\\
+w_2 &= p_2\\
+w_3 &= p_3\\
+w_4 &= (\neg w_3)\\
+w_5 &= (\neg w_1)\\
+w_6 &= (w_2 \lor w_5)\\
+w_7 &= (\neg w_6)\\
+w_8 &= (w_4 \lor w_7)\\
+w_9 &= (w_5 \lor w_8)\\
+\end{align*}
+
+
+These are distinct because the components at index $i=2$ differ ($(\neg p_1)$ vs $p_2$).
 \begin{lemma}
-$\mathrm{INDFORM} = \{ w \in \Sigma^* \mid w \text{ is formation-sequence-well-formed} \}$.
+$INDFORM = \{ w \in \Sigma^* \mid w \text{ is formation-sequence-well-formed} \}$.
 \end{lemma}
 
 \subsection*{Question 10}
