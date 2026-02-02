@@ -40,10 +40,12 @@
 % ctrl shift D to toggle night 
 \begin{document}
 
-\title{Week 2-3: Propositional Logic}
+\title{Week 2-3: Propositional Logic (Tutorial starts from Page 8)}
 \author{Wang Xiyu}
 \date{}
 \maketitle
+\tableofcontents
+\newpage
 \section{Syntax}
 \begin{definition}
     Syntax decides what are allowed to be written
@@ -53,7 +55,7 @@ A formula $\psi$ is obtained by composing $p \in P$ with $c\in C$, where $P$ is 
 any set of complete logic, like $C = \{\neg, \lor\}$. This is not a percise definition as counter examples that do not form 
 a valid formula can be formulated based on this, for example $\neg \lor p$ means nothing. To formalize the definition we may attempt to define a language with the following grammar:
 \[\Sigma = P\cup C\cup \{(, )\}\]
-\[FORM :\{\psi = p \in P | \neg \psi | \psi \lor \psi | (\psi) \}\]
+\[FORM :\{\psi = p \in P \mid \neg \psi \mid \psi \lor \psi \mid (\psi) \}\]
 However this is a recursive definition as the definition of the a formula $\psi$ involves itself. We need to find a declarative way to define this recursive/inductive construction. 
 
 \begin{definition}
@@ -79,7 +81,7 @@ Let's remove the attributive \textbf{the smallest} first and define another set 
 And we define a set ACS (All-closed sets). We can define FORM via the following constriction:
 \[FORM = \bigcap ACS\]
 Suppose $BCS = \emptyset$ and from definition
-\[U_0 = \bigcap BCS = \{w \in \Sigma^* | \forall S \in BCS, w \in S\}\]
+\[U_0 = \bigcap BCS = \{w \in \Sigma^* \mid \forall S \in BCS, w \in S\}\]
 However, $BCS = \emptyset$, The statement $\forall S \in BCS, w \in S$ is vacuously true $\forall w \in \Sigma^*$, which means that
 \[U_0 = \Sigma^* = \bigcap BCS\]
 A contradiction.
@@ -122,7 +124,7 @@ We are proving that the set $T_0$ we get from the intersection construction stil
 \end{proof}
 \begin{lemma}
     $T_0$ is \textbf{the} smallest Closed set (unique). In other word, 
-    \[\forall T_0' \in \{T | \forall S \in ACS, T \subseteq S\}, T_0' = T_0\]
+    \[\forall T_0' \in \{T \mid \forall S \in ACS, T \subseteq S\}, T_0' = T_0\]
 \end{lemma}
 \begin{proof}
 Suppose otherwise, $\exists T_0' \in ACS \neq T_0$. 
@@ -264,7 +266,7 @@ We also indeuctively define the following rule
 \end{lemma}
 \subsection{Modelling Computations as Propositional Logic}
 Computation problems can be considered as membership check of an encoded problem instance to a language. 
-\[L = \{p | \langle M, p\rangle\}\]
+\[L = \{p \mid \langle M, p\rangle\}\]
 Here instead of arbituary encoding, we consider problem encoding with propositional logics only, 
 and solve with SAT solvers by deciding whether the set of formula we form from any instance of the problem is satisfiable.
 That is 
@@ -284,7 +286,7 @@ Note that there can be different definition on the size of the
 \begin{example}
     Graph coloring problem: given a undirected graph $G = (V, E)$, whether there exists a $k$ coloring of all vertices such that no neighbouring vertices have the same color.\\
     Consider the following construction of a proposition set $P$:
-    \[P = \{p_{v, i} | v \in V, i \in [1, k]\}\]
+    \[P = \{p_{v, i} \mid v \in V, i \in [1, k]\}\]
     The valuation of proposition $p_{v, i}$ conceptually represents vertex $v$ is assigned color $i$. \\
     We can formulate constriants as well formed formula, and use conjunction to connect the formula to model satisfaction of multiple constraints. 
     \begin{corollary}
@@ -333,14 +335,14 @@ Similar to reduction, we need also now to show that
 \section*{Tutorial}
 \begin{definition}[Generic Closure]
 Let $U$ be a universe of elements and let $O$ be a set of functions whose domain is $U$ and codomain is $\mathscr{P}(U)$.
-The arity of a function $f \in O$ is denoted by $\mathrm{arity}(f)$. A function $f$ of arity $r$ has type
+The arity of a function $f \in O$ is denoted by ${arity}(f)$. A function $f$ of arity $r$ has type
 \[
 f : U^r \to \mathscr{P}(U).
 \]
 Let $I \subseteq U$ be an initial set. A set $S \subseteq U$ is said to be \emph{$(I,O)$-closed} if:
 \begin{enumerate}
   \item $I \subseteq S$.
-  \item For every $f \in O$ with $\mathrm{arity}(f)=r$ and for all $e_1,\dots,e_r \in U$, if
+  \item For every $f \in O$ with ${arity}(f)=r$ and for all $e_1,\dots,e_r \in U$, if
   $e_1,\dots,e_r \in S$, then $f(e_1,\dots,e_r) \subseteq S$.
 \end{enumerate}
 \end{definition}
@@ -352,16 +354,16 @@ There exists a smallest $(I,O)$-closed set.
 Define $\mathcal{P}(U)$ as a collection of all ordering of all elemenst in the power set $\mathscr{P}(U)$
 \section*{Q1}
 Claim: The smallest (I, O)-closed set can be constructed by taking the intersection of all (I,O)-closed set, ie.
-\[AIOCS = \{S \subseteq U | S \text{ S is (I,O)-closed}\}\]
+\[AIOCS = \{S \subseteq U \mid S \text{ S is (I,O)-closed}\}\]
 \[T_0 = \bigcap AIOCS\]
 \subsubsection*{Existence}
 First we prove the existence of such a set. 
 \begin{proof}
     Suppose otherwise, 
     \begin{align*}
-T_0 = \bigcap AIOCS = \emptyset \\
-T_0 = \{x \in \mathcal{P}(U) | \forall S \in AIOCS, x \in S\}\\
-T_0 = \emptyset \rightarrow x \in S \text{ is vacuously true } \forall x \in \mathcal{P}(U) \rightarrow T_0 = \mathcal{P}(U)
+T_0 &= \bigcap AIOCS = \emptyset \\
+T_0 &= \{x \in \mathcal{P}(U) \mid \forall S \in AIOCS, x \in S\}\\
+T_0 &= \emptyset \rightarrow x \in S \text{ is vacuously true } \forall x \in \mathcal{P}(U) \rightarrow T_0 = \mathcal{P}(U)
     \end{align*}
     contradiction.
 \end{proof}
@@ -370,29 +372,29 @@ Now we prove that $T_0$ is (I,O)-closed.
 \begin{proof}
     Property 1:
     \begin{align*}
-        \forall S \in AIOCS, I \subseteq S \\
-        \rightarrow \forall i \in I, \forall S \in AIOCS, i \in S\\
-        \rightarrow \forall i \in I, i \in \bigcap AIOCS\\
-        \rightarrow \forall i \in I, i \in T_0
+        \forall S &\in AIOCS, I \subseteq S \\
+        &\rightarrow \forall i \in I, \forall S \in AIOCS, i \in S\\
+        &\rightarrow \forall i \in I, i \in \bigcap AIOCS\\
+        &\rightarrow \forall i \in I, i \in T_0
     \end{align*}
     Property 2:
     \begin{align*}
-        \forall S \in AIOCS, T_0 \subseteq S\\
-        \text{Let } e_1, e_2, \dots, e_r \in T_0, \forall S \in AIOCS, e_1, e_2, \dots, e_r \in S \\
-        \rightarrow \exists f \in \mathcal{O}, f(e_1, e_2, \dots, e_r) \in S\\
-        \rightarrow \forall e_1, e_2, \dots, e_r \in T_0, \exists f \in \mathcal{O}, f(e_1, e_2, \dots, e_r) \in \bigcap AIOCS\\
-        \rightarrow f(e_1, e_2, \dots, e_r) \in T_0
+        \forall S &\in AIOCS, T_0 \subseteq S\\
+        &\text{Let } e_1, e_2, \dots, e_r \in T_0, \forall S \in AIOCS, e_1, e_2, \dots, e_r \in S \\
+        &\rightarrow \exists f \in \mathcal{O}, f(e_1, e_2, \dots, e_r) \in S\\
+        &\rightarrow \forall e_1, e_2, \dots, e_r \in T_0, \exists f \in \mathcal{O}, f(e_1, e_2, \dots, e_r) \in \bigcap AIOCS\\
+        &\rightarrow f(e_1, e_2, \dots, e_r) \in T_0
     \end{align*}
 \end{proof}
 \subsubsection*{Uniqueness}
 Claim: 
-\[\forall T_0' \in \{T \in \mathcal{P}(U)| \forall S \in AIOCS, T \subseteq S\}, T_0' = T_0\]
+\[\forall T_0' \in \{T \in \mathcal{P}(U)\mid \forall S \in AIOCS, T \subseteq S\}, T_0' = T_0\]
 \begin{proof}
     Suppose otherwise, $\exists T_0' \in AIOCS, T_0' \neq T_0$. 
     \begin{align*}
-        T_0, T_0' \in AIOCS \rightarrow \forall S \in AIOCS, T_0 \subseteq S, T_0' \subseteq S\\
-        \rightarrow T_0 \subseteq T_0', T_0' \subseteq T_0\\
-        \rightarrow T_0 = T_0'
+        T_0, T_0' &\in AIOCS \rightarrow \forall S \in AIOCS, T_0 \subseteq S, T_0' \subseteq S\\
+        &\rightarrow T_0 \subseteq T_0', T_0' \subseteq T_0\\
+        &\rightarrow T_0 = T_0'
     \end{align*}
 \end{proof}
 \section*{Q2}
@@ -410,16 +412,16 @@ I'd like to use definition 2.19 and lemma 2.21 which I proved later without usin
 \begin{proof}
     Base case:
     \begin{align*}
-        FORM_0 = P\\
-        \forall \phi \in FORM_0, \phi = p \in P\\
-        \rightarrow \forall \phi \in FORM_i, |\phi| > 0
+        &FORM_0 = P\\
+        &\forall \phi \in FORM_0, \phi = p \in P\\
+        &\rightarrow \forall \phi \in FORM_i, |\phi| > 0
     \end{align*}
     Inductive Hypothesis: Suppose 
     \[\forall i \geq 0, \forall \phi \in FORM_i, |\phi| > 0\]
     \begin{align*}
-        FORM_{i+1} = FORM_i \cup \{(\neg \phi) | \phi \in FORM_i\} \cup \{(\phi_1 \lor \phi_2) | \phi_1, \phi_2 \in FORM_i\}\\
-        \forall \psi \in FORM_{i+1}, \exists \phi \in FORM_{i}, |\psi| = |\phi| \text{ or } |\psi| = |\phi| + 3 \text{ or } \\
-        \exists \phi_1, \phi_2 \in FORM_i, |\psi| = |\phi_1| + |\phi_2| + 3
+        &FORM_{i+1} = FORM_i \cup \{(\neg \phi) \mid \phi \in FORM_i\} \cup \{(\phi_1 \lor \phi_2) \mid \phi_1, \phi_2 \in FORM_i\}\\
+        &\forall \psi \in FORM_{i+1}, \exists \phi \in FORM_{i}, |\psi| = |\phi| \text{ or } |\psi| = |\phi| + 3 \text{ or } \\
+        &\exists \phi_1, \phi_2 \in FORM_i, |\psi| = |\phi_1| + |\phi_2| + 3
     \end{align*}
 
 \end{proof}
@@ -455,7 +457,7 @@ and a set of operators $O$ with $|O| < 10$ such that the smallest $(I,O)$-closed
               \emptyset & \text{if } y = 0
         \end{cases}
         \}$
-    \item $\{\frac{x}{3} | x \in \mathbb{N}\} \setminus \mathbb{N}: I = \{\frac{1}{3}, \frac{2}{3}\}, O = \{f(x) = x + 1\}$
+    \item $\{\frac{x}{3} \mid x \in \mathbb{N}\} \setminus \mathbb{N}: I = \{\frac{1}{3}, \frac{2}{3}\}, O = \{f(x) = x + 1\}$
 \end{enumerate}
 
 \section*{Finite Directed Graphs}
@@ -471,7 +473,7 @@ $\pi = u_1,\dots,u_k$ such that:
 The length of $\pi$ is $k-1$. We say that $t$ is reachable from $s$ if $s=t$ or such a path exists.
 The set of ancestors of $t$ is defined as
 \[
-\mathrm{Reach}_t = \{ v \in V \mid t \text{ is reachable from } v \}.
+{Reach}_t = \{ v \in V \mid t \text{ is reachable from } v \}.
 \]
 \end{definition}
 
@@ -486,16 +488,16 @@ Fix the universe $U = V$.
 \subsection*{4.1}
 $I = \{t\}, O = \{f(v) = succ(v)\}$
 \subsection*{4.2}
-$I = \{s\} \cup \{v\in V | v \in succ^r(s)\}, O = \{f(v) = succ^d(v)\}$
+$I = \{s\} \cup \{v\in V \mid v \in succ^r(s)\}, O = \{f(v) = succ^d(v)\}$
 \section*{Q5}
 Let $G=(V,E)$ be a directed graph and fix $U = V \times V$.
 Define an initial set $I$ with $|I| \le |V|$ and a binary operator $f$ such that the smallest $(I,\{f\})$-closed set is
 \[
-\mathrm{AllReachPairs} = \{(u,v) \mid v \text{ is reachable from } u\}.
+{AllReachPairs} = \{(u,v) \mid v \text{ is reachable from } u\}.
 \]
 
 \subsection*{5.1}
-$I = \{(v, v) | v \in V\}, O = \{f((v_1, v_2), (v_3, v_4)) \mapsto \begin{cases} 
+$I = \{(v, v) \mid v \in V\}, O = \{f((v_1, v_2), (v_3, v_4)) \mapsto \begin{cases} 
     \{(v_1, v_4)\}& \text{if } v_2 = v_3 \\
     \emptyset & \text{if } v_2 \neq v_3
 \end{cases}\}$
@@ -503,27 +505,27 @@ $I = \{(v, v) | v \in V\}, O = \{f((v_1, v_2), (v_3, v_4)) \mapsto \begin{cases}
 \section*{Inductive Definitions}
 \begin{definition}[Inductive Well-Formed Formulae]
 Let $P$ be a set of propositions and $C=\{\neg,\lor\}$.
-Define sets $\mathrm{FORM}_i$ as follows:
+Define sets ${FORM}_i$ as follows:
 \begin{align*}
-\mathrm{FORM}_0 &= P,\\
-\mathrm{FORM}_{i+1} &= \mathrm{FORM}_i \cup \{(\neg w)\mid w\in\mathrm{FORM}_i\}
-\cup \{(w_1\lor w_2)\mid w_1,w_2\in\mathrm{FORM}_i\}.
+&{FORM}_0 = P,\\
+&{FORM}_{i+1} = {FORM}_i \cup \{(\neg w)\mid w\in{FORM}_i\}
+\cup \{(w_1\lor w_2)\mid w_1,w_2\in{FORM}_i\}.
 \end{align*}
 Define
 \[
-\mathrm{INDFORM} = \bigcup_{i\ge 0} \mathrm{FORM}_i.
+{INDFORM} = \bigcup_{i\ge 0} {FORM}_i.
 \]
 \end{definition}
 \section*{Q6}
 \begin{enumerate}
-  \item Show that $\mathrm{FORM}_i \subseteq \mathrm{FORM}_{i+1}$ for all $i$.
-  \item Prove or disprove that $\mathrm{FORM}_i = \mathrm{FORM}_{i+1}$ for some $i$.
-  \item Prove or disprove that $\mathrm{FORM}_i$ is $(P,C)$-closed for all $i$.
-  \item Prove or disprove that $\mathrm{FORM}_i$ is $(P,C)$-closed for some $i$.
+  \item Show that ${FORM}_i \subseteq {FORM}_{i+1}$ for all $i$.
+  \item Prove or disprove that ${FORM}_i = {FORM}_{i+1}$ for some $i$.
+  \item Prove or disprove that ${FORM}_i$ is $(P,C)$-closed for all $i$.
+  \item Prove or disprove that ${FORM}_i$ is $(P,C)$-closed for some $i$.
 \end{enumerate}
 \subsection*{6.1}
 Base case: $FORM_0 \subseteq FORM_1$
-    as \[FORM_1 = FORM_0 \cup \{(\neg w)| w \in FORM_0\} \cup \{(w_1 \lor w_2) | w_1, w_2 \in FORM_0\}\]
+    as \[FORM_1 = FORM_0 \cup \{(\neg w)\mid w \in FORM_0\} \cup \{(w_1 \lor w_2) \mid w_1, w_2 \in FORM_0\}\]
     Wait this is just trivial
 \subsection*{6.2}
 Claim: \[\exists i \geq 0, FORM_i = FORM_{i+1}\]
@@ -569,13 +571,13 @@ $|\phi_{max}| = 2^{i+3} - 3. \rightarrow \forall \phi \in FORM_i, (\neg \phi) \i
 \end{proof}
 
 \begin{lemma}
-    $\mathrm{FORM} = \mathrm{INDFORM}$.
+    ${FORM} = {INDFORM}$.
     \end{lemma}
 \section*{Q7}    
     Prove the lemma by showing:
     \begin{enumerate}
-      \item $\mathrm{INDFORM}$ is $(P,C)$-closed.
-      \item For every $(P,C)$-closed set $S$, $\mathrm{INDFORM} \subseteq S$.
+      \item ${INDFORM}$ is $(P,C)$-closed.
+      \item For every $(P,C)$-closed set $S$, ${INDFORM} \subseteq S$.
     \end{enumerate}
 \subsection*{7.1}
 Claim: $INDFORM$ is (P,C)-closed
@@ -585,8 +587,10 @@ Claim: $INDFORM$ is (P,C)-closed
     \[FORM_0 \subseteq INDFORM \rightarrow P \subseteq INDFORM\]
     \subsubsection*{Claim: $\forall w \in INDFORM, (\neg w) \in INDFORM$}
     \begin{align*}
-        INDFORM = \bigcup_{i\geq 0} FORM_i \rightarrow \forall i \geq 0, FORM_i, FORM_{i+1} \in INDFORM\\
-        \forall w \in INDFORM, \exists j \geq 0, w \in FORM_j \rightarrow (\neg w) \in FORM_{j+1} \rightarrow (\neg w) \in INDFORM
+        INDFORM &= \bigcup_{i\geq 0} FORM_i \\
+        &\rightarrow \forall i \geq 0, FORM_i, FORM_{i+1} \in INDFORM\\
+        &\qquad \forall w \in INDFORM, \exists j \geq 0, w \in FORM_j \\
+        &\rightarrow (\neg w) \in FORM_{j+1} \rightarrow (\neg w) \in INDFORM
     \end{align*}
     \subsubsection*{Claim: $\forall w_1, w_2 \in INDFORM, (w_1 \lor w_2) \in INDFORM$}
     Case 1: $\exists i \geq 0, w_1, w_2 \in FORM_i$
@@ -610,31 +614,31 @@ To prove this, we only need to to prove that $INDFORM \subseteq S_{min} = \bigca
     Inductive hypothesis: Suppose 
     \[\bigcup_{i=0}^n FROM_i \subseteq S_{min}\]
     \begin{align*}
-        \bigcup_{i=0}^n FROM_i \subseteq S_{min} \rightarrow FORM_n \in S_{min}\\
-        S_{min} \text{ is (P,C)-closed} \rightarrow \forall i \in [1,n], \forall \phi \in FORM_n, (\neg \phi) \in S_{min}, \\
-        \forall i \in [0, n], \forall \phi_1, \phi_2 \in FORM_i, (\phi_1 \lor \phi_2) \in S_{min}\\
-        \rightarrow \bigcup_{i=0}^n FROM_i \cup \{(\neg \phi) | \forall \phi \in \bigcup_{i=0}^n FROM_i\} \cup \{(\phi_1 \lor \phi_2) | \forall \phi_1, \phi_2 \in \bigcup_{i=0}^n FROM_i\} \subseteq S_{min}\\
-        \bigcup_{i=0}^{n+1} FROM_i \subseteq S_{min}
+        &\bigcup_{i=0}^n FROM_i \subseteq S_{min} \rightarrow FORM_n \in S_{min}\\
+        &\quad S_{min} \text{ is (P,C)-closed} \rightarrow \forall i \in [1,n], \forall \phi \in FORM_n, (\neg \phi) \in S_{min}, \\
+        &\quad \forall i \in [0, n], \forall \phi_1, \phi_2 \in FORM_i, (\phi_1 \lor \phi_2) \in S_{min}\\
+        &\rightarrow \bigcup_{i=0}^n FROM_i \cup \{(\neg \phi) \mid \forall \phi \in \bigcup_{i=0}^n FROM_i\} \cup \{(\phi_1 \lor \phi_2) \mid \forall \phi_1, \phi_2 \in \bigcup_{i=0}^n FROM_i\} \subseteq S_{min}\\
+        &\rightarrow \bigcup_{i=0}^{n+1} FROM_i \subseteq S_{min}
     \end{align*}
 \end{proof}
 
 \begin{definition}[Alternative Inductive Definition]
-Define $\mathrm{AltFORM}_0 = P$ and for $i \ge 0$:
+Define ${AltFORM}_0 = P$ and for $i \ge 0$:
 \begin{align*}
-\mathrm{AltFORM}_{i+1} =\;& \{(\neg w)\mid w\in\mathrm{AltFORM}_i\}\\
-&\cup \{(w_1\lor w_2)\mid w_1\in\mathrm{AltFORM}_i,\ \exists j\le i,\ w_2\in\mathrm{AltFORM}_j\}\\
-&\cup \{(w_1\lor w_2)\mid w_2\in\mathrm{AltFORM}_i,\ \exists j\le i,\ w_1\in\mathrm{AltFORM}_j\}.
+{AltFORM}_{i+1} =\;& \{(\neg w)\mid w\in{AltFORM}_i\}\\
+&\cup \{(w_1\lor w_2)\mid w_1\in{AltFORM}_i,\ \exists j\le i,\ w_2\in{AltFORM}_j\}\\
+&\cup \{(w_1\lor w_2)\mid w_2\in{AltFORM}_i,\ \exists j\le i,\ w_1\in{AltFORM}_j\}.
 \end{align*}
 Define
 \[
-\mathrm{AltINDFORM} = \bigcup_{i\ge 0} \mathrm{AltFORM}_i.
+{AltINDFORM} = \bigcup_{i\ge 0} {AltFORM}_i.
 \]
 \end{definition}
 
 \subsection*{Question 8}
 \begin{enumerate}
-    \item Show that $\mathrm{FORM}_i = \bigcup_{j=0}^i \mathrm{AltFORM}_j$ for all $i$.
-    \item Show that $\mathrm{INDFORM} = \mathrm{AltINDFORM}$.
+    \item Show that ${FORM}_i = \bigcup_{j=0}^i {AltFORM}_j$ for all $i$.
+    \item Show that ${INDFORM} = {AltINDFORM}$.
 \end{enumerate}
 
 \subsection*{8.1}
@@ -649,8 +653,8 @@ Define
     Inductive hypothesis: Suppose
     \[\forall j \in [0, i], FORM_i = \bigcup_{k = 0}^i AltFORM_k\]
     \begin{align*}
-        FORM_{i+1} = \bigcup_{k = 0}^i AltFORM_k \cup \{(\neg \phi) | \phi \in \bigcup_{k = 0}^i AltFORM_k\} \cup \{(\phi_1 \lor \phi_2) | \phi_1, \phi_2 \in \bigcup_{k = 0}^i AltFORM_k\}\\
-        \supseteq \bigcup_{k = 0}^i AltFORM_k \cup \{(\neg \phi) | \phi \in AltFORM_i\} \cup \{(\phi_1 \lor \phi_2) | \phi_1, \phi_2 \in \bigcup_{k = 0}^i AltFORM_k\}\\
+        FORM_{i+1} = \bigcup_{k = 0}^i AltFORM_k \cup \{(\neg \phi) \mid \phi \in \bigcup_{k = 0}^i AltFORM_k\} \cup \{(\phi_1 \lor \phi_2) \mid \phi_1, \phi_2 \in \bigcup_{k = 0}^i AltFORM_k\}\\
+        \supseteq \bigcup_{k = 0}^i AltFORM_k \cup \{(\neg \phi) \mid \phi \in AltFORM_i\} \cup \{(\phi_1 \lor \phi_2) \mid \phi_1, \phi_2 \in \bigcup_{k = 0}^i AltFORM_k\}\\
     \end{align*}
     \[\bigcup_{k = 0}^{i+1} AltFORM_k \subseteq FORM_{i+1}\]
     Now we prove the other way:
@@ -724,24 +728,185 @@ These are distinct because the components at index $i=2$ differ ($(\neg p_1)$ vs
 $INDFORM = \{ w \in \Sigma^* \mid w \text{ is formation-sequence-well-formed} \}$.
 \end{lemma}
 
-\subsection*{Question 10}
+\section*{Q10}
 Prove the lemma by showing:
 \begin{enumerate}
-    \item Every formation-sequence-well-formed string is in $\mathrm{INDFORM}$.
-    \item Every $w \in \mathrm{INDFORM}$ has a formation sequence.
+    \item Every formation-sequence-well-formed string is in ${INDFORM}$.
+    \item Every $w \in {INDFORM}$ has a formation sequence.
 \end{enumerate}
 
+Before attemping Q10 from the above definition of formation-sequnce-well-formed, I will prove the following lemma using the definition below first:
+\begin{definition}
+Define $ExFORM_0 = P$
+\begin{align*}
+    ExFORM_{i + 1} &=(\{(\neg w) \mid w \in ExFORM_{i}\} \\
+    &\cup \{(w_1 \lor w_2) \mid w_1 \in ExFORM_i, \exists j \leq i, w_2 \in ExFORM_{j}\}\\
+    &\cup \{(w_1 \lor w_2) \mid w_2 \in ExFORM_i, \exists j \leq i, w_1 \in ExFORM_{j}\}\\
+    ) &\setminus \bigcup_{j= 0}^{i} ExFORM_{j}
+\end{align*}
+\end{definition}
 \begin{lemma}
-Every well-formed formula $\phi$ is of one of the following forms:
-\begin{enumerate}
-    \item $\phi \in P$,
-    \item $\phi = (\neg \psi)$,
-    \item $\phi = (\psi_1 \lor \psi_2)$.
-\end{enumerate}
+    \[\bigcup_{j= 0}^i ExFORM_j = FORM_{i}\]
 \end{lemma}
+\begin{proof}
+    Base case: 
+    \begin{align*}
+        ExFORM_0 = P = FORM_0
+    \end{align*}
+    Inductive Hypothesis: Suppose $\forall n \geq 0$,
+    \[\bigcup_{i= 0}^{n} ExFORM_i = FORM_{n}\]
+    From definition 2.19, 
+    \begin{align*}
+        FORM_{n+1} &= \bigcup_{i= 0}^{n}ExFORM_{i} \cup \{(\neg w) \mid w \in \bigcup_{i= 0}^{n}ExFORM_{i}\} \\
+        &\cup \{(w_1 \lor w_2) \mid w_1 \in \bigcup_{i= 0}^{n}ExFORM_i, \exists j \leq i, w_2 \in \bigcup_{i= 0}^{n}ExFORM_{j}\}\\
+        &\cup \{(w_1 \lor w_2) \mid w_2 \in \bigcup_{i= 0}^{n}ExFORM_i, \exists j \leq i, w_1 \in \bigcup_{i= 0}^{n}ExFORM_{j}\}\\
+    \end{align*}
+    \begin{definition}
+        \begin{align*}
+            FromFORM &: n \mapsto \{(\neg w) \mid w \in \bigcup_{i= 0}^{n}ExFORM_{i}\} \\
+            &\cup \{(w_1 \lor w_2) \mid w_1 \in \bigcup_{i= 0}^{n}ExFORM_i, \exists j \leq i, w_2 \in \bigcup_{i= 0}^{n}ExFORM_{j}\}\\
+            &\cup \{(w_1 \lor w_2) \mid w_2 \in \bigcup_{i= 0}^{n}ExFORM_i, \exists j \leq i, w_1 \in \bigcup_{i= 0}^{n}ExFORM_{j}\}\\
+        \end{align*}
+    \end{definition}
+    \begin{lemma}\label{lem:form_is_exform_union_union_from}
+        \[FORM_{n+1} = \bigcup_{i= 0}^{n}ExFORM_{i} \cup FromFORM(n)\]        
+    \end{lemma}
+    \begin{lemma}\label{lem:exform_from_minus_exform_union}
+        \[ExFORM_{n+1} = (\bigcup_{i= 0}^{n}ExFORM_{i} \cup FromFORM(n)) \setminus \bigcup_{i= 0}^{n}ExFORM_{i}\]
+        \[ExFORM_{n+1} = FromFORM(n) \setminus \bigcup_{i= 0}^{n}ExFORM_{i}\]
+    \end{lemma}
+    From Lemma~\ref{lem:form_is_exform_union_union_from} and Lemma~\ref{lem:exform_from_minus_exform_union}, we have
+    \begin{align*}
+        \bigcup_{i= 0}^{n+1}ExFORM_{i} &= \bigcup_{i= 0}^{n}ExFORM_{i} \cup ExFORM_{n+1}\\
+        &= \bigcup_{i= 0}^{n}ExFORM_{i} \cup (FromFORM(n) \setminus \bigcup_{i= 0}^{n}ExFORM_{i})\\
+        &= \bigcup_{i= 0}^{n}ExFORM_{i} \cup FromFORM(n)\\
+        &= FORM_{n+1}
+    \end{align*}
+\end{proof}
+\begin{lemma}
+    \[\bigcup_{i\geq 0} ExFORM_i = \bigcup_{i\geq 0} FORM_i\]
+\end{lemma}
+\begin{proof}
+    \subsubsection*{$\bigcup_{i\geq 0} ExFORM_i \subseteq \bigcup_{i\geq 0} FORM_i$}
+    $\forall n \geq 0$, From Lemma 2.28
+    \begin{align*}
+        \phi \in \bigcup_{i= 0}^{n} ExFORM_i \rightarrow \phi \in FORM_n \rightarrow \phi \in \bigcup_{i= 0}^n FORM_i
+    \end{align*}
+    \subsubsection*{$\bigcup_{i\geq 0} ExFORM_i \supseteq \bigcup_{i\geq 0} FORM_i$}
+    Corollary from Lemma 2.28
+\end{proof}
+\begin{corollary}\label{cor:exform_indform}
+    \[\bigcup_{i\geq 0} ExFORM_i = INDFORM\]
+    \[\forall \phi \in ExFORM_i \rightarrow \phi \text{ is well-formed formula}\]
+\end{corollary}
 
-\subsection*{Question 11}
-Prove the lemma above using the previous results.
+
+
+\subsection*{10.1, 2}
+Claim: \[FORMSeq = \{w \in \Sigma^* \mid w \text{ is formation-sequence-well-formed}\} = INDFORM\]
+\begin{proof}
+    Let $\rho_i$ denotes the set of $\rho$ that contains a sequence of $i$ strings $w_1, w_2, \dots, w_i$\\
+    Define 
+    \begin{align*}
+        &str: \rho \mapsto w, str(\rho = w_1, w_2, \dots, w_k) = w_k \\
+        &str: \rho_i \mapsto \{w\}, str(\rho = w_1, w_2, \dots, w_k) = \{w \mid w = str(\rho), \rho \in \rho_i\}\\
+    \end{align*}
+    Claim: 
+    \[\bigcup_{k \geq 1} str(\rho_k) = \bigcup_{i\geq 0} ExFORM_i\]
+    \begin{proof}
+        \subsubsection*{$\bigcup_{k \geq 1} \rho_k \subseteq \bigcup_{i\geq 0} ExFORM_i$}
+        $\forall w \in FORMSeq, \exists \rho = w_1, w_2, \dots, w_k, w = w_k$\\
+        Base case:
+        \begin{align*}
+            \bigcup_{k=1}^1str(\rho_1)= \{w\mid w \in P\} = \bigcup_{i=0}^0 ExFORM_i
+        \end{align*}
+        Inductive hypothesis: Suppose
+        \[\bigcup_{j=1}^{k+1}str(\rho_j) \subseteq \bigcup_{i = 0}^k ExFORM_i\]
+        \begin{align*}
+            \bigcup_{j=1}^{k+2}str(\rho_j) = \bigcup_{j=1}^{k+1}str(\rho_j) \cup \{w \mid \exists \rho \in \rho_{k+2}, w = str(\rho)\}
+        \end{align*}
+        By definition, $w_{k+2} = str(\rho)$ for some $\rho \in \rho_{k+2}$, one of the 3 below holds:
+        \begin{enumerate}
+            \item $w_{k+2} \in P \rightarrow w_{k+2} \in \bigcup_{i\geq 0} ExFORM_i$
+            \item $w_{k+2} = (\neg w_n), n < k+2 \rightarrow w_n \in \bigcup_{j=1}^{n}str(\rho_j) \subseteq \bigcup_{i=0}^k ExFORM_i$
+            \item $w_{k+2} = (w_m \lor w_n), m, n < k + 2 \rightarrow w_m, w_n \in \bigcup_{j=1}^{\max(m, n)}str(\rho_j) \subseteq \bigcup_{i=0}^k ExFORM_i $
+        \end{enumerate}
+        \subsubsection*{$\bigcup_{k \geq 1} \rho_k \supseteq \bigcup_{i\geq 0} ExFORM_i$}
+        Base case is the same as above. \\
+        Inductive hypothesis: (this will be used in Q11)
+        \begin{lemma}
+        \[\bigcup_{i = 0}^k ExFORM_i \subseteq  \bigcup_{j=1}^{2(k+1)}str(\rho_j) \]
+        \end{lemma}
+        $\forall w \in ExFORM_{k+1}$, one of the 3 below holds:
+        1. 
+        \begin{align*}
+            w \in P \rightarrow w \in ExFORM_0 \rightarrow w \in \bigcup_{i = 0}^k ExFORM_i \subseteq \bigcup_{j=1}^{k+1}str(\rho_j)
+        \end{align*}
+        2. 
+        \begin{align*}
+            w = (\neg w_n), w_n \in ExFORM_{k} &\rightarrow \exists \rho = w_1, w_2, \dots, w_k \in \bigcup_{j=1}^{k+1}\rho_j, w_n = str(\rho) \\
+            &\rightarrow \exists \rho' \in \rho_{k+2}, \rho' = w_1, w_2, \dots, w_k, (\neg w_n)\\ 
+            &\rightarrow w \in str(\rho_{k+2}) \rightarrow w \in \bigcup_{j=1}^{k+2}str(\rho_j)\\
+            &\rightarrow w \in \bigcup_{j=1}^{2(k+1)}str(\rho_j)
+        \end{align*}
+        3. (Concat finite sequences that yield formula composing disjunctions gives finite sequence)
+        \begin{align*}
+            w = (w_m \lor w_n)&, WLOG, w_m \in ExFORM_{k}, \exists q \leq k, w_n \in ExFORM_q \\
+            &\rightarrow \exists \rho^m \in \rho_{k+1} = w^m_1, w^m_2, \dots, w^m_k, \\
+            & \qquad \rho^n \in \rho_{q+1}= w^n_1, w^n_2, \dots, w^n_q \in \bigcup_{j=1}^{k+1}\rho_j, w_m = str(\rho^m),  w_n = str(\rho^n)\\
+            &\rightarrow \exists \rho' = w^m_1, w^m_2, \dots, w^m_k, w^n_1, w^n_2, \dots, w_q^n, (w^m_k \lor w^n_q) \in \rho_{k + q + 2} \\
+            &\rightarrow w \in \bigcup_{j=1}^{k+q+1}str(\rho_j)\\
+            &\rightarrow w \in \bigcup_{j=1}^{2(k+1)}str(\rho_j)\\
+        \end{align*}
+        Therefore, 
+    \[\bigcup_{k \geq 1} str(\rho_k) = \bigcup_{i\geq 0} ExFORM_i\] 
+    \end{proof}
+By Corollary~\ref{cor:exform_indform}, 
+    \[\bigcup_{k \geq 1} str(\rho_k) = INDFORM\]
+\end{proof}
+
+
+\section*{Q11}
+\begin{lemma}
+    Every well-formed formula $\phi$ is of one of the following forms:
+    \begin{enumerate}
+        \item $\phi \in P$,
+        \item $\phi = (\neg \psi)$,
+        \item $\phi = (\psi_1 \lor \psi_2)$.
+    \end{enumerate}
+    \end{lemma}
+\begin{proof}
+From Corollary~\ref{cor:exform_indform}, 
+\begin{align*}
+    \forall \phi \in INDFORM, &\exists k \geq 0, \phi \in ExFORM_k\\
+\end{align*}
+Case $x = 0$:
+\begin{align*}
+    x = 0\rightarrow \phi \in ExFORM_0 = P
+\end{align*}
+Case $x > 0$: 
+\begin{align*}
+    &\phi \in ExFORM_x \text{ and } \forall y \in [0,x), \phi \not \in ExFORM_y\\
+    &\forall \phi \in ExFORM_x, \phi \in P \text{ or }\\
+    &\phi \in (\{(\neg \psi) \mid \psi \in ExFORM_{x-1}\}\\
+    &\qquad \cup \{(\psi_1 \lor \psi_2) \mid \psi_1 \in ExFORM_{x-1}, \exists j \leq x-1, \psi_2 \in ExFORM_{j}\})\\
+\end{align*}
+Since we define $ExFORM_i$ to be pair wise disjoint, we guarantee that 
+\[\phi \in ExFORM_k \iff k \text{ is the minimum depth needed to form } \phi \text{ in the syntax tree}\]
+Intuitively, $x$ is the minimum depth required to formulate $\phi$, thus with depth $d \in [0,x), \phi$ cannot be formed \\
+Suppose $\phi \in P$, 
+\begin{align*}
+    \phi \in ExFORM_0, \phi \in ExFORM_x ,x > 0
+\end{align*}
+Contradiction. Therefore 
+\[\phi \in (\{(\neg \psi) \mid \psi \in ExFORM_{x-1}\} \cup \{(\psi_1 \lor \psi_2) \mid \psi_1 \in ExFORM_{x-1}, \exists j \leq x-1, \psi_2 \in ExFORM_{j}\})\]
+Now we will prove $\forall \phi \in INDFORM$ 
+\[(\phi \in \{(\neg \psi) \mid \psi \in ExFORM_{x-1}\}) \oplus (\phi \in \{(\psi_1 \lor \psi_2) \mid \psi_1 \in ExFORM_{x-1}, \exists j \leq x-1, \psi_2 \in ExFORM_{j}\})\]
+Suppose we enforce the use of parentheses for all subformula, that is except $\phi \in P$, all formula starts with $'('$. If for some $i$, 
+$\phi \in \{(\neg \psi) \mid \psi \in ExFORM_{i}\}$, $'\neg'$ must be at index 1. Likewise, if for some $i, \phi \in \{(\psi_1 \lor \psi_2) \mid \psi_1 \in ExFORM_{i}, \exists j \leq i, \psi_2 \in ExFORM_{j}\}$, 
+$'\neg'$ must not be at index 1. Thus $\not \exists \phi \in INDFORM, \phi \in \{(\neg \psi) \mid \psi \in ExFORM_{x-1}\} \text{ and } \phi \in \{(\psi_1 \lor \psi_2) \mid \psi_1 \in ExFORM_{i}, \exists j \leq i, \psi_2 \in ExFORM_{j}\}$
+\end{proof}
+
 
 
 \end{document}
