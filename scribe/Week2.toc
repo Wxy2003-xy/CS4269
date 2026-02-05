@@ -7,8 +7,12 @@
 \contentsline {section}{\numberline {2}Sematics}{4}{}%
 \contentsline {subsection}{\numberline {2.1}Truth Assignment/Proposition evaluation}{4}{}%
 \contentsline {subsection}{\numberline {2.2}Entail/Model}{4}{}%
-\contentsline {subsection}{\numberline {2.3}Logical Equivalence}{5}{}%
-\contentsline {subsection}{\numberline {2.4}Satisfiability of Formula}{5}{}%
-\contentsline {subsection}{\numberline {2.5}Satisfiability of a set of formula}{5}{}%
-\contentsline {subsubsection}{\numberline {2.5.1}Relevance}{6}{}%
-\contentsline {subsection}{\numberline {2.6}Modelling Computations as Propositional Logic}{6}{}%
+\contentsline {subsubsection}{\numberline {2.2.1}Valuation and Model}{5}{}%
+\contentsline {subsubsection}{\numberline {2.2.2}Logical Equivalence}{5}{}%
+\contentsline {subsection}{\numberline {2.3}Satisfiability of Formula}{5}{}%
+\contentsline {subsubsection}{\numberline {2.3.1}Valid formula(tautology)}{5}{}%
+\contentsline {subsection}{\numberline {2.4}Satisfiability of a set of formula}{5}{}%
+\contentsline {subsubsection}{\numberline {2.4.1}Relevance}{6}{}%
+\contentsline {subsubsection}{\numberline {2.4.2}Logical consequence}{6}{}%
+\contentsline {subsection}{\numberline {2.5}Modelling Computations as Propositional Logic}{7}{}%
+\contentsline {section}{\numberline {3}Compactness Theorem}{8}{}%

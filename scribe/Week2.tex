@@ -40,7 +40,7 @@
 % ctrl shift D to toggle night 
 \begin{document}
 
-\title{Week 2-3: Propositional Logic (Tutorial starts from Page 8)}
+\title{Week 2-4: Propositional Logic (Tutorial starts from Page 8)}
 \author{Wang Xiyu}
 \date{}
 \maketitle
@@ -48,7 +48,7 @@
 \newpage
 \section{Syntax}
 \begin{definition}
-    Syntax decides what are allowed to be written
+    DSyntax decides what are allowed to be written
 \end{definition}
 \subsection{Well-formed Formula (WFF)}
 A formula $\psi$ is obtained by composing $p \in P$ with $c\in C$, where $P$ is the set of propositions and $C$ is the set of connectors. here we use
@@ -185,8 +185,14 @@ We also indeuctively define the following rule
      v\models \psi &\iff v\nvDash \neg \psi\\
      v \models \psi_1 \lor \psi_2 &\iff (v\models \psi_1) \lor (v\models \psi_2)
 \end{align*}
+\subsubsection{Valuation and Model}
+A valuation $v$ is a model of a formula $\phi$, if and only if $v(\phi) = T$. 
+\begin{itemize}
+    \item $\forall \phi \text{ over } P, \exists 2^{|P|}$ valuations.
+    \item A formula can have many or one or none models 
+\end{itemize}
 
-\subsection{Logical Equivalence}
+\subsubsection{Logical Equivalence}
 \begin{definition}
     Syntax definition of logical equivalence is as follows: 
     \[\phi_1 \equiv \phi_2 \iff \forall v: P \mapsto \{T, F\} (v\models \phi_1),  v \models \phi_2\]
@@ -207,6 +213,7 @@ We also indeuctively define the following rule
     Let $\phi \in FORM, \phi $ is satisfiable 
     \[\iff \exists v: P \mapsto \{T, F\}, v \models \phi\]
 \end{definition}
+\subsubsection{Valid formula(tautology)}
 \begin{definition}
     Tautology: $\phi$ is a tautology $\iff \forall v, v \models \phi$
 \end{definition}
@@ -264,6 +271,21 @@ We also indeuctively define the following rule
     \[\forall p \in OCCUR(\phi), v_1(p) = v_2(p) \rightarrow (v_1 \models \phi \rightarrow v_2 \models \phi)\]
     $v_1, v_2$ can be different valuations over $p' \notin OCCUR(\phi)$
 \end{lemma}
+\subsubsection{Logical consequence}
+Semantic logical consequence:
+\begin{definition}
+    \[\Gamma \models \phi \iff \forall v \models \Gamma, v \models \phi\]
+\end{definition}
+\noindent Syntactic logical consequence: (logical deriability)
+\begin{definition}
+    A formula $\phi$ is a syntactic consequence of $\Gamma$ 
+    if there exists a formal proof (a finite sequence of formulas) ending in $\phi$, where each step is either a premise from $\Gamma$, an axiom, or follows from previous steps via an inference rule (like Modus Ponens).
+\end{definition}
+\noindent \textbf{Material Implication $(\rightarrow)$ vs. Logical Consequence $(\models)$}
+\begin{itemize}
+    \item Material implication is a connector within a formula, $p \rightarrow q \equiv \neg(p \lor q)$, and can therefore be eval to true or false in a single model.
+    \item Logical consequence is a relation between formulas (meta-logic), it is a statement about all models. $\{p, p\rightarrow q\}\models q$
+\end{itemize}
 \subsection{Modelling Computations as Propositional Logic}
 Computation problems can be considered as membership check of an encoded problem instance to a language. 
 \[L = \{p \mid \langle M, p\rangle\}\]
@@ -328,8 +350,238 @@ Similar to reduction, we need also now to show that
 \[\exists v: P \mapsto \{T, F\}, v \models \phi \iff \langle G = (V, E), k\rangle \in L_{color}\]
 \textcolor{red}{TODO}
 
+\section{Compactness Theorem}
+\begin{definition}
+    Axiom of Choice: formally
+    \[\forall X, \emptyset \in X \lor \exists f, dom(f)= X \land \forall A \in X, f(A) \in A\]
+    A choice function (or selection) $f$ defined on a collection of nonempty sets $X$, such that for every set $A$ in the collection $X$,
+    $f(A)$ is an element in $A$. That is, Axiom—For any set $X$ of nonempty sets, 
+    there exists a choice function $f$ that is defined on $X$ and maps each set of $X$ to an element of that set. 
+\end{definition}
+\begin{theorem}
+    If $P$ is finite, $FORM$ over $P$ is finite.
+\end{theorem}
+\begin{theorem}
+    If $P$ is countable, $FORM$ over $P$ is countable.
+\end{theorem}
+\begin{proof}
+    Given $\forall \phi \in FORM, \phi$ is finitely long, this theorem is another way of stating: The language formed from countable 
+    alphabet $P\cup C$ with the inductive construction rules, is countable. We can prove a stronger theorem first. 
+\end{proof}
+\begin{theorem}
+    All languages formed from a countable alphabet is countable. 
+\end{theorem}
+\begin{proof}
+    Consider $L = \Sigma^*$, we will prove that $\Sigma$ is countable $\rightarrow L$ is countable. We use the same diagnol proof for the countability of $\mathbb{Q}$ to show an enumaration of all strings 
+    formable from a countable alphabet.
+\usetikzlibrary{arrows.meta}
+\begin{figure}[h]
+    \centering
+    % --- Left Minipage: Rationals ---
+    \begin{minipage}[t]{0.48\textwidth}
+        \centering
+        \textbf{Rational Numbers ($\mathbb{Q}^+$)}
+        \vspace{0.5cm}
+        
+        \begin{tikzpicture}[scale=0.8] % Scaled down to fit minipage
+            % Draw Grid
+            \foreach \x in {1,2,3,4}
+                \foreach \y in {1,2,3,4}
+                    \node (n\x\y) at (\x,-\y) {$\frac{\x}{\y}$};
+        
+            % Draw Arrows for Zig-Zag path
+            \draw[red, thick, ->, >={Stealth}] (n11) -- (n21);
+            \draw[red, thick, ->, >={Stealth}] (n21) -- (n12);
+            \draw[red, thick, ->, >={Stealth}] (n12) -- (n13);
+            \draw[red, thick, ->, >={Stealth}] (n13) -- (n22);
+            \draw[red, thick, ->, >={Stealth}] (n22) -- (n31);
+            \draw[red, thick, ->, >={Stealth}] (n31) -- (n41);
+            
+            % Label Axes
+            \node[above, font=\small] at (2.5,-0.5) {Numerator ($p$)};
+            \node[left, rotate=90, font=\small] at (0,-1) {Denominator ($q$)};
+            \node at (5,-1) {$\dots$};
+            \node at (5,-2) {$\dots$};
+            \node at (5,-3) {$\dots$};
+            \node at (5,-4) {$\dots$};
+            \node at (5,-5) {$\ddots$};
+            \node at (1,-5) {$\vdots$};
+            \node at (2,-5) {$\vdots$};
+            \node at (3,-5) {$\vdots$};
+            \node at (4,-5) {$\vdots$};
 
 
+        \end{tikzpicture}
+    \end{minipage}
+    \hfill
+    % --- Right Minipage: Language ---
+    \begin{minipage}[t]{0.48\textwidth}
+        \centering
+        \textbf{Countable Language ($\Sigma^2$)}
+        \vspace{0.5cm}
+
+        \begin{tikzpicture}[scale=1.0] % Scaled to fit minipage
+            % Labels for the rows (Lengths)
+            \node[anchor=east] at (0.5,-0.2) {$\Sigma^2$:};
+            \node[anchor=east] at (0.5,-1) {$s_1$};
+            \node[anchor=east] at (0.5,-2) {$s_2$};
+            \node[anchor=east] at (0.5,-3) {$s_3$};
+            \node[anchor=east] at (1.25,-0.2) {$s_1$};
+            \node[anchor=east] at (2.25,-0.2) {$s_2$};
+            \node[anchor=east] at (3.25,-0.2) {$s_3$};
+            % Grid of strings
+            \node (w11) at (1,-1) {$w_{1,1}$};
+            \node (w12) at (2,-1) {$w_{1,2}$};
+            \node (w21) at (1,-2) {$w_{2,1}$};
+            \node (w22) at (2,-2) {$w_{2,2}$};
+            \node (w31) at (1,-3) {$w_{3,1}$};
+            \node (w13) at (3,-1) {$w_{1,3}$};
+        
+            % Path
+            \draw[blue, thick, ->, >={Stealth}] (w11) -- (w12);
+            \draw[blue, thick, ->, >={Stealth}] (w12) -- (w21);
+            \draw[blue, thick, ->, >={Stealth}] (w21) -- (w31);
+            \draw[blue, thick, ->, >={Stealth}] (w31) -- (w22);
+            \draw[blue, thick, ->, >={Stealth}] (w22) -- (w13);
+        
+            % Dots
+            \node at (4,-1) {$\dots$};
+            \node at (3,-2) {$\dots$};
+            \node at (2,-3) {$\dots$};
+            \node at (1,-3.5) {$\vdots$};
+        \end{tikzpicture}
+    \end{minipage}
+    \hfill
+    % --- Right Minipage: Language ---
+    \begin{minipage}[t]{0.48\textwidth}
+        \centering
+        \textbf{Countable Language ($\Sigma^{n+1}$)}
+        \vspace{0.5cm}
+
+        \begin{tikzpicture}[scale=1.0] % Scaled to fit minipage
+            % Labels for the rows (Lengths)
+            \node[anchor=east] at (0.5,-0.2) {$\Sigma^{n+1}$:};
+            \node[anchor=east] at (0.5,-1) {$w_1$};
+            \node[anchor=east] at (0.5,-2) {$w_2$};
+            \node[anchor=east] at (0.5,-3) {$w_3$};
+            \node[anchor=east] at (1.25,-0.2) {$s_1$};
+            \node[anchor=east] at (2.25,-0.2) {$s_2$};
+            \node[anchor=east] at (3.25,-0.2) {$s_3$};
+            % Grid of strings
+            \node (w11) at (1,-1) {$w_{1,1}$};
+            \node (w12) at (2,-1) {$w_{1,2}$};
+            \node (w21) at (1,-2) {$w_{2,1}$};
+            \node (w22) at (2,-2) {$w_{2,2}$};
+            \node (w31) at (1,-3) {$w_{3,1}$};
+            \node (w13) at (3,-1) {$w_{1,3}$};
+        
+            % Path
+            \draw[blue, thick, ->, >={Stealth}] (w11) -- (w12);
+            \draw[blue, thick, ->, >={Stealth}] (w12) -- (w21);
+            \draw[blue, thick, ->, >={Stealth}] (w21) -- (w31);
+            \draw[blue, thick, ->, >={Stealth}] (w31) -- (w22);
+            \draw[blue, thick, ->, >={Stealth}] (w22) -- (w13);
+        
+            % Dots
+            \node at (4,-1) {$\dots$};
+            \node at (2,-3) {$\dots$};
+            \node at (3,-2) {$\dots$};
+            \node at (1,-3.5) {$\vdots$};
+        \end{tikzpicture}
+    \end{minipage}
+    % --- Right Minipage: Language ---
+    \begin{minipage}[t]{0.48\textwidth}
+        \centering
+        \textbf{Countable Language ($\Sigma^{*}$)}
+        \vspace{0.5cm}
+
+        \begin{tikzpicture}[scale=1.0] % Scaled to fit minipage
+            % Labels for the rows (Lengths)
+            \node[anchor=east] at (0.5,-0.2) {$\Sigma^{*}$:};
+            \node[anchor=east] at (0.5,-1) {$\Sigma^1$};
+            \node[anchor=east] at (0.5,-2) {$\Sigma^2$};
+            \node[anchor=east] at (0.5,-3) {$\Sigma^3$};
+            % Grid of strings
+            \node (w11) at (1,-1) {$w_{\Sigma^{1},1}$};
+            \node (w12) at (2.5,-1) {$w_{\Sigma^1,2}$};
+            \node (w21) at (1,-2) {$w_{\Sigma^2,1}$};
+            \node (w22) at (2.5,-2) {$w_{\Sigma^2,2}$};
+            \node (w31) at (1,-3) {$w_{\Sigma^3,1}$};
+            \node (w13) at (4,-1) {$w_{\Sigma^1,3}$};
+        
+            % Path
+            \draw[blue, thick, ->, >={Stealth}] (w11) -- (w12);
+            \draw[blue, thick, ->, >={Stealth}] (w12) -- (w21);
+            \draw[blue, thick, ->, >={Stealth}] (w21) -- (w31);
+            \draw[blue, thick, ->, >={Stealth}] (w31) -- (w22);
+            \draw[blue, thick, ->, >={Stealth}] (w22) -- (w13);
+        
+            % Dots
+            \node at (5,-1) {$\dots$};
+            \node at (4,-2) {$\dots$};
+            \node at (2.5,-3) {$\dots$};
+            \node at (1,-3.5) {$\vdots$};
+        \end{tikzpicture}
+    \end{minipage}
+    \caption{Comparison of diagonal enumeration for numbers vs. strings.}
+\end{figure}
+To formalize, we use induction to prove that $\forall i \geq 0, \Sigma^i $ is countable\\
+Base case: $\Sigma^1 = \Sigma$, countable as defined. \\
+Inductive hypothesis: $\Sigma^n$ is countable: we enumerate all strings in $\Sigma^n$, and use the same diagonal proof to show the concatenation of 
+one symbol from the countable alphabet to every string $\Sigma^{n+1}$ is also countable. Thus we can give an enumeration of all $\Sigma^i$ and use the diaganol 
+argument again to show the existence of an enumeration of $\Sigma^*$. \\
+Alternatively, Given 
+\[\Sigma^* = \bigcup_{i\geq0} \Sigma^i\]
+From the Axiom of Choice, which implies the union of countably many countable set is countable, $\Sigma^*$ is countable. 
+Since $\forall L$ over $\Sigma, L \subseteq \Sigma^*, \Sigma^*$ is countable, all languages over countable $\Sigma$ is countable.
+\end{proof}
+\begin{definition}[Finitely Satisfiable]
+    A set of formulas $\Gamma$ is said to be \textbf{finitely satisfiable} if and only if for all finite subsets $\Gamma_0 \subseteq \Gamma$, $\Gamma_0$ is satisfiable.
+\end{definition}
+
+\begin{theorem}[Compactness Theorem]
+    \[ \Gamma \text{ is satisfiable} \iff \Gamma \text{ is finitely satisfiable} \]
+\end{theorem}
+
+\begin{proof}
+Consider a special case where $\Gamma$ is ``$T$-good'', defined as:
+\[ \forall p \in P, (p \in \Gamma \lor \neg p \in \Gamma) \]
+Claim: If $\Gamma$ is $T$-good, then $\Gamma \text{ is finitely satisfiable} \implies \Gamma \text{ is satisfiable}$.\\
+Suppose $\Gamma$ is $T$-good and finitely satisfiable. We define a candidate valuation $v_L$ such that for all $p \in P$:
+\[
+v_L(p) = 
+\begin{cases} 
+T & \text{if } p \in \Gamma \\ 
+F & \text{if } \neg p \in \Gamma 
+\end{cases}
+\]
+First, we prove that for every $p \in P$, \textbf{exactly one} of $\{p, \neg p\}$ is in $\Gamma$. 
+By the $T$-good property, at least one is in $\Gamma$. Suppose both $\{p, \neg p\} \subseteq \Gamma$. Consider the finite subset:
+\[ \Gamma' = \{p, \neg p\} \]
+Since $\Gamma'$ is a finite subset of a finitely satisfiable set, it must be satisfiable. However, $\neg \exists v$ such that $v \models \{p, \neg p\}$, which is a contradiction. Thus, $v_L$ is well-defined.\\\\
+Now we show $v_L \models \Gamma$. Suppose $\exists \phi \in \Gamma$ such that $v_L \not\models \phi$. Define the following finite sets based on the atoms occurring in $\phi$:
+\begin{align*}
+    \Gamma_\phi^+ &= \{p \mid p \in \text{OCCUR}(\phi) \land v_L(p) = T\} \\
+    \Gamma_\phi^- &= \{\neg p \mid p \in \text{OCCUR}(\phi) \land v_L(p) = F\} \\
+    \Gamma_\phi &= \{\phi\} \cup \Gamma_\phi^+ \cup \Gamma_\phi^-
+\end{align*}
+Since $\Gamma_\phi$ is a finite subset of $\Gamma$, it must be satisfiable by some valuation $v$. For this $v$:
+\begin{itemize}
+    \item $\forall p$ such that $p \in \Gamma_\phi^+$, $v(p) = T$.
+    \item $\forall \neg p$ such that $\neg p \in \Gamma_\phi^-$, $v(\neg p) = T \implies v(p) = F$.
+\end{itemize}
+By construction, $v$ and $v_L$ agree on all atoms in $\text{OCCUR}(\phi)$. By the \textbf{Relevance Lemma}, $v(\phi) = v_L(\phi)$. 
+Since $v \models \Gamma_\phi$, we have $v \models \phi$. This implies $v_L \models \phi$, contradicting our assumption $v_L \not\models \phi$.
+Therefore, $\forall \phi \in \Gamma, v_L \models \phi$, which implies $v_L \models \Gamma$, $\Gamma$ is satisfiable.\\\\
+Now we will generalize this to all $\Gamma$ which may not be `T-good', by showing that we can construct a `T-good' finitely satisfiable set
+$\Delta$, from any finitely satisfiable $\Gamma$, and therefore show that $\Gamma SAT \iff \Delta SAT$. \\
+We will only prove the case for countable $P$ now. Let an enumeration of $p \in P$ be $\{p_1, p_2, \dots\}$\\
+Define finite subset $\Gamma_i$ of $\Gamma$ as such: 
+\begin{align*}
+    \Gamma_0 = \Gamma\\
+    \Gamma_{i+1} = \Gamma_i \cup 
+\end{align*}
+\end{proof}
 
 \newpage
 \section*{Tutorial}
