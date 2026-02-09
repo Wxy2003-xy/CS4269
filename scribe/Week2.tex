@@ -578,10 +578,76 @@ $\Delta$, from any finitely satisfiable $\Gamma$, and therefore show that $\Gamm
 We will only prove the case for countable $P$ now. Let an enumeration of $p \in P$ be $\{p_1, p_2, \dots\}$\\
 Define finite subset $\Gamma_i$ of $\Gamma$ as such: 
 \begin{align*}
-    \Gamma_0 = \Gamma\\
-    \Gamma_{i+1} = \Gamma_i \cup 
+    &\Gamma_0 = \Gamma\\
+    &\Gamma_{i+1} = \begin{cases}
+        \Gamma_i \cup \{p_i\} \text{ if } \Gamma_i \cup \{p_i\} \text{ is finitely satisfiable}\\
+        \Gamma_i \cup \{\neg(p_i)\} \text{ Otherwise }
+    \end{cases}
 \end{align*}
+Here we need to prove that $\forall i,$ between $ \Gamma_i \cup \{p_i\}$ and $\Gamma_i \cup \{(\neg p_i)\}$ at least one case is also finitely satisfiable.
+\begin{theorem}
+Let $\Gamma$ be finitely satisfiable set, and $\phi$ be a formula, then $\Gamma \cup \{\phi\}$ is finitely satisfiable or $\Gamma \cup \{(\neg \phi)\}$ 
+is finitely satisfiable.
+\end{theorem}
+\begin{proof}
+    We prove the contrapositive of this statement: if $\Gamma \cup \{\phi\}$ and $\Gamma \cup \{(\neg \phi)\}$ are both not finitely satisfiable, $\Gamma$
+    is not fintely satisfiable. Given both are not finitely satisfiable, there exist finite subsets $\Gamma_1, \Gamma_2 \subseteq \Gamma$ such that 
+    $\Gamma_1 \cup \{\phi\}$ and $\Gamma_2 \cup \{(\neg \phi)\}$ are not satisfiable. Therefore for all valuations, it must not model either $\Gamma_1$ or $\{\phi\}$, and not model 
+    either $\Gamma_2$ or $\{(\neg \phi)\}$. Denote the set of valuations that models formula $\psi$ as $models(\psi)$, the set of valuations that models set of formula $\Sigma$ as $models(\Sigma)$
+    \begin{align*}
+        models(\Gamma_1) &\cap models(\phi) = \emptyset\\
+        &\rightarrow \forall v \in models(\Gamma_1), v\not \models \phi \rightarrow v \models (\neg \phi)\\
+        &\rightarrow models(\Gamma_1) \subseteq models((\neg \phi))\\
+        models(\Gamma_2) &\cap models((\neg \phi)) = \emptyset\\
+        &\rightarrow \forall v \in models(\Gamma_2), v\not \models (\neg \phi) \rightarrow v \models (\phi)\\
+        &\rightarrow models(\Gamma_2) \subseteq models(\phi)\\
+    \end{align*}
+    Now consider the set of valuations that models $\Gamma_1 \cup \Gamma_2$
+    \begin{align*}
+        &models(\Gamma_1 \cup \Gamma_2) = models(\Gamma_1) \cap models(\Gamma_2)\\
+        &(models(\Gamma_1) \cap models(\Gamma_2)) \subseteq (models(\phi) \cap models((\neg \phi))) = \emptyset\\
+    \end{align*}
+    Since $\Gamma_1 \cup \Gamma_2$ is a finite subset of $\Gamma$ that is not satisfiable, $\Gamma$ is not finitely satisfiable. 
 \end{proof}
+Now prove that $\forall i, \Gamma_i$ is finitely satisfiable. 
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \newpage
 \section*{Tutorial}
@@ -1160,5 +1226,197 @@ $'\neg'$ must not be at index 1. Thus $\not \exists \phi \in INDFORM, \phi \in \
 \end{proof}
 
 
+
+
+
+
+
+
+
+
+
+\begin{lemma}[Characterization of Well-Formed Formulae]
+Let $P$ be a set of propositions and $C=\{\neg,\vee\}$.
+Every well-formed formula $\phi$ over $(P,C)$ is of exactly one of the following forms:
+\begin{enumerate}
+  \item $\phi \in P$,
+  \item $\phi = (\neg \psi)$ for some well-formed formula $\psi$,
+  \item $\phi = (\psi_1 \vee \psi_2)$ for some well-formed formulae $\psi_1,\psi_2$.
+\end{enumerate}
+\end{lemma}
+
+\paragraph{Structural Induction Principle.}
+A property $P(\phi)$ holds for all well-formed formulae if:
+\begin{itemize}
+  \item $P(p)$ holds for all $p\in P$,
+  \item $P(\psi)$ implies $P(\neg \psi)$,
+  \item $P(\psi_1)$ and $P(\psi_2)$ imply $P(\psi_1 \vee \psi_2)$.
+\end{itemize}
+\newpage 
+\section*{Q1}
+\subsection*{1.1}
+\begin{theorem}
+    Let $\alpha$ be a well-formed formula. Let $c(\alpha)$ denote the number of occurrences of
+    binary connective symbols $(\wedge,\vee,\to,\leftrightarrow)$ in $\alpha$, and let
+    $s(\alpha)$ denote the number of occurrences of sentence symbols in $\alpha$.
+    Then
+    \[
+    s(\alpha) = c(\alpha) + 1 .
+    \]
+\end{theorem}
+\subsection*{1.2}
+
+\section*{Q2}
+Recall the following derived connectives:
+\begin{itemize}
+  \item $\phi_1 \wedge \phi_2 \equiv \neg\bigl((\neg \phi_1)\vee(\neg \phi_2)\bigr)$,
+  \item $\bot \equiv \neg(p \vee \neg p)$ for some $p\in P$,
+  \item $\phi_1 \to \phi_2 \equiv (\neg \phi_1)\vee \phi_2$.
+\end{itemize}
+Using structural induction, show that for every formula $\phi$ over $(P,\{\neg,\vee\})$
+with $P\neq\emptyset$, there exists a formula $\psi$ using only connectives
+$\{\bot,\to\}$ such that $\phi$ and $\psi$ are logically equivalent.
+
+\section*{Q3}
+
+\begin{definition}[Conjunctive Normal Form]
+A formula $\phi$ over $(P,\{\neg,\vee,\wedge\})$ is in \emph{conjunctive normal form (CNF)} if
+\[
+\phi = C_1 \wedge C_2 \wedge \cdots \wedge C_m \quad (m\ge 1),
+\]
+where each clause $C_i$ has the form
+\[
+C_i = \ell_{i,1} \vee \ell_{i,2} \vee \cdots \vee \ell_{i,k_i},
+\]
+and each literal $\ell_{i,j}$ is either $p$ or $\neg p$ for some $p\in P$.
+\end{definition}
+
+Using structural induction, show that for every well-formed formula $\phi$,
+there exists a logically equivalent formula $\psi$ in CNF.
+
+\section*{Q4}
+
+\begin{definition}[Occurs]
+Define $\mathrm{occurs}:\mathrm{FORM}\to\mathcal{P}(P)$ inductively by:
+\begin{itemize}[leftmargin=2em]
+  \item If $\phi=p\in P$, then $\mathrm{occurs}(\phi)=\{p\}$,
+  \item If $\phi=\neg\psi$, then $\mathrm{occurs}(\phi)=\mathrm{occurs}(\psi)$,
+  \item If $\phi=\psi_1\oplus\psi_2$ with $\oplus\in\{\wedge,\vee\}$, then
+  $\mathrm{occurs}(\phi)=\mathrm{occurs}(\psi_1)\cup\mathrm{occurs}(\psi_2)$.
+\end{itemize}
+\end{definition}
+
+\begin{lemma}[Relevance Lemma]
+Let $\phi$ be a propositional formula and let $v_1,v_2:P\to\{\mathrm{true},\mathrm{false}\}$
+be valuations such that $v_1(p)=v_2(p)$ for all $p\in\mathrm{occurs}(\phi)$.
+Then $v_1\models\phi$ if and only if $v_2\models\phi$.
+\end{lemma}
+
+Prove this lemma using structural induction.
+
+\section*{Q5}
+
+\begin{lemma}[Generalized Relevance Lemma]
+Let $\phi$ be a propositional formula and let $v_1,v_2$ be valuations such that
+$v_1(p)=v_2(p)$ for all $p$ in some set $S\supseteq\mathrm{occurs}(\phi)$.
+Then $v_1\models\phi$ if and only if $v_2\models\phi$.
+\end{lemma}
+
+Prove this lemma.
+
+\section*{Q6}
+
+\begin{lemma}[Relevance Lemma for Logical Equivalence]
+Let $\phi_1,\phi_2$ be propositional formulae. The following are equivalent:
+\begin{itemize}[leftmargin=2em]
+  \item For all valuations $v_1,v_2$ agreeing on
+  $\mathrm{occurs}(\phi_1)\cup\mathrm{occurs}(\phi_2)$,
+  we have $v_1\models\phi_1$ iff $v_2\models\phi_2$.
+  \item $\phi_1$ and $\phi_2$ are logically equivalent.
+\end{itemize}
+\end{lemma}
+
+Prove this lemma.
+
+\section*{Q7}
+Let $G=(V,E)$ be an undirected graph and $k\in\mathbb{N}$.
+Construct a propositional formula $\phi_G$ such that:
+\begin{enumerate}
+  \item $|\phi_G|$ is polynomial in $k+|V|+|E|$,
+  \item $\phi_G$ is satisfiable if and only if $G$ has a vertex cover of size at most $k$.
+\end{enumerate}
+Formally prove correctness of the encoding.
+
+\section*{Q8}
+Given a partial $N^2\times N^2$ Sudoku grid $S$, construct a propositional formula $\phi_S$
+of size polynomial in $N^2$ such that $\phi_S$ is satisfiable if and only if
+$S$ has a completion to a valid Sudoku grid. Prove correctness.
+
+\section*{Q9}
+(Extra Credit) Encode the Independent Set problem as propositional logic.
+\begin{enumerate}
+  \item Construct a formula $\phi_{G,k}$ satisfiable iff $G$ has an independent set of size $k$.
+  \item Write $\phi_{G,3}$ explicitly for a given graph on five vertices.
+\end{enumerate}
+
+\section*{Q10}
+(Extra Credit) Implement a solver for Independent Set using a SAT solver as an oracle.
+The program should read a graph and $k$, construct $\phi_{G,k}$, and determine satisfiability.
+
+\newpage
+\section*{Background: Compactness}
+
+\begin{definition}[Satisfiable]
+A set $\Gamma$ of propositional formulae is satisfiable if there exists a valuation
+$v$ such that $v\models\Gamma$.
+\end{definition}
+
+\begin{definition}[Finitely Satisfiable]
+A set $\Gamma$ is finitely satisfiable if every finite $\Gamma'\subseteq\Gamma$ is satisfiable.
+\end{definition}
+
+\begin{theorem}[Compactness Theorem]
+A set $\Gamma$ of propositional formulae is satisfiable if and only if it is finitely satisfiable.
+\end{theorem}
+
+\section*{Q11}
+Prove that if $\Gamma$ is satisfiable, then $\Gamma$ is finitely satisfiable.
+
+\section*{Q12}
+
+\begin{definition}[$P$-complete]
+$\Gamma$ is $P$-complete if for every $p\in P$, either $p\in\Gamma$ or $\neg p\in\Gamma$.
+\end{definition}
+
+\begin{definition}[$P$-consistent]
+$\Gamma$ is $P$-consistent if for no $p\in P$ do both $p$ and $\neg p$ belong to $\Gamma$.
+\end{definition}
+
+\begin{lemma}
+If $\Gamma$ is finitely satisfiable and $P$-complete, then $\Gamma$ is $P$-consistent.
+\end{lemma}
+
+\begin{enumerate}
+  \item Prove the lemma.
+  \item Give examples as requested in the handout.
+\end{enumerate}
+
+\section*{Q13}
+Let $\Gamma$ be finitely satisfiable and let $\phi$ be a formula.
+\begin{enumerate}
+  \item Prove that at least one of $\Gamma\cup\{\phi\}$ or $\Gamma\cup\{\neg\phi\}$ is finitely satisfiable.
+  \item Give examples as requested.
+\end{enumerate}
+
+\section*{Q14}
+Let $P=\{p_1,p_2,\dots\}$ and define $\Gamma_0,\Gamma_1,\dots$ as in the handout.
+Prove that $\Delta=\bigcup_{i\ge0}\Gamma_i$ is finitely satisfiable.
+
+\section*{Q15}
+Prove that if $\Gamma$ is finitely satisfiable, then $\Gamma$ is satisfiable.
+
+\section*{Q16}
+Solve Questions 10 and 11 on page 53 (end of Section 1.5) in
+\emph{A Mathematical Introduction to Logic} by Herbert B. Enderton.
 
 \end{document}

@@ -16,3 +16,4 @@
 \contentsline {subsubsection}{\numberline {2.4.2}Logical consequence}{6}{}%
 \contentsline {subsection}{\numberline {2.5}Modelling Computations as Propositional Logic}{7}{}%
 \contentsline {section}{\numberline {3}Compactness Theorem}{8}{}%
+\contentsline {paragraph}{Structural Induction Principle.}{25}{}%
