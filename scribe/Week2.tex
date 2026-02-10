@@ -36,7 +36,7 @@
   breakatwhitespace=true,
   tabsize=3
 }
-\geometry{top=1in, bottom=1in, left=1in, right=1in}
+\geometry{top=1in, bottom=1in, left=1.5in, right=1.5in}
 % ctrl shift D to toggle night 
 \begin{document}
 
@@ -340,7 +340,7 @@ Note that there can be different definition on the size of the
     This needs to hold for every distinct pair of colors, thus
     \[\phi_{v, \leq 1} = \bigwedge_{i \neq j \in [1, k]} \phi_{v, i, j, \leq 1}\]
     For all vertices
-    \[\phi_{\leq} = \bigwedge_{v\in V} \phi_{v, \leq}\]
+    \[\phi_{\leq 1} = \bigwedge_{v\in V} \phi_{v, \leq 1}\]
     Finally we have 
     \[\phi_{exactly-1} = \phi_{\leq 1} \land \phi_{\geq 1}\]
     And the overall formula for an instance of $G = (V, E)$ becomes 
@@ -544,75 +544,208 @@ Since $\forall L$ over $\Sigma, L \subseteq \Sigma^*, \Sigma^*$ is countable, al
 \end{theorem}
 
 \begin{proof}
-Consider a special case where $\Gamma$ is ``$T$-good'', defined as:
-\[ \forall p \in P, (p \in \Gamma \lor \neg p \in \Gamma) \]
-Claim: If $\Gamma$ is $T$-good, then $\Gamma \text{ is finitely satisfiable} \implies \Gamma \text{ is satisfiable}$.\\
-Suppose $\Gamma$ is $T$-good and finitely satisfiable. We define a candidate valuation $v_L$ such that for all $p \in P$:
-\[
-v_L(p) = 
-\begin{cases} 
-T & \text{if } p \in \Gamma \\ 
-F & \text{if } \neg p \in \Gamma 
-\end{cases}
-\]
-First, we prove that for every $p \in P$, \textbf{exactly one} of $\{p, \neg p\}$ is in $\Gamma$. 
-By the $T$-good property, at least one is in $\Gamma$. Suppose both $\{p, \neg p\} \subseteq \Gamma$. Consider the finite subset:
-\[ \Gamma' = \{p, \neg p\} \]
-Since $\Gamma'$ is a finite subset of a finitely satisfiable set, it must be satisfiable. However, $\neg \exists v$ such that $v \models \{p, \neg p\}$, which is a contradiction. Thus, $v_L$ is well-defined.\\\\
-Now we show $v_L \models \Gamma$. Suppose $\exists \phi \in \Gamma$ such that $v_L \not\models \phi$. Define the following finite sets based on the atoms occurring in $\phi$:
-\begin{align*}
-    \Gamma_\phi^+ &= \{p \mid p \in \text{OCCUR}(\phi) \land v_L(p) = T\} \\
-    \Gamma_\phi^- &= \{\neg p \mid p \in \text{OCCUR}(\phi) \land v_L(p) = F\} \\
-    \Gamma_\phi &= \{\phi\} \cup \Gamma_\phi^+ \cup \Gamma_\phi^-
-\end{align*}
-Since $\Gamma_\phi$ is a finite subset of $\Gamma$, it must be satisfiable by some valuation $v$. For this $v$:
-\begin{itemize}
-    \item $\forall p$ such that $p \in \Gamma_\phi^+$, $v(p) = T$.
-    \item $\forall \neg p$ such that $\neg p \in \Gamma_\phi^-$, $v(\neg p) = T \implies v(p) = F$.
-\end{itemize}
-By construction, $v$ and $v_L$ agree on all atoms in $\text{OCCUR}(\phi)$. By the \textbf{Relevance Lemma}, $v(\phi) = v_L(\phi)$. 
-Since $v \models \Gamma_\phi$, we have $v \models \phi$. This implies $v_L \models \phi$, contradicting our assumption $v_L \not\models \phi$.
-Therefore, $\forall \phi \in \Gamma, v_L \models \phi$, which implies $v_L \models \Gamma$, $\Gamma$ is satisfiable.\\\\
-Now we will generalize this to all $\Gamma$ which may not be `T-good', by showing that we can construct a `T-good' finitely satisfiable set
-$\Delta$, from any finitely satisfiable $\Gamma$, and therefore show that $\Gamma SAT \iff \Delta SAT$. \\
-We will only prove the case for countable $P$ now. Let an enumeration of $p \in P$ be $\{p_1, p_2, \dots\}$\\
-Define finite subset $\Gamma_i$ of $\Gamma$ as such: 
-\begin{align*}
-    &\Gamma_0 = \Gamma\\
-    &\Gamma_{i+1} = \begin{cases}
-        \Gamma_i \cup \{p_i\} \text{ if } \Gamma_i \cup \{p_i\} \text{ is finitely satisfiable}\\
-        \Gamma_i \cup \{\neg(p_i)\} \text{ Otherwise }
+    Consider a special case where $\Gamma$ is ``$T$-good'', defined as:
+    \[ \forall p \in P, (p \in \Gamma \lor \neg p \in \Gamma) \]
+    Claim: If $\Gamma$ is $T$-good, then $\Gamma \text{ is finitely satisfiable} \implies \Gamma \text{ is satisfiable}$.\\
+    Suppose $\Gamma$ is $T$-good and finitely satisfiable. We define a candidate valuation $v_L$ such that for all $p \in P$:
+    \[
+    v_L(p) = 
+    \begin{cases} 
+    T & \text{if } p \in \Gamma \\ 
+    F & \text{if } \neg p \in \Gamma 
     \end{cases}
-\end{align*}
-Here we need to prove that $\forall i,$ between $ \Gamma_i \cup \{p_i\}$ and $\Gamma_i \cup \{(\neg p_i)\}$ at least one case is also finitely satisfiable.
+    \]
+    First, we prove that for every $p \in P$, \textbf{exactly one} of $\{p, \neg p\}$ is in $\Gamma$. 
+    By the $T$-good property, at least one is in $\Gamma$. Suppose both $\{p, \neg p\} \subseteq \Gamma$. Consider the finite subset:
+    \[ \Gamma' = \{p, \neg p\} \]
+    Since $\Gamma'$ is a finite subset of a finitely satisfiable set, it must be satisfiable. However, $\neg \exists v$ such that $v \models \{p, \neg p\}$, which is a contradiction. Thus, $v_L$ is well-defined.\\\\
+    Now we show $v_L \models \Gamma$. Suppose $\exists \phi \in \Gamma$ such that $v_L \not\models \phi$. Define the following finite sets based on the atoms occurring in $\phi$:
+    \begin{align*}
+        \Gamma_\phi^+ &= \{p \mid p \in \text{OCCUR}(\phi) \land v_L(p) = T\} \\
+        \Gamma_\phi^- &= \{\neg p \mid p \in \text{OCCUR}(\phi) \land v_L(p) = F\} \\
+        \Gamma_\phi &= \{\phi\} \cup \Gamma_\phi^+ \cup \Gamma_\phi^-
+    \end{align*}
+    Since $\Gamma_\phi$ is a finite subset of $\Gamma$, it must be satisfiable by some valuation $v$. For this $v$:
+    \begin{itemize}
+        \item $\forall p$ such that $p \in \Gamma_\phi^+$, $v(p) = T$.
+        \item $\forall \neg p$ such that $\neg p \in \Gamma_\phi^-$, $v(\neg p) = T \implies v(p) = F$.
+    \end{itemize}
+    By construction, $v$ and $v_L$ agree on all atoms in $\text{OCCUR}(\phi)$. By the \textbf{Relevance Lemma}, $v(\phi) = v_L(\phi)$. 
+    Since $v \models \Gamma_\phi$, we have $v \models \phi$. This implies $v_L \models \phi$, contradicting our assumption $v_L \not\models \phi$.
+    Therefore, $\forall \phi \in \Gamma, v_L \models \phi$, which implies $v_L \models \Gamma$, $\Gamma$ is satisfiable.\\\\
+    Now we will generalize this to all $\Gamma$ which may not be `T-good', by showing that we can construct a `T-good' finitely satisfiable set
+    $\Delta$, from any finitely satisfiable $\Gamma$, and therefore show that $\Gamma SAT \iff \Delta SAT$. \\
+    We will only prove the case for countable $P$ now. Let an enumeration of $p \in P$ be $\{p_1, p_2, \dots\}$\\
+    Define finite subset $\Gamma_i$ of $\Gamma$ as such: 
+    \begin{align*}
+        &\Gamma_0 = \Gamma\\
+        &\Gamma_{i+1} = \begin{cases}
+            \Gamma_i \cup \{p_i\} \text{ if } \Gamma_i \cup \{p_i\} \text{ is finitely satisfiable}\\
+            \Gamma_i \cup \{\neg(p_i)\} \text{ Otherwise }
+        \end{cases}
+    \end{align*}
+    Here we need to prove that $\forall i,$ between $ \Gamma_i \cup \{p_i\}$ and $\Gamma_i \cup \{(\neg p_i)\}$ at least one case is also finitely satisfiable.
+    \begin{theorem}\label{lem:fsat_union}
+    Let $\Gamma$ be finitely satisfiable set, and $\phi$ be a formula, then $\Gamma \cup \{\phi\}$ is finitely satisfiable or $\Gamma \cup \{(\neg \phi)\}$ 
+    is finitely satisfiable.
+    \end{theorem}
+    \begin{proof}
+        We prove the contrapositive of this statement: if $\Gamma \cup \{\phi\}$ and $\Gamma \cup \{(\neg \phi)\}$ are both not finitely satisfiable, $\Gamma$
+        is not fintely satisfiable. Given both are not finitely satisfiable, there exist finite subsets $\Gamma_1, \Gamma_2 \subseteq \Gamma$ such that 
+        $\Gamma_1 \cup \{\phi\}$ and $\Gamma_2 \cup \{(\neg \phi)\}$ are not satisfiable. Therefore for all valuations, it must not model either $\Gamma_1$ or $\{\phi\}$, and not model 
+        either $\Gamma_2$ or $\{(\neg \phi)\}$. Denote the set of valuations that models formula $\psi$ as $models(\psi)$, the set of valuations that models set of formula $\Sigma$ as $models(\Sigma)$
+        \begin{align*}
+            models(\Gamma_1) &\cap models(\phi) = \emptyset\\
+            &\rightarrow \forall v \in models(\Gamma_1), v\not \models \phi \rightarrow v \models (\neg \phi)\\
+            &\rightarrow models(\Gamma_1) \subseteq models((\neg \phi))\\
+            models(\Gamma_2) &\cap models((\neg \phi)) = \emptyset\\
+            &\rightarrow \forall v \in models(\Gamma_2), v\not \models (\neg \phi) \rightarrow v \models (\phi)\\
+            &\rightarrow models(\Gamma_2) \subseteq models(\phi)\\
+        \end{align*}
+        Now consider the set of valuations that models $\Gamma_1 \cup \Gamma_2$
+        \begin{align*}
+            &models(\Gamma_1 \cup \Gamma_2) = models(\Gamma_1) \cap models(\Gamma_2)\\
+            &(models(\Gamma_1) \cap models(\Gamma_2)) \subseteq (models(\phi) \cap models((\neg \phi))) = \emptyset\\
+        \end{align*}
+        Since $\Gamma_1 \cup \Gamma_2$ is a finite subset of $\Gamma$ that is not satisfiable, $\Gamma$ is not finitely satisfiable. 
+    \end{proof}
+    Now prove that 
+    \begin{lemma}\label{lem:fsat_each}
+    $\forall i, \Gamma_i$ is finitely satisfiable.     
+    \end{lemma}
+    \begin{proof}
+        Base case: 
+        \[\Gamma_0 = \Gamma \text{ is finitely satisfiable by definition}\]
+        Inducetive hypothesis: Suppose
+        \[\Gamma_n \text{ is finitely satisfiable}\]
+        By Lemma~\ref{lem:fsat_union}, $\Gamma_n \cup \{p_n\}$ and $\Gamma_n \cup \{(\neg p_n)\}$ there must be at least one that is finitely satisfiable.
+        $\rightarrow$ $\Gamma_{n+1}$ is therefore finitely satisfiable.
+    \end{proof}
+    Next we will show that 
+    \begin{lemma}\label{lem:fsat_all}
+    $\Gamma_U = \bigcup_{i\geq0} \Gamma_i$ is finitely satisfiable.    
+    \end{lemma}
+    \begin{proof}
+        Consider finite set $\Gamma' \subseteq \Gamma_U$, since $\Gamma'$ is finite, and $\forall k\geq 0, \Gamma_k \subseteq \Gamma_{k+1}$ by definition,
+        $\exists j \geq 0, \Gamma' \subseteq \Gamma_j = \bigcup_{i\geq 0}^j \Gamma_i$. By Lemma~\ref{lem:fsat_each}, $\Gamma_j$ is satisfiable $\rightarrow \Gamma'$ is finitely satisfiable.
+    \end{proof}
+    \begin{lemma}\label{lem:const_sat}
+        $\Gamma_U$ is satisfiable.
+    \end{lemma}
+    \begin{proof}
+        From the construction, $\forall i \geq 0$ at least one of $p_i$ and $(\neg p_i)$ is in $\bigcup_{i\geq 0} \Gamma_i$. Since $\bigcup_{i\geq 0} \Gamma_i$ is finitely satisfiable, 
+        $\forall i \geq 0, p_i$ and $(\neg p_i)$ cannot both be in $\bigcup_{i\geq 0} \Gamma_i$. Otherwise $\{p_i\} \cup \{(\neg p_1)\} \subseteq \bigcup_{i\geq 0} \Gamma_i$ is not satisfiable, contradiction.
+    \end{proof}
+    Now we have proven that the construction proposed from a finitely satisfiable formula set $\Gamma$ to $\bigcup_{i\geq 0} \Gamma_i$ is also finitely satisfiable. Now to complete the proof of
+    the compactness theorem, we need to prove that $\exists v, v\models \Gamma$.
+    \begin{proof}
+        From Lemma~\ref{lem:const_sat}, 
+        $\forall i\geq 0, (p_i \in \Gamma_U) 
+        \oplus ((\neg p_i) \in \Gamma_U)$, $\exists v, v \models \Gamma_U$
+        \[v(p):P \mapsto \{T, F\} = \begin{cases}
+            T, \text{ if } p \in \Gamma_U\\
+            F, \text{ if } (\neg p) \in \Gamma_U
+        \end{cases}\]
+        Define the literal set $Literals = \{p_i, (\neg p_i) \mid i \geq 0\}$, 
+        and function 
+        \[\tau(p): P \mapsto Literals = \begin{cases}
+            p, \text{ if } p \in \Gamma_U\\
+            (\neg p), \text{ if } (\neg p) \in \Gamma_U
+        \end{cases}\]
+        \begin{lemma}
+            \[v\models \Gamma_U \rightarrow v \models \tau(\Gamma)\]
+        \end{lemma}
+        Let $\phi \in \Gamma$, Define literal set $X = \{\tau(p) \mid p \in OCCUR(\phi)\}$
+        where $X$ is a set containing single proposition literals. 
+        By definition we have 
+        \[X \subseteq \Gamma_U \rightarrow v \models X \rightarrow \forall \psi \in X, v(\psi) = T\]
+        and $OCCUR(X) = OCCUR(\phi)$
+        Since both $X$ is finite, $X \cup \{\phi\}$ is a finite subset to $\Gamma_U$, thus satisfiable. 
+        $\rightarrow \exists v', v' \models X\cup \{\phi\} \rightarrow v' \models X, v' \models \phi \rightarrow
+        \forall \psi \in X, v'(\psi) = T$. 
+        \[\forall p \in OCCUR(\phi), v(p) = v'(p), v' \models \phi \rightarrow v\models \phi\]
+        Therefore, the valuation that models enlarged construction $\Gamma_U$ also models $\Gamma$, thus $\Gamma$ 
+        is satisfiable.
+    \end{proof}
+\end{proof}
+
+\subsection{Application of the Compactness theorem for proposition logics}
+We have already shown that we can use propositional logic to model computational problems, the compactness theorem allows us to extend 
+problem modelling to instances of infinite size. Recall the k-colorable problem, where we used propositional logic to model any finite size
+instance. 
 \begin{theorem}
-Let $\Gamma$ be finitely satisfiable set, and $\phi$ be a formula, then $\Gamma \cup \{\phi\}$ is finitely satisfiable or $\Gamma \cup \{(\neg \phi)\}$ 
-is finitely satisfiable.
+    A graph is k-colorable iff every finite subgraph is k-colorable.
 \end{theorem}
+\begin{definition}[Infinite graph]
+    $G = (V, E)$ is an infinite graph if $V$ is infinite.
+\end{definition}
+\begin{definition}[Subgraph]
+    $G' = (V', E')$ is a subgraph to $G$ if $V' \subseteq V, E' \subseteq E$
+\end{definition}
+\begin{definition}[Induced subgraph]
+    $G' = (V', E')$ is an induced subgraph to $G$ if $G'$ is a subgraph to $G$, and $\{u, v\} \in E' \iff \{u, v\} \in E \land u, v \in V'$
+\end{definition}
 \begin{proof}
-    We prove the contrapositive of this statement: if $\Gamma \cup \{\phi\}$ and $\Gamma \cup \{(\neg \phi)\}$ are both not finitely satisfiable, $\Gamma$
-    is not fintely satisfiable. Given both are not finitely satisfiable, there exist finite subsets $\Gamma_1, \Gamma_2 \subseteq \Gamma$ such that 
-    $\Gamma_1 \cup \{\phi\}$ and $\Gamma_2 \cup \{(\neg \phi)\}$ are not satisfiable. Therefore for all valuations, it must not model either $\Gamma_1$ or $\{\phi\}$, and not model 
-    either $\Gamma_2$ or $\{(\neg \phi)\}$. Denote the set of valuations that models formula $\psi$ as $models(\psi)$, the set of valuations that models set of formula $\Sigma$ as $models(\Sigma)$
-    \begin{align*}
-        models(\Gamma_1) &\cap models(\phi) = \emptyset\\
-        &\rightarrow \forall v \in models(\Gamma_1), v\not \models \phi \rightarrow v \models (\neg \phi)\\
-        &\rightarrow models(\Gamma_1) \subseteq models((\neg \phi))\\
-        models(\Gamma_2) &\cap models((\neg \phi)) = \emptyset\\
-        &\rightarrow \forall v \in models(\Gamma_2), v\not \models (\neg \phi) \rightarrow v \models (\phi)\\
-        &\rightarrow models(\Gamma_2) \subseteq models(\phi)\\
-    \end{align*}
-    Now consider the set of valuations that models $\Gamma_1 \cup \Gamma_2$
-    \begin{align*}
-        &models(\Gamma_1 \cup \Gamma_2) = models(\Gamma_1) \cap models(\Gamma_2)\\
-        &(models(\Gamma_1) \cap models(\Gamma_2)) \subseteq (models(\phi) \cap models((\neg \phi))) = \emptyset\\
-    \end{align*}
-    Since $\Gamma_1 \cup \Gamma_2$ is a finite subset of $\Gamma$ that is not satisfiable, $\Gamma$ is not finitely satisfiable. 
-\end{proof}
-Now prove that $\forall i, \Gamma_i$ is finitely satisfiable. 
-\end{proof}
+Since we have formulated any finite instance of k-colorable graph as propositional logic formula, we can define infinite set 
+\[\Gamma_G = \{\phi_{G'}^{k-colorable}\mid G' \text{ is finite subgraph of } G\}\]
+We will first prove that 
+    \begin{lemma}
+        $G$ is finitely k-colorable $\rightarrow$ $\Gamma_G$ is finitely satisfiable.
+    \end{lemma}
+    \begin{proof}
+        We will reuse the proposition definition from last chapter, where $|V|$ and thus $P$ is countable
+    \[P = \{p_{v, i} \mid v \in V, i \in [1, k]\}\]
+        For each instance on $G = (V, E)$ and $k$ colors, we formulate as such to enforce constraints on edges (No same color on adjacent vertices),
+        and vertices (exactly 1 coloring on each vertex).
+        \[\phi = \phi^{nbr} \land \phi^{exactly-1-color}\]
+        Consider the infinite graph $G = (V, E)$
+        \begin{align*}
+            \Gamma_G &= \Gamma^{nbr}_G \cup \Gamma^{exactly-1-color}_G\\
+            \Gamma^{exactly-1-color}_G &= \{\phi^{exactly-1-color}_v \mid v \in V\}\\
+            \phi^{exactly-1-color}_{v} &= (\bigvee_{i \in [1, k]}p_{v, i}) \land (\bigwedge_{i \neq j \in [1, k]} (p_{v, i} \rightarrow p_{v, j}))\\
+            \Gamma^{nbr}_G &= \{\phi^{nbr}_{\{u, v\}} \mid \{u, v\} \in E\}\\
+            \phi^{nbr}_{\{u, v\}} &= \bigwedge_{i \in [1, k]}(p_{u, i} \rightarrow p_{v, i})
+        \end{align*}
+
+    Suppose the contrary, where $G = (V, E)$ is finitel k-colorable, $\Gamma_G$ is not finitely satisfiable, 
+    $\exists$ finite subset $ \Gamma_0 \subseteq \Gamma_G, \Gamma_0$ is not satisfiable. 
+    Let $G_0 = (V_0, E_0)$ be a finite subgraph of $G$, such that 
+    \[V_0 = \{v \mid v \in V, \phi^{exactly-1-color}_v \in \Gamma_0\} \cup \{u \mid u \in V, \exists u', \phi^{nbr}_{\{u, u'\}} \in \Gamma_0\}\]
+    \[E_0 = \{\{u, v\} \mid \{u, v\} \in E, u, v \in V_0\}\]
+    Here we are formulating an instance of finite k-colorable induced subgraph of $G$ from finite subset $\Gamma_0$. Now we need to show that $G_0$ is not k-colorable
+    to reach the contradiction, with another contradiction. \\
+    Suppose $G_0$ is k-colorable, let $C_0$ be a k-coloring of $G_0$, define valuation
+    \[v_0(p_{u, i}) =\begin{cases}
+        T, \text{ if } C_0(u) = i\\
+        F, \text{ if } C_0(u) \neq i
+    \end{cases} \]
+    Let \[\Gamma_0' = \{\phi^{exactly-1-color}_v \mid v \in V_0\} \cup \{\phi^{nbr}_{\{u, v\}} \mid \{u, v\} \in E_0\}\]
+    Notice that 
+    \[\Gamma_0 \subseteq \Gamma_0'\] %how?%
+    Since $\Gamma_0'$ is the same construction from k-colorability to formuala, $G_0$ is k-colorable, we have 
+    \[v_0 \models \Gamma_0'\]
+    By relevance lemma
+    \[v_0 \models \Gamma_0\]
+    Contradicting to our initial assumption that $\Gamma_0$ is NOT satisfiable. 
+    \end{proof}
 
 
+
+
+
+
+By Compactness theorem, $\Gamma_G$ is finitely satisfiable $\rightarrow \Gamma_G$ is 
+satisfiable.
+    \begin{lemma}
+        $\Gamma_G$ is satisfiable $\rightarrow G$ is k-colorable 
+    \end{lemma}
+    \begin{proof}
+        $\Gamma_G$ is satisfiable $\rightarrow \exists v, v\models \Gamma_G$. We can construct a coloring $C$ from $v$ 
+        similarly to how we constructed $v_0$ from $C_0$ from previous proof:
+        \[C(v) = i, \text{ if } v(p_{v, i}) = T\]
+        By construction the coloring is valid, detailed technicality is ommitted.
+    \end{proof}
+\end{proof}
 
 
 
@@ -1234,6 +1367,7 @@ $'\neg'$ must not be at index 1. Thus $\not \exists \phi \in INDFORM, \phi \in \
 
 
 
+\newpage 
 
 \begin{lemma}[Characterization of Well-Formed Formulae]
 Let $P$ be a set of propositions and $C=\{\neg,\vee\}$.
@@ -1252,7 +1386,45 @@ A property $P(\phi)$ holds for all well-formed formulae if:
   \item $P(\psi)$ implies $P(\neg \psi)$,
   \item $P(\psi_1)$ and $P(\psi_2)$ imply $P(\psi_1 \vee \psi_2)$.
 \end{itemize}
-\newpage 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \section*{Q1}
 \subsection*{1.1}
 \begin{theorem}
@@ -1264,6 +1436,11 @@ A property $P(\phi)$ holds for all well-formed formulae if:
     s(\alpha) = c(\alpha) + 1 .
     \]
 \end{theorem}
+
+
+\begin{proof}
+    
+\end{proof}
 \subsection*{1.2}
 
 \section*{Q2}
