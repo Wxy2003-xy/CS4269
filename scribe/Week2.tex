@@ -2,6 +2,13 @@
 \usepackage[utf8]{inputenc}    
 \usepackage[T1]{fontenc}       
 \usepackage{lmodern}           
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,       % false: boxed links; true: colored links
+    linkcolor=blue,        % color of internal links (sections, etc.)
+    urlcolor=cyan,         % color of external links
+    linktoc=all            % 'all' makes both text and page number clickable
+}
 \usepackage{amsmath}   
 \usepackage{amssymb}   
 \usepackage{geometry}  
@@ -18,6 +25,8 @@
 \usepackage{listings}  
 \usepackage{tikz-cd}
 \usepackage{forest}     
+
+\usepackage{bussproofs}
 \usetikzlibrary{arrows.meta}
 \usetikzlibrary{arrows.meta,decorations.pathreplacing,calc}
 \lstset{frame=tb,
@@ -741,16 +750,139 @@ satisfiable.
         By construction the coloring is valid, detailed technicality is ommitted.
     \end{proof}
 \end{proof}
+\section{Proof System}
+\subsection{Hilbert Style Proof System }
+In HSPS we deal with formulas formed over 
+\[\phi += \]
+Four axiom schema of the hilberts style proof system. Axiom schema means that the $\phi, \psi, \rho$ in these schema are placehoders that 
+can be replaced by any valid formula
+\begin{enumerate}
+
+    \item Axiom 1: Simplification
+    \begin{prooftree}
+        \AxiomC{}
+        \UnaryInfC{$p \to (q \to p)$}
+    \end{prooftree}
+    
+    \item Axiom 2: Distribution
+    \begin{prooftree}
+        \AxiomC{}
+        \UnaryInfC{$(p \to (q \to r)) \to ((p \to q) \to (p \to r))$}
+    \end{prooftree}
+    
+    \item Axiom 3: Double Negation Elimination (DNE)
+    \begin{prooftree}
+        \AxiomC{}
+        \UnaryInfC{$((p \to \bot) \to \bot) \to p$}
+    \end{prooftree}
+    
+    \item Rule of Inference: Modus Ponens
+    \begin{prooftree}
+        \AxiomC{$p \to q$}
+        \AxiomC{$p$}
+        \BinaryInfC{$q$}
+    \end{prooftree}
+\end{enumerate}
+The horizontal lines are judgement lines, which means that whats below can be inferred from whats above. The first 3 rules has no assumptions or 
+premises, meaning they are ways we can introduce arbituary claims or assumption into our proofs. 
+\begin{definition}[Proof]
+    A proof of the consequence of $\phi$ from $\Gamma$ is a finite sequence of formula $c_1, c_2, \dots, c_k$ where 
+    $\forall i \leq k, c_i \in \Gamma$ or, $c_i$ is obtained using one of the 4 axioms:
+    \begin{itemize}
+        \item $\exists j, l < i, c_j \equiv c_l \rightarrow c_i$
+        \item $\exists \phi, \psi, c_i \equiv \phi \rightarrow (\psi \rightarrow \phi)$
+        \item $\exists \phi, \psi, \rho, c_i \equiv [\phi \rightarrow (\psi \rightarrow \rho)] \rightarrow [(\phi \rightarrow \psi) \rightarrow (\phi \rightarrow \rho)]$
+        \item $\exists \phi, c_i \equiv ((\phi \rightarrow \bot) \rightarrow \bot)\rightarrow \phi$
+    \end{itemize}
+\end{definition}
+\begin{definition}[Derivable]
+    $\phi$ is derivable from $\Gamma$ if there is a proof in HSPS of "$\phi$ is a consequence of $\Gamma$"
+    \[\Gamma \vdash \phi\]
+\end{definition}
+\begin{example}
+\[\Gamma = \{p, p\rightarrow q\}, \quad \phi = q\]
+\begin{proof}
+    We can construct proof sequence:
+    \begin{align*}
+        c_1 &= p                && (p \in \Gamma) \\
+        c_2 &= p \to q          && (p \to q \in \Gamma) \\
+        c_3 &= q                && (\text{Modus Ponens on } c_1, c_2)
+    \end{align*}
+\end{proof}
+\end{example}
+Sometimes HSPS requires us to creatively introduce new hypothesis to assist in the proof.
+\begin{example}
+    \[\Gamma = \{\bot\}, \phi = p\]
+    Intuitively this does not sound provable, just from $\bot$, but axioms that require no premises allows us to introduce helper hypothesis. In this case
+    $(p \rightarrow \bot)$
+    \begin{proof}
+        \begin{align*}
+            c_1 &= \bot                && (\bot \in \Gamma) \\
+            c_2 &= \bot \rightarrow [(p\rightarrow \bot) \rightarrow \bot]          && (\text{Axiom 1: Simplification}) \\
+            c_3 &= (p\rightarrow \bot) \rightarrow \bot                && (\text{Modus Ponens on } \bot, (p \rightarrow \bot))\\
+            c_4 &= [(p\rightarrow \bot) \rightarrow \bot] \rightarrow p && (\text{Axiom 3: Double negation})\\
+            c_5 &= p && (\text{Modus Ponens on } c_3 \equiv [(p \rightarrow \bot) \rightarrow \bot], c_4 \equiv ([(p\rightarrow \bot) \rightarrow \bot] \rightarrow p))
+        \end{align*} 
+    \end{proof}
+\end{example}
+As seen from  this example, HSPS can get convoluted and unintuitive for relatively straightforward consequences. 
+\begin{theorem}[Soundness of HSPS]
+    HSPS is sound. 
+    \[\Gamma \vdash \phi \implies \Gamma \models \phi\]
+\end{theorem}
+\begin{proof}
+    Define property $H(i): \forall j\leq i, \Gamma \models c_j$.\\
+    Base case: $i = 1$. Suppose $\Gamma \vdash \phi, \exists \pi = c_1, c_2, \dots, c_k, c_k = \phi$. 
+    By definition, $c_1 \in \Gamma$ or 
+    \begin{itemize}
+        \item $\exists \phi, \psi, c_1 \equiv \phi \rightarrow (\psi \rightarrow \phi)$
+        \item $\exists \phi, \psi, \rho, c_1 \equiv [\phi \rightarrow (\psi \rightarrow \rho)] \rightarrow [(\phi \rightarrow \psi) \rightarrow (\phi \rightarrow \rho)]$
+        \item $\exists \phi, c_1 \equiv ((\phi \rightarrow \bot) \rightarrow \bot)\rightarrow \phi$
+    \end{itemize}
+    Note that Modus Ponens is not possible to yield $c_1$ as we need at least 1 previous formula.\\
+    If $c_1 \in \Gamma, \Gamma \models c_1$; Else, if $c_1$ comes from any other axiom, $c_1$ is valid, i.e. $\forall v, v\models c_1$, therefore $\Gamma \models c_1$
+
+\end{proof}
+
+\begin{theorem}[Completeness of HSPS]
+    HSPS is complete. 
+    \[\Gamma \models \phi \implies \Gamma \vdash \phi\]
+\end{theorem}
+\begin{proof}
+    
+\end{proof}
 
 
 
 
 
-
-
-
-
-
+\subsection{Resolution Proof System}
+\begin{definition}[Clause]
+    For each proposition $p$ define literals $p$ and $\neg p$. A clause $C$ is finite set of literals over the proposition set $P$. 
+    \[v \models C = \{\ell_1, \ell_2, \dots, \ell_k\} \iff \exists j, v\models \ell_j\]
+    As such, a cluase $C$ is satisfiable if $\exists v, v\models C$
+\end{definition}
+Note that from this defintion, an empty clause (an empty set of literals) is not satisfiable, as intuitively, a valuation models a clause if 
+there exists at least one literal in the clause such that $v\models \ell$.
+\begin{definition}[Conjunctive normal form (CNF)]
+A formula $\phi$
+is said to be in Conjunctive Normal Form is 
+\[\phi \equiv \bigwedge_{i=1}^k C_i\]
+\end{definition}
+\subsubsection*{}
+\begin{definition}[Satisfiability of a set of clauses]
+\[\Gamma = \{C_1, C_2, \dots\}\]
+\begin{itemize}
+    \item $\Gamma$ is satisfiable if $\exists v, \forall C\in \Gamma, v\models C$
+    \item $\Gamma$ is unsatisifiable if $\forall v, \exists C\in \Gamma,  v\not \models C$
+\end{itemize}
+\end{definition}
+By this definition,
+\begin{itemize}
+    \item $\Gamma = \emptyset$ is vacuously satisfiable
+    \item $\Gamma = \{\emptyset\}$ is no satisifiale. 
+    \item Any set of clauses that contains the empty set is unsatisfiable
+\end{itemize}
 
 
 
@@ -1434,10 +1566,20 @@ A property $P(\phi)$ holds for all well-formed formulae if:
 
 
 \begin{proof}
-    
+Base case: 
+\[\forall p \in P, s(p) = 1, c(p) = 0\]
+Strong Inductive Hypothesis: Define property $P(\phi)$ as 
+\[P(\phi) \text{ holds } \iff s(\phi) = c(\phi) + 1\]
+Suppose $P(\phi)$, 
+\begin{itemize}
+    \item $(\neg \phi)$ does not add binary connector or proposition, therfore $s((\neg \phi)) = s(\phi), c((\neg \phi)) = c(\phi) \rightarrow P((\neg \phi))$
+    \item $\psi = (\phi_1 \lor \phi_2)$ adds one binary connect, $s(\psi) = s(\phi_1) + s(\phi_2), c(\psi) = c(\phi_1) + c(\phi_2) + 1, s(\psi) = c(\phi_1) + c(\phi_1) +2 = c(\psi) + 1$
+\end{itemize}
 \end{proof}
 \subsection*{1.2}
-
+With only binary connectors, we show by induction: 
+Base: $\forall p\in P, |p| = 1$\\
+Inductive hypothesis: 
 \section*{Q2}
 Recall the following derived connectives:
 \begin{itemize}
@@ -1448,7 +1590,12 @@ Recall the following derived connectives:
 Using structural induction, show that for every formula $\phi$ over $(P,\{\neg,\vee\})$
 with $P\neq\emptyset$, there exists a formula $\psi$ using only connectives
 $\{\bot,\to\}$ such that $\phi$ and $\psi$ are logically equivalent.
-
+\begin{proof}
+    We will show that every formula formed over $\{\neg, \lor\}$ can be formed using $\{\bot, \rightarrow\}$, 
+    and denote the logically equivalent formula using the later connector set from $\phi$ as $\phi'$
+    Base case: $\forall p\in P, p' = p$\\
+    Inductive hypothesis: Suppose 
+\end{proof}
 \section*{Q3}
 
 \begin{definition}[Conjunctive Normal Form]
@@ -1514,28 +1661,69 @@ Prove this lemma.
 Let $G=(V,E)$ be an undirected graph and $k\in\mathbb{N}$.
 Construct a propositional formula $\phi_G$ such that:
 \begin{enumerate}
-  \item $|\phi_G|$ is polynomial in $k+|V|+|E|$,
-  \item $\phi_G$ is satisfiable if and only if $G$ has a vertex cover of size at most $k$.
+  \item $|\phi|$ is polynomial in $k+|V|+|E|$,
+  \item $\phi$ is satisfiable if and only if $G$ has a vertex cover of size at most $k$.
 \end{enumerate}
 Formally prove correctness of the encoding.
-
+\begin{proof}
+Define the proposition set $P:$
+\begin{align*}
+    &P = P_{in} \cup P_{out} \cup P_{count}\\
+    &P_{in} = \{p_{v, in} \mid v \in V\}\\
+    &P_{out} = \{p_{v, out} \mid v \in V\}\\
+    &P_{count} = \{c_{i, j} \mid i,j \in [0, |V|]\}\\
+    &|P| \in O(|V|^2)
+\end{align*}
+There are constraint we need to consider: 
+\subsubsection*{$\forall v \in V, v \in V'$ or $v \in V\setminus V'$}
+\[\phi_{in} = \bigwedge_{v\in V} (p_{v, in} \lor p_{v, out})\]
+\subsubsection*{$\forall v \in V, v \notin V'$ or $v \notin V\setminus V'$}
+\[\phi_{out} = \bigwedge_{v\in V} \neg(p_{v, in}\land p_{v, out})\]
+\subsubsection*{All edges covered}
+\[\phi_e = \bigwedge_{\{u, v\} \in E} (p_{u, in} \lor (p_{v, in}))\]
+\subsubsection*{$|V'| \leq k$}
+We use the following facts to define inductive rules:
+\begin{itemize}
+    \item The number of true proposition is non decreasing as $i$ increases in the sequence $p_1, \dots, p_i. \rightarrow$ if the $c_{i, j}$ is true, 
+    $\forall \ell \geq i, c_{\ell, j}$ is true.
+    \item if the $c_{i, j}$ is false, $\forall \ell \geq j, c_{i, \ell}$ is false
+\end{itemize}
+Inductively define $c_{i, j}$:
+\begin{align*}
+    [c_{i-1, j} \lor (c_{i-1,j-1} \land p_{i, in}) ]  \leftrightarrow c_{i, j}\\
+\end{align*}
+We use bidirectional implication to prevent vacuous truthity of $c_{i, j}$ when conditions do not hold. And the last constraint can be represented by $\neg(c_{|V|, k+1})$\\
+Putting everything together we can encode $k$-vertex cover using 
+\[\phi = \phi_{in} \land \phi_{out} \land \phi_{e} \land (\neg c_{|V|, k+1})\]
+\end{proof}
+\subsubsection*{Correctness of encoding}
+To prove the correctness of the encoding, we will show:
+\begin{theorem}
+    $\phi$ is satisfiable $\rightarrow$ $\exists k$-vertex cover on $G$
+\end{theorem}
+\begin{proof}
+    $\phi$ is satisfiable $\rightarrow \exists v, v\models \phi, \rightarrow$
+    \begin{align*}
+        &v\models \phi_{in}\\
+        &v\models \phi_{out}\\
+        &v\models \phi_e\\
+        &v\models (\neg c_{|V|, k+1})
+    \end{align*}
+    As per construction, this guarentees $\forall v \in V$, $v$ is either in the vertex cover or  exclusively; $\forall e=\{u, v\} \in E$, 
+    either $u$ or $v$ inclusively are in the vertex cover, and the size of the cover is at most $k$
+\end{proof}
+\begin{theorem}
+    $\exists k$-vertex cover on $G \rightarrow \phi$ is satisfiable
+\end{theorem}
+\begin{proof}
+    Suppose $G = (V, E)$ has vertex cover $V' \subseteq V, |V'| \leq k$, let $V'' = V\setminus V', \forall v\in V, v \in V$
+\end{proof}
 \section*{Q8}
 Given a partial $N^2\times N^2$ Sudoku grid $S$, construct a propositional formula $\phi_S$
 of size polynomial in $N^2$ such that $\phi_S$ is satisfiable if and only if
 $S$ has a completion to a valid Sudoku grid. Prove correctness.
 
-\section*{Q9}
-(Extra Credit) Encode the Independent Set problem as propositional logic.
-\begin{enumerate}
-  \item Construct a formula $\phi_{G,k}$ satisfiable iff $G$ has an independent set of size $k$.
-  \item Write $\phi_{G,3}$ explicitly for a given graph on five vertices.
-\end{enumerate}
 
-\section*{Q10}
-(Extra Credit) Implement a solver for Independent Set using a SAT solver as an oracle.
-The program should read a graph and $k$, construct $\phi_{G,k}$, and determine satisfiability.
-
-\newpage
 \section*{Background: Compactness}
 
 \begin{definition}[Satisfiable]
@@ -1552,8 +1740,13 @@ A set $\Gamma$ of propositional formulae is satisfiable if and only if it is fin
 \end{theorem}
 
 \section*{Q11}
-Prove that if $\Gamma$ is satisfiable, then $\Gamma$ is finitely satisfiable.
-
+\begin{lemma}\label{lem:forwardc}
+    If $\Gamma$ is satisfiable, then $\Gamma$ is finitely satisfiable.    
+\end{lemma}
+\begin{proof}
+    $\Gamma$ is satisfiable $\implies \exists v, \forall \phi \in \Gamma, v\models \phi$\\
+    $\forall$ finite subset $\Gamma' \subseteq \Gamma, \forall \psi \in \Gamma', \psi \in \Gamma \implies \forall \Gamma' \subseteq \Gamma, \forall \psi \in \Gamma;, v\models \psi$
+\end{proof}
 \section*{Q12}
 
 \begin{definition}[$P$-complete]
@@ -1570,22 +1763,115 @@ If $\Gamma$ is finitely satisfiable and $P$-complete, then $\Gamma$ is $P$-consi
 
 \begin{enumerate}
   \item Prove the lemma.
-  \item Give examples as requested in the handout.
 \end{enumerate}
-
+\begin{proof}
+    Suppose otherwise, $\Gamma$ is P-complete, finitely satisfiable and NOT P-consistent,
+    $\exists $finite set $\Gamma' \subseteq \Gamma, \exists p \in P, p \in \Gamma', (\neg p) \in \Gamma' \implies \Gamma' $ is not satisfiable,
+    a contradiction. 
+\end{proof}
+\subsection*{12.2}
+\begin{itemize}
+    \item $P = \{p, \}$
+    \item $\Gamma = \emptyset$
+\end{itemize}
+\subsection*{12.3}
+\begin{itemize}
+    \item $P = \{p\}$
+    \item $\Gamma = \{(\neg (p \lor (\neg p)))\}$
+\end{itemize}
+\subsection*{12.4}
+I cannot
 \section*{Q13}
 Let $\Gamma$ be finitely satisfiable and let $\phi$ be a formula.
 \begin{enumerate}
   \item Prove that at least one of $\Gamma\cup\{\phi\}$ or $\Gamma\cup\{\neg\phi\}$ is finitely satisfiable.
   \item Give examples as requested.
 \end{enumerate}
+\begin{lemma}\label{lem:atleastone_finsat}
+    at least one of $\Gamma\cup\{\phi\}$ or $\Gamma\cup\{\neg\phi\}$ is finitely satisfiable.
+\end{lemma}
+\begin{proof}
+    We will prove the contrapositive of this statement: if neither $\Gamma \cup \{\phi\}$ nor $\Gamma \cup \{(\neg \phi)\}$
+    is satisfiable, $\Gamma$ is not finitely satisfiable.
+    Consider finite subset $\Gamma_1, \Gamma_2 \subseteq \Gamma$, and $\phi \in FORM, \Gamma_1 \cup \{\phi\}$ and $\Gamma_2 \cup \{(\neg \phi)\}$
+    are both not satisfiable, $\forall v, v\not \models (\Gamma_1\cup \{\phi\}) \implies v\not \models \Gamma_1$ 
+    or $v \not \models \phi$, and $\forall v, v\not\models (\Gamma_2\cup \{(\neg \phi)\}) \implies v\not\models \Gamma_2$ or $v\not \models (\neg \phi)$\\
+    Rewrite with respect to the set of all valuations, define 
+    \begin{itemize}
+        \item $V_1 = \{v: P \mapsto \{T, F\} \mid v\models \Gamma_1\}$
+        \item $V_2 = \{v: P \mapsto \{T, F\} \mid v\models \Gamma_2\}$
+        \item $V_\phi = \{v: P \mapsto \{T, F\} \mid v\models \{\phi\}\}$
+        \item $V_{(\neg \phi)} = \{v: P \mapsto \{T, F\} \mid v\not\models \{\phi\}\}$
+    \end{itemize}
+    \[V_1 \cap V_\phi = \emptyset \implies \forall v \in V_1, v\not \models \phi \implies v\models (\neg \phi) \implies V_1 \subseteq V_{(\neg \phi)}\]
+    \[V_2 \cap V_{(\neg \phi)} = \emptyset \implies \forall v \in V_2, v \not\models (\neg \phi) \implies v\models \phi \implies V_2 \subseteq V_{\phi}\]
+    Now consider also a finite subset to $\Gamma, \Gamma_1 \cup \Gamma_2$, define 
+    \begin{itemize}
+        \item $V_\cup = \{v:P\mapsto \{T, F\} \mid v\models (\Gamma_1\cup \Gamma_2)\}$
+    \end{itemize}
+    $V_\cup = (V_1 \cap V_2) \subseteq (V_{\phi}\cup V_{(\neg \phi)}) = \emptyset\implies \not \exists v, v\models (\Gamma_1 \cup \Gamma_2) \implies \Gamma$ is not finitely satisfiable.
+\end{proof}
+\subsection*{13.2}
+\begin{itemize}
+    \item $\Gamma = \{p\}, \phi = q$
+\end{itemize}
+\subsection*{13.3}
+\begin{itemize}
+    \item $\Gamma = \{p, (\neg q)\}, \phi = q$
+\end{itemize}
+\section*{Q14, 15}
+Let $P=\{p_1,p_2,\dots\}$ and define $\Gamma_0,\Gamma_1,\dots$
+\begin{lemma}\label{lem:unionfinsat}
+    $\Gamma_U=\bigcup_{i\ge0}\Gamma_i$ is finitely satisfiable.
+\end{lemma}
+\begin{lemma}
+    \[\forall i \geq 0, \Gamma_i \text{ is fintiely satisfiable }\] 
+\end{lemma}
+\begin{proof}
+    Base case: $i=0,\Gamma_i = \Gamma_0 = \Gamma$ is finitely satisfiable by definition.\\
+    Inductive Hypothesis: $\Gamma_n $ is finitely satisfiable. By Lemma \ref{lem:atleastone_finsat}, 
+    $\Gamma_n \cup \{p_n\}$ is finitely satisfiable or $\Gamma_n \cup \{(\neg p_n)\}$ is finitely satisfiable.
+\end{proof}
 
-\section*{Q14}
-Let $P=\{p_1,p_2,\dots\}$ and define $\Gamma_0,\Gamma_1,\dots$ as in the handout.
-Prove that $\Delta=\bigcup_{i\ge0}\Gamma_i$ is finitely satisfiable.
+\begin{proof}
+    Consider finite set $\Gamma' \subseteq \Gamma_U$, since $\Gamma'$ is finite, and $\forall k\geq 0, \Gamma_k \subseteq \Gamma_{k+1}$ by definition,
+    $\exists j \geq 0, \Gamma' \subseteq \Gamma_j = \bigcup_{i\geq 0}^j \Gamma_i$. By Lemma~\ref{lem:forwardc}, $\Gamma_j$ is satisfiable $\rightarrow \Gamma'$ is finitely satisfiable.
+\end{proof}
 
-\section*{Q15}
-Prove that if $\Gamma$ is finitely satisfiable, then $\Gamma$ is satisfiable.
+\begin{proof}
+    From the construction, $\forall i \geq 0$ at least one of $p_i$ and $(\neg p_i)$ is in $\bigcup_{i\geq 0} \Gamma_i$. Since $\bigcup_{i\geq 0} \Gamma_i$ is finitely satisfiable, 
+    $\forall i \geq 0, p_i$ and $(\neg p_i)$ cannot both be in $\bigcup_{i\geq 0} \Gamma_i$. Otherwise $\{p_i\} \cup \{(\neg p_1)\} \subseteq \bigcup_{i\geq 0} \Gamma_i$ is not satisfiable, contradiction.
+\end{proof}
+Now we have proven that the construction proposed from a finitely satisfiable formula set $\Gamma$ to $\bigcup_{i\geq 0} \Gamma_i$ is also finitely satisfiable. Now to complete the proof of
+the compactness theorem, we need to prove that $\exists v, v\models \Gamma$.
+\begin{proof}
+    From Lemma~\ref{lem:unionfinsat}, 
+    $\forall i\geq 0, (p_i \in \Gamma_U) 
+    \oplus ((\neg p_i) \in \Gamma_U)$, $\exists v, v \models \Gamma_U$
+    \[v(p):P \mapsto \{T, F\} = \begin{cases}
+        T, \text{ if } p \in \Gamma_U\\
+        F, \text{ if } (\neg p) \in \Gamma_U
+    \end{cases}\]
+    Define the literal set $Literals = \{p_i, (\neg p_i) \mid i \geq 0\}$, 
+    and function 
+    \[\tau(p): P \mapsto Literals = \begin{cases}
+        p, \text{ if } p \in \Gamma_U\\
+        (\neg p), \text{ if } (\neg p) \in \Gamma_U
+    \end{cases}\]
+    \begin{lemma}
+        \[v\models \Gamma_U \rightarrow v \models \tau(\Gamma)\]
+    \end{lemma}
+    Let $\phi \in \Gamma$, Define literal set $X = \{\tau(p) \mid p \in OCCUR(\phi)\}$
+    where $X$ is a set containing single proposition literals. 
+    By definition we have 
+    \[X \subseteq \Gamma_U \rightarrow v \models X \rightarrow \forall \psi \in X, v(\psi) = T\]
+    and $OCCUR(X) = OCCUR(\phi)$
+    Since both $X$ is finite, $X \cup \{\phi\}$ is a finite subset to $\Gamma_U$, thus satisfiable. 
+    $\rightarrow \exists v', v' \models X\cup \{\phi\} \rightarrow v' \models X, v' \models \phi \rightarrow
+    \forall \psi \in X, v'(\psi) = T$. 
+    \[\forall p \in OCCUR(\phi), v(p) = v'(p), v' \models \phi \rightarrow v\models \phi\]
+\end{proof}
+
 
 \section*{Q16}
 Solve Questions 10 and 11 on page 53 (end of Section 1.5) in

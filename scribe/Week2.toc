@@ -1,20 +1,23 @@
-\contentsline {section}{\numberline {1}Syntax}{2}{}%
-\contentsline {subsection}{\numberline {1.1}Well-formed Formula (WFF)}{2}{}%
-\contentsline {subsection}{\numberline {1.2}Closed Set}{2}{}%
-\contentsline {subsubsection}{\numberline {1.2.1}All Closed Set}{2}{}%
-\contentsline {subsection}{\numberline {1.3}FORM is the minimum of the set of Closed}{3}{}%
-\contentsline {subsection}{\numberline {1.4}Subformula}{4}{}%
-\contentsline {section}{\numberline {2}Sematics}{4}{}%
-\contentsline {subsection}{\numberline {2.1}Truth Assignment/Proposition evaluation}{4}{}%
-\contentsline {subsection}{\numberline {2.2}Entail/Model}{4}{}%
-\contentsline {subsubsection}{\numberline {2.2.1}Valuation and Model}{5}{}%
-\contentsline {subsubsection}{\numberline {2.2.2}Logical Equivalence}{5}{}%
-\contentsline {subsection}{\numberline {2.3}Satisfiability of Formula}{5}{}%
-\contentsline {subsubsection}{\numberline {2.3.1}Valid formula(tautology)}{5}{}%
-\contentsline {subsection}{\numberline {2.4}Satisfiability of a set of formula}{5}{}%
-\contentsline {subsubsection}{\numberline {2.4.1}Relevance}{6}{}%
-\contentsline {subsubsection}{\numberline {2.4.2}Logical consequence}{6}{}%
-\contentsline {subsection}{\numberline {2.5}Modelling Computations as Propositional Logic}{7}{}%
-\contentsline {section}{\numberline {3}Compactness Theorem}{8}{}%
-\contentsline {subsection}{\numberline {3.1}Application of the Compactness theorem for proposition logics}{12}{}%
-\contentsline {paragraph}{Structural Induction Principle.}{27}{}%
+\contentsline {section}{\numberline {1}Syntax}{2}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Well-formed Formula (WFF)}{2}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Closed Set}{2}{subsection.1.2}%
+\contentsline {subsubsection}{\numberline {1.2.1}All Closed Set}{2}{subsubsection.1.2.1}%
+\contentsline {subsection}{\numberline {1.3}FORM is the minimum of the set of Closed}{3}{subsection.1.3}%
+\contentsline {subsection}{\numberline {1.4}Subformula}{4}{subsection.1.4}%
+\contentsline {section}{\numberline {2}Sematics}{4}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Truth Assignment/Proposition evaluation}{4}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Entail/Model}{4}{subsection.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.1}Valuation and Model}{5}{subsubsection.2.2.1}%
+\contentsline {subsubsection}{\numberline {2.2.2}Logical Equivalence}{5}{subsubsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.3}Satisfiability of Formula}{5}{subsection.2.3}%
+\contentsline {subsubsection}{\numberline {2.3.1}Valid formula(tautology)}{5}{subsubsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.4}Satisfiability of a set of formula}{5}{subsection.2.4}%
+\contentsline {subsubsection}{\numberline {2.4.1}Relevance}{6}{subsubsection.2.4.1}%
+\contentsline {subsubsection}{\numberline {2.4.2}Logical consequence}{6}{subsubsection.2.4.2}%
+\contentsline {subsection}{\numberline {2.5}Modelling Computations as Propositional Logic}{7}{subsection.2.5}%
+\contentsline {section}{\numberline {3}Compactness Theorem}{8}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Application of the Compactness theorem for proposition logics}{12}{subsection.3.1}%
+\contentsline {section}{\numberline {4}Proof System}{13}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Hilbert Style Proof System }{13}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Resolution Proof System}{15}{subsection.4.2}%
+\contentsline {paragraph}{Structural Induction Principle.}{29}{section*.49}%
