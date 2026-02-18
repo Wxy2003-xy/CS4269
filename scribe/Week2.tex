@@ -1564,20 +1564,20 @@ A property $P(\phi)$ holds for all well-formed formulae if:
     \]
 \end{theorem}
 \begin{proof}
-\textbf{Base Case:} Let $\alpha = p$ for some proposition $p \in \mathcal{P}$.
+\subsubsection*{Base Case:} Let $\alpha = p$ for some proposition $p \in \mathcal{P}$.
 \begin{itemize}
     \item $s(p) = 1$ and $c(p) = 0$.
     \item Since $1 = 0 + 1$, $P(p)$ holds for all atomic propositions.
 \end{itemize}
 
-\textbf{Inductive Case 1 (Negation):} Assume $P(\psi)$ holds, i.e., $s(\psi) = c(\psi) + 1$. Let $\alpha = (\neg \psi)$.
+\subsubsection*{Inductive Case 1 (Negation):} Suppose $P(\psi)$ holds, i.e., $s(\psi) = c(\psi) + 1$. Let $\alpha = (\neg \psi)$.
 \begin{itemize}
-    \item $s(\neg \psi) = s(\psi)$ because no new sentence symbols are added.
-    \item $c(\neg \psi) = c(\psi)$ because $\neg$ is a unary, not binary, connective.
+    \item $s(\neg \psi) = s(\psi)$ no new sentence symbols are added.
+    \item $c(\neg \psi) = c(\psi)$ $\neg$ not binary connective.
     \item Thus, $s(\alpha) = s(\psi) = c(\psi) + 1 = c(\alpha) + 1$. $P(\alpha)$ holds.
 \end{itemize}
 
-\textbf{Inductive Case 2 (Binary Connectives):} Assume $P(\psi_1)$ and $P(\psi_2)$ hold. Let $\alpha = (\psi_1 c \psi_2)$ where $c \in \{\lor, \to\}$.
+\subsubsection*{Inductive Case 2 (Binary Connectives):} Suppose $P(\psi_1)$ and $P(\psi_2)$ hold. Let $\alpha = (\psi_1 c \psi_2)$ where $c \in \{\lor, \to\}$.
 \begin{itemize}
     \item $s(\alpha) = s(\psi_1) + s(\psi_2)$ (sum of occurrences in sub-formulae).
     \item $c(\alpha) = c(\psi_1) + c(\psi_2) + 1$ (sum of binary connectives plus the new $\star$).
@@ -1586,12 +1586,42 @@ A property $P(\phi)$ holds for all well-formed formulae if:
     \item Therefore, $s(\alpha) = c(\alpha) + 1$. $P(\alpha)$ holds.
 \end{itemize}
 
-By structural induction, the property holds for all well-formed formulae.
 \end{proof}
 \subsection*{1.2}
-With only binary connectors, we show by induction: 
-Base: $\forall p\in P, |p| = 1$\\
-Inductive hypothesis: 
+
+We define the property $P(\alpha)$ as follows: the length of $\alpha$, denoted $L(\alpha)$, 
+is of the form $4k + 1$ and the number of sentence symbols, $s(\alpha)$, is $k+1$ for some $k \in \mathbb{N}$
+
+\begin{proof}
+\subsubsection*{Base Case:} Let $\alpha = p$ for some proposition $p \in \mathcal{P}$
+\begin{itemize}
+    \item The length $L(p) = 1 = 4\cdot 0 + 1$
+    \item The number of sentence symbols $s(p) = 1$
+    \item Thus, $P(p)$ holds.
+\end{itemize}
+
+\subsubsection*{Inductive Case:} Suppose $P(\psi_1)$ and $P(\psi_2)$ hold
+Then $L(\psi_1) = 4k_1 + 1$ and $s(\psi_1) = k_1 + 1$.
+Also $L(\psi_2) = 4k_2 + 1$ and $s(\psi_2) = k_2 + 1$.
+Let $\alpha = (\psi_1 c \psi_2)$ where $c$ is a binary connective
+
+\subsubsection*{Length of $\alpha$:}
+\begin{itemize}
+    \item The string $\alpha$ consists of: one left parenthesis, $\psi_1$, one binary connective, $\psi_2$, and one right parenthesis
+    \item $L(\alpha) = 1 + L(\psi_1) + 1 + L(\psi_2) + 1$.
+    \item $L(\alpha) = 3 + (4k_1 + 1) + (4k_2 + 1) = 4k_1 + 4k_2 + 5$.
+    \item $L(\alpha) = 4(k_1 + k_2 + 1) + 1$.
+    \item Let $k = k_1 + k_2 + 1$, we see $L(\alpha) = 4k + 1$, odd
+\end{itemize}
+
+\subsubsection*{Number of sentence symbols:}
+\begin{itemize}
+    \item $s(\alpha) = s(\psi_1) + s(\psi_2) = (k_1 + 1) + (k_2 + 1) = k_1 + k_2 + 2$.
+    \item Using $k = k_1 + k_2 + 1$ from above, $s(\alpha) = (k_1 + k_2 + 1) + 1 = k + 1$
+    \item $k + 1 = \frac{4k + 4}{4} > \frac{4k + 1}{4}$
+\end{itemize}
+
+\end{proof}
 \section*{Q2}
 Recall the following derived connectives:
 \begin{itemize}
@@ -1604,9 +1634,22 @@ with $P\neq\emptyset$, there exists a formula $\psi$ using only connectives
 $\{\bot,\to\}$ such that $\phi$ and $\psi$ are logically equivalent.
 \begin{proof}
     We will show that every formula formed over $\{\neg, \lor\}$ can be formed using $\{\bot, \rightarrow\}$, 
-    and denote the logically equivalent formula using the later connector set from $\phi$ as $\phi'$
-    Base case: $\forall p\in P, p' = p$\\
-    Inductive hypothesis: Suppose 
+    and denote the logically equivalent formula using the later connector set from $\phi$ as $\psi$
+    Define property $P(\phi)$ as follows: there exists a logically equivalant formula over $P$ using the connector set $\{\bot, \rightarrow\}$.
+    \subsubsection*{Base Case:}
+    \begin{itemize}
+        \item $\forall \phi = p \in P, \psi = p$
+    \end{itemize}
+    \subsubsection*{Inductive Case 1:} Suppose $P(\phi)$ for some formula, $\exists \psi \equiv \phi$
+    \begin{itemize}
+        \item $(\neg \phi) = (\neg \phi) \lor ((\neg \phi) \lor (\neg \phi))) = \phi \rightarrow \bot = \psi \rightarrow \bot$ 
+    \end{itemize}
+    \subsubsection*{Inductive Case 2:}Suppose $P(\phi_1), P(\phi_2)$for some formula, $\exists \psi_1 \equiv \phi_1, \psi_2 \equiv \phi_2$
+    \begin{itemize}
+        \item $(\phi_1 \lor \phi_2) = ((\neg (\neg \phi_1)) \lor \phi_2) = ((\neg \phi_1) \rightarrow \phi_2)$
+        \item From inductive case 1, $((\neg \phi_1) \rightarrow \phi_2) = ((\phi_1 \rightarrow \bot) \rightarrow \phi_2) = ((\psi_1 \rightarrow \bot) \rightarrow \psi_2)$
+    \end{itemize}
+
 \end{proof}
 \section*{Q3}
 
@@ -1624,12 +1667,18 @@ and each literal $\ell_{i,j}$ is either $p$ or $\neg p$ for some $p\in P$.
 
 Using structural induction, show that for every well-formed formula $\phi$,
 there exists a logically equivalent formula $\psi$ in CNF.
-
+\begin{proof}
+    Define property $P(\phi)$ to be there exists a CNF$\psi$  that is logically equivalent to $\phi$
+    \subsubsection*{Base Case:}
+    \begin{itemize}
+        \item 
+    \end{itemize}
+\end{proof}
 \section*{Q4}
 
 \begin{definition}[Occurs]
 Define $\mathrm{occurs}:\mathrm{FORM}\to\mathcal{P}(P)$ inductively by:
-\begin{itemize}[leftmargin=2em]
+\begin{itemize}
   \item If $\phi=p\in P$, then $\mathrm{occurs}(\phi)=\{p\}$,
   \item If $\phi=\neg\psi$, then $\mathrm{occurs}(\phi)=\mathrm{occurs}(\psi)$,
   \item If $\phi=\psi_1\oplus\psi_2$ with $\oplus\in\{\wedge,\vee\}$, then

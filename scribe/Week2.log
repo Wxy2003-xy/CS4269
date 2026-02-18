@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.2.18)  18 FEB 2026 00:43
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.2.18)  18 FEB 2026 16:37
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -917,7 +917,7 @@ Overfull \hbox (48.2036pt too wide) detected at line 1482
 \OT1/lmr/m/n/10 (\OML/lmm/m/it/10 ^^^ \OMS/lmsy/m/n/10 2 f\OT1/lmr/m/n/10 (\OMS/lmsy/m/n/10 :\OML/lmm/m/it/10  \OT1/lmr/m/n/10 ) \OMS/lmsy/m/n/10 j \OML/lmm/m/it/10   \OMS/lmsy/m/n/10 2 \OML/lmm/m/it/10 ExFORM[]\OMS/lmsy/m/n/10 g\OT1/lmr/m/n/10 ) \OMS/lmsy/m/n/10 ^^H \OT1/lmr/m/n/10 (\OML/lmm/m/it/10 ^^^ \OMS/lmsy/m/n/10 2 f\OT1/lmr/m/n/10 (\OML/lmm/m/it/10  [] \OMS/lmsy/m/n/10 _ \OML/lmm/m/it/10  []\OT1/lmr/m/n/10 ) \OMS/lmsy/m/n/10 j \OML/lmm/m/it/10  [] \OMS/lmsy/m/n/10 2 \OML/lmm/m/it/10 ExFORM[]; \OMS/lmsy/m/n/10 9\OML/lmm/m/it/10 j \OMS/lmsy/m/n/10 ^^T \OML/lmm/m/it/10 x \OMS/lmsy/m/n/10 ^^@ \OT1/lmr/m/n/10 1\OML/lmm/m/it/10 ;  [] \OMS/lmsy/m/n/10 2 \OML/lmm/m/it/10 ExFORM[]\OMS/lmsy/m/n/10 g\OT1/lmr/m/n/10 )
  []
 
-[28] [29] [30] [31] [32] [33] [34] [35] (./Week2.aux)
+[28] [29] [30] [31] [32] [33] [34] [35] [36] (./Week2.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
@@ -926,18 +926,18 @@ Package rerunfilecheck Info: File `Week2.out' has not changed.
 (rerunfilecheck)             Checksum: 013EA44EBA3EB8443CD7EFC836F6E23A;3921.
  ) 
 Here is how much of TeX's memory you used:
- 35239 strings out of 476106
- 766069 string characters out of 5793933
+ 35251 strings out of 476106
+ 766197 string characters out of 5793933
  1964975 words of memory out of 5000000
  56417 multiletter control sequences out of 15000+600000
  635690 words of font info for 95 fonts, out of 8000000 for 9000
  59 hyphenation exceptions out of 8191
  98i,16n,101p,1613b,929s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texmf/fonts/type1/public/lm/lmbx10.pfb></usr/share/texmf/fonts/type1/public/lm/lmbx12.pfb></usr/share/texmf/fonts/type1/public/lm/lmbxi10.pfb></usr/share/texmf/fonts/type1/public/lm/lmex10.pfb></usr/share/texmf/fonts/type1/public/lm/lmmi10.pfb></usr/share/texmf/fonts/type1/public/lm/lmmi5.pfb></usr/share/texmf/fonts/type1/public/lm/lmmi7.pfb></usr/share/texmf/fonts/type1/public/lm/lmmi9.pfb></usr/share/texmf/fonts/type1/public/lm/lmr10.pfb></usr/share/texmf/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf/fonts/type1/public/lm/lmr17.pfb></usr/share/texmf/fonts/type1/public/lm/lmr5.pfb></usr/share/texmf/fonts/type1/public/lm/lmr7.pfb></usr/share/texmf/fonts/type1/public/lm/lmr9.pfb></usr/share/texmf/fonts/type1/public/lm/lmri10.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy10.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy5.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/rsfs/rsfs10.pfb>
-Output written on Week2.pdf (35 pages, 439981 bytes).
+Output written on Week2.pdf (36 pages, 443097 bytes).
 PDF statistics:
- 703 PDF objects out of 1000 (max. 8388607)
- 614 compressed objects within 7 object streams
- 277 named destinations out of 1000 (max. 500000)
+ 721 PDF objects out of 1000 (max. 8388607)
+ 631 compressed objects within 7 object streams
+ 289 named destinations out of 1000 (max. 500000)
  189 words of extra memory for PDF output out of 10000 (max. 10000000)
 
