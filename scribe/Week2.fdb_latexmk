@@ -1,7 +1,7 @@
 # Fdb version 4
-["pdflatex"] 1771403825.76488 "/home/wxy/Desktop/CS4269/scribe/Week2.tex" "Week2.pdf" "Week2" 1771403826.32572 0
+["pdflatex"] 1771416637.16436 "/home/wxy/Desktop/CS4269/scribe/Week2.tex" "Week2.pdf" "Week2" 1771416637.73716 0
   "/etc/texmf/web2c/texmf.cnf" 1755103353.17925 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/wxy/Desktop/CS4269/scribe/Week2.tex" 1771403825.63189 87900 72a510dcbbfdc8f265a28c8ae56f9eb0 ""
+  "/home/wxy/Desktop/CS4269/scribe/Week2.tex" 1771416637.03774 96269 e81fd15bb675489feebca670159f4a1c ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/ecrm1000.tfm" 1136768653 3584 adb004a0c8e7c46ee66cad73671f37b4 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm" 1246382020 916 f87d7c45f9c908e672703b83b72241a3 ""
@@ -254,10 +254,10 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1771345643.99582 165012 f177baa1c39a3ebd62c3096a43521a0d ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1771345657 6831124 0214801c95b770bc99442830d1e64ed0 ""
-  "Week2.aux" 1771403826.27152 3930 789fe01c4c6f2915338bee6b79e96227 "pdflatex"
-  "Week2.out" 1771403826.27252 3921 013ea44eba3eb8443cd7efc836f6e23a "pdflatex"
-  "Week2.tex" 1771403825.63189 87900 72a510dcbbfdc8f265a28c8ae56f9eb0 ""
-  "Week2.toc" 1771403826.27353 2053 73f542cda534097208dd0734787f606f "pdflatex"
+  "Week2.aux" 1771416637.68239 3930 b4119150c3d43d0d4ef057f5350561d9 "pdflatex"
+  "Week2.out" 1771416637.68339 3921 013ea44eba3eb8443cd7efc836f6e23a "pdflatex"
+  "Week2.tex" 1771416637.03774 96269 e81fd15bb675489feebca670159f4a1c ""
+  "Week2.toc" 1771416637.68456 2053 73f542cda534097208dd0734787f606f "pdflatex"
   (generated)
   "Week2.aux"
   "Week2.log"

@@ -1668,56 +1668,119 @@ and each literal $\ell_{i,j}$ is either $p$ or $\neg p$ for some $p\in P$.
 Using structural induction, show that for every well-formed formula $\phi$,
 there exists a logically equivalent formula $\psi$ in CNF.
 \begin{proof}
-    Define property $P(\phi)$ to be there exists a CNF$\psi$  that is logically equivalent to $\phi$
-    \subsubsection*{Base Case:}
+    Define property $P(\phi)$ to be there exists a CNF $\psi$  that is logically equivalent to $\phi$
+    \subsubsection*{Base Case:} $\phi = p$.
+    An atomic proposition $p$ is a clause containing a single literal. A single clause is, by definition, a CNF. Thus, $P(p)$ holds.
+
+    \subsubsection*{Inductive Case 1 $\neg$:} Assume $P(\phi)$ holds.
+    If $\phi$ has a CNF, we can first convert $\neg \phi$ into NNF \href{https://en.wikipedia.org/wiki/Negation_normal_form}{https://en.wikipedia.org/wiki/Negation\_normal\_form}
     \begin{itemize}
-        \item 
+        \item $\neg(A \wedge B) \equiv \neg A \vee \neg B$
+        \item $\neg(A \vee B) \equiv \neg A \wedge \neg B$
+        \item $\neg \neg A \equiv A$
+    \end{itemize}
+
+    \subsubsection*{Inductive Case 2 $\lor$:} Assume $P(\phi_1)$ and $P(\phi_2)$ hold.
+    Let $\psi_1 = \bigwedge_{i} C_i$ and $\psi_2 = \bigwedge_{j} D_j$ be CNFs.
+    \begin{itemize}
+        \item $\phi_1 \vee \phi_2 \equiv (\bigwedge_{i} C_i) \vee (\bigwedge_{j} D_j)$.
+        \item By the Distributive Law ($A \vee (B \wedge C) \equiv (A \vee B) \wedge (A \vee C)$), we distribute the $\lor$ over the $\land$:
+        \item $\phi_1 \vee \phi_2 \equiv \bigwedge_{i} \bigwedge_{j} (C_i \vee D_j)$.
+        \item Since the disjunction of two clauses $C_i \vee D_j$ is also a clause, the final expression is a CNF.
     \end{itemize}
 \end{proof}
 \section*{Q4}
 
 \begin{definition}[Occurs]
-Define $\mathrm{occurs}:\mathrm{FORM}\to\mathcal{P}(P)$ inductively by:
+Define $OCCUR:\mathrm{FORM}\to\mathcal{P}(P)$ inductively by:
 \begin{itemize}
-  \item If $\phi=p\in P$, then $\mathrm{occurs}(\phi)=\{p\}$,
-  \item If $\phi=\neg\psi$, then $\mathrm{occurs}(\phi)=\mathrm{occurs}(\psi)$,
+  \item If $\phi=p\in P$, then $OCCUR(\phi)=\{p\}$,
+  \item If $\phi=\neg\psi$, then $OCCUR(\phi)=OCCUR(\psi)$,
   \item If $\phi=\psi_1\oplus\psi_2$ with $\oplus\in\{\wedge,\vee\}$, then
-  $\mathrm{occurs}(\phi)=\mathrm{occurs}(\psi_1)\cup\mathrm{occurs}(\psi_2)$.
+  $OCCUR(\phi)=OCCUR(\psi_1)\cup OCCUR(\psi_2)$.
 \end{itemize}
 \end{definition}
 
 \begin{lemma}[Relevance Lemma]
 Let $\phi$ be a propositional formula and let $v_1,v_2:P\to\{\mathrm{true},\mathrm{false}\}$
-be valuations such that $v_1(p)=v_2(p)$ for all $p\in\mathrm{occurs}(\phi)$.
+be valuations such that $v_1(p)=v_2(p)$ for all $p\in OCCUR(\phi)$.
 Then $v_1\models\phi$ if and only if $v_2\models\phi$.
 \end{lemma}
 
 Prove this lemma using structural induction.
+\begin{proof}
+We define the property $P(\phi)$ as: for any $v_1, v_2$, if $v_1(p) = v_2(p)$ $\forall p \in OCCUR(\phi)$, $v_1 \models \phi \iff v_2 \models \phi$. 
+\subsubsection*{Base Case:} $\phi = p$ for some $p \in P$
+\begin{itemize}
+    \item $OCCUR(p) = \{p\}$,  $v_1(p) = v_2(p)$
+    \item $v_1 \models p \iff v_1(p) = \text{true}$ and $v_2 \models p \iff v_2(p) = \text{true}$
+    \item $v_1(p) = v_2(p)$, $v_1 \models p \iff v_2 \models p$
+\end{itemize}
 
+\subsubsection*{Inductive Step 1 (negation):} Assume $P(\psi)$ holds. Let $\phi = \neg \psi$.
+\begin{itemize}
+    \item $OCCUR(\phi) = OCCUR(\psi)$, $v_1 \models \psi \iff v_2 \models \psi$
+    \item $v_1 \models \neg \psi \iff v_1 \not\models \psi$ and $v_2 \models \neg \psi \iff v_2 \not\models \psi$
+    \item Since the truth values of $\psi$ are the same, so do their negation. 
+\end{itemize}
+\subsubsection*{Inductive Step 2 (Binary connective):} Assume $P(\psi_1)$ and $P(\psi_2)$ hold. 
+\begin{itemize}
+    \item Let $\phi = \psi_1 \oplus \psi_2$ for $\oplus \in \{\land, \lor\}$
+    \item $OCCUR(\phi) = OCCUR(\psi_1) \cup OCCUR(\psi_2)$, if $v_1, v_2$ agree on $OCCUR(\phi)$, they agree on both $OCCUR(\psi_1)$ and $OCCUR(\psi_2)$
+    \item  $v_1 \models \psi_1 \iff v_2 \models \psi_1$ and $v_1 \models \psi_2 \iff v_2 \models \psi_2$
+    \item the satisfaction of $\psi_1 \oplus \psi_2$ depends only on the truth values of $\psi_1$ and $\psi_2$, and those values are the same for $v_1$ and $v_2$, thus $v_1 \models \phi \iff v_2 \models \phi$
+\end{itemize}
+
+\end{proof}
 \section*{Q5}
 
 \begin{lemma}[Generalized Relevance Lemma]
 Let $\phi$ be a propositional formula and let $v_1,v_2$ be valuations such that
-$v_1(p)=v_2(p)$ for all $p$ in some set $S\supseteq\mathrm{occurs}(\phi)$.
+$v_1(p)=v_2(p)$ for all $p$ in some set $S\supseteq OCCUR(\phi)$.
 Then $v_1\models\phi$ if and only if $v_2\models\phi$.
 \end{lemma}
 
 Prove this lemma.
-
+\begin{proof}
+Let $\phi$ be a formula and $S$ be a set such that $S \supseteq OCCUR(\phi)$.
+Suppose $v_1(p) = v_2(p) \forall p \in S$.
+Since $S$ contains all elements of $OCCUR(\phi)$, the condition $v_1(p) = v_2(p) \forall p \in S \implies v_1(p) = v_2(p) \forall p \in OCCUR(\phi)$.
+By the Relevance lemma, if $v_1$ and $v_2$ agree on $\forall p \in OCCUR(\phi)$, then $v_1 \models \phi \iff v_2 \models \phi$.
+\end{proof}
 \section*{Q6}
 
 \begin{lemma}[Relevance Lemma for Logical Equivalence]
 Let $\phi_1,\phi_2$ be propositional formulae. The following are equivalent:
-\begin{itemize}[leftmargin=2em]
+\begin{itemize}
   \item For all valuations $v_1,v_2$ agreeing on
-  $\mathrm{occurs}(\phi_1)\cup\mathrm{occurs}(\phi_2)$,
+  $OCCUR(\phi_1)\cup OCCUR(\phi_2)$,
   we have $v_1\models\phi_1$ iff $v_2\models\phi_2$.
   \item $\phi_1$ and $\phi_2$ are logically equivalent.
 \end{itemize}
 \end{lemma}
 
 Prove this lemma.
+\begin{proof}
+We prove the equivalence of the two statements by showing both implications.
 
+($\Leftarrow$) Suppose $\phi_1$ and $\phi_2$ are logically equivalent. $\forall v$, $v \models \phi_1 \iff v \models \phi_2$.
+Consider $v_1, v_2$ that agree on $OCCUR(\phi_1) \cup OCCUR(\phi_2)$, we have:
+\begin{itemize}
+    \item $v_1 \models \phi_1 \iff v_1 \models \phi_2$
+    \item $v_2 \models \phi_1 \iff v_2 \models \phi_2$
+\end{itemize}
+Trivial
+
+($\Rightarrow$) Suppose $\forall v_1, v_2$ agreeing on $S = OCCUR(\phi_1) \cup OCCUR(\phi_2)$, we have $v_1 \models \phi_1 \iff v_2 \models \phi_2$.
+Let $v$ be any valuation. We will show that $v \models \phi_1 \iff v \models \phi_2$.
+Define $v_1 = v$ and $v_2 = v$. These valuations trivially agree on $S$.
+\begin{itemize}
+    \item $v_1 \models \phi_1 \iff v_2 \models \phi_2$
+    \item $v \models \phi_1 \iff v \models \phi_2$
+    \item $\phi_1$ and $\phi_2$ are logically equivalent
+\end{itemize}
+
+\end{proof}
 \section*{Q7}
 Let $G=(V,E)$ be an undirected graph and $k\in\mathbb{N}$.
 Construct a propositional formula $\phi_G$ such that:
@@ -1738,10 +1801,13 @@ Define the proposition set $P:$
 There are constraint we need to consider: 
 \subsubsection*{$\forall v \in V, v \in V'$ or $v \in V\setminus V'$}
 \[\phi_{in} = \bigwedge_{v\in V} (p_{v, in} \lor p_{v, out})\]
+$|\phi_{in}| \in O(|V|)$
 \subsubsection*{$\forall v \in V, v \notin V'$ or $v \notin V\setminus V'$}
 \[\phi_{out} = \bigwedge_{v\in V} \neg(p_{v, in}\land p_{v, out})\]
+$|\phi_{out}| \in O(|V|)$
 \subsubsection*{All edges covered}
 \[\phi_e = \bigwedge_{\{u, v\} \in E} (p_{u, in} \lor (p_{v, in}))\]
+$|\phi_{e}| \in O(|V|^2)$
 \subsubsection*{$|V'| \leq k$}
 We use the following facts to define inductive rules:
 \begin{itemize}
@@ -1754,6 +1820,7 @@ Inductively define $c_{i, j}$:
     [c_{i-1, j} \lor (c_{i-1,j-1} \land p_{i, in}) ]  \leftrightarrow c_{i, j}\\
 \end{align*}
 We use bidirectional implication to prevent vacuous truthity of $c_{i, j}$ when conditions do not hold. And the last constraint can be represented by $\neg(c_{|V|, k+1})$\\
+$|\{c_{i, j} \mid i \in [1, |V|], j \in [1, k+1]\}| \in O(|V|\cdot k)$\\
 Putting everything together we can encode $k$-vertex cover using 
 \[\phi = \phi_{in} \land \phi_{out} \land \phi_{e} \land (\neg c_{|V|, k+1})\]
 \end{proof}
@@ -1777,13 +1844,70 @@ To prove the correctness of the encoding, we will show:
     $\exists k$-vertex cover on $G \rightarrow \phi$ is satisfiable
 \end{theorem}
 \begin{proof}
-    Suppose $G = (V, E)$ has vertex cover $V' \subseteq V, |V'| \leq k$, let $V'' = V\setminus V', \forall v\in V, v \in V$
+Suppose $G = (V, E)$ has a vertex cover $V' \subseteq V$ such that $|V'| \leq k$. We construct a valuation $v$ as follows:
+\begin{enumerate}
+    \item For each $u \in V$, set $v(p_{u, in}) = \text{true}$ if $u \in V'$, and $v(p_{u, in}) = \text{false}$ otherwise
+    \item Set $v(p_{u, out}) = \neg v(p_{u, in}) \implies \phi_{in} \land \phi_{out}$ is satisfiable
+    \item Since $V'$ is a vertex cover, for every edge $\{u, v\} \in E$, at least one of $u$ or $v$ must be in $V'$. Thus, $v(p_{u, in}) \lor v(p_{v, in})$ is true for all edges, satisfying $\phi_e$.
+    \item Define $v(c_{i, j})$ to be true if and only if $|\{u_1, \dots, u_i\} \cap V'| \geq j$. 
+    \begin{itemize}
+        \item the recurrence $[c_{i-1, j} \lor (c_{i-1, j-1} \land p_{i, in})] \leftrightarrow c_{i, j}$ is satisfied because the count of vertices in the cover up to $i$ increases only if the $i$-th vertex is in the cover.
+        \item Since $|V'| \leq k$, the total count of vertices in $V'$ after considering all $|V|$ vertices cannot be $k+1$. Thus, $v(c_{|V|, k+1}) = \text{false}$, which satisfies $\neg c_{|V|, k+1}$.
+    \end{itemize}
+\end{enumerate}
+Since all components are satisfied, $\phi$ is satisfiable.
 \end{proof}
 \section*{Q8}
 Given a partial $N^2\times N^2$ Sudoku grid $S$, construct a propositional formula $\phi_S$
 of size polynomial in $N^2$ such that $\phi_S$ is satisfiable if and only if
 $S$ has a completion to a valid Sudoku grid. Prove correctness.
+\begin{proof}
+    Define proposition set $P = \{p_{i, j, k} \mid i, j, k \in [1, N]\}$, representing cell $(i, j)$ is assigned the number $k$
+    We need to satisfiy the following constriants:
+    \subsubsection*{Cell: At most 1 value assigned}
+    \[\phi_{cell, \leq 1} = \bigwedge_{i=1}^N \bigwedge_{j=1}^N \bigwedge_{1\leq k\leq m\leq N} (\neg p_{i,j,k} \lor \neg p_{i,j,m})\]
+    \subsubsection*{Cell: At least 1 value assigned}
+    \[\phi_{cell, \geq 1} = \bigwedge_{i=1}^N \bigwedge_{j=1}^N \bigvee_{k=1}^N p_{i,j,k}\]
+    \subsubsection*{Row: At most 1 value assigned}
+    \[\phi_{row, \leq 1} = \bigwedge_{i=1}^N \bigwedge_{k=1}^N \bigwedge_{1\leq j < m \leq N} (\neg p_{i,j,k} \lor \neg p_{i,m,k})\]
+    \subsubsection*{Column: At most 1 value assigned}
+    \[\phi_{col, \leq 1} = \bigwedge_{j=1}^N \bigwedge_{k=1}^N \bigwedge_{1\leq i < m \leq N} (\neg p_{i,j,k} \lor \neg p_{m,j,k})\]
+    \subsubsection*{Block: At most 1 value assigned}
+    Let $n = \sqrt{N}$. For each block starting at row $r \in \{0, \dots, n-1\}$ and column $c \in \{0, \dots, n-1\}$:
+    \[\phi_{block, \leq 1} = \bigwedge_{r=0}^{n-1} \bigwedge_{c=0}^{n-1} \bigwedge_{k=1}^N \bigwedge_{(i,j) \neq (i',j')} (\neg p_{rn+i, cn+j, k} \lor \neg p_{rn+i', cn+j', k})\]
+    where $1 \leq i, j, i', j' \leq n$.
+    
+    \subsubsection*{Initial Setup}
+    Let $S$ be the set of triples $(i, j, k)$ such that cell $(i, j)$ is pre-assigned value $k$:
+    \[\phi_{clues} = \bigwedge_{(i,j,k) \in S} p_{i,j,k}\]
 
+    The complete formula is:
+    \[\phi_{Sudoku} = \phi_{cell, \leq 1} \land \phi_{cell, \geq 1} \land \phi_{row, \leq 1} \land \phi_{col, \leq 1} \land \phi_{block, \leq 1} \land \phi_{clues}\]
+\end{proof}
+
+\subsection*{Correctness of Encoding}
+
+\begin{theorem}
+    The formula $\phi_{Sudoku}$ is satisfiable $\iff$ the Sudoku puzzle has a valid solution
+\end{theorem}
+
+\begin{proof}
+    $(\Rightarrow)$ Suppose $\phi_{Sudoku}$ is satisfiable under valuation $v$. We construct a Sudoku assignment by setting cell $(i, j) = k$ if $v(p_{i,j,k}) = \text{true}$. 
+    \begin{itemize}
+        \item By $\phi_{cell, \geq 1}$ and $\phi_{cell, \leq 1}$, every cell is assigned exactly one value. 
+        \item By $\phi_{row, \leq 1}$, no value $k$ is repeated in a row. Since there are $N$ cells in a row and $N$ possible values, each value must appear exactly once. 
+        \item The same logic applies to $\phi_{col, \leq 1}$ and $\phi_{block, \leq 1}$ for columns and $n \times n$ subgrids.
+        \item $\phi_{clues}$ ensures the solution respects the starting digits.
+    \end{itemize}
+
+    $(\Leftarrow)$ Suppose a valid Sudoku solution exists. Define a valuation $v$ such that $v(p_{i,j,k}) = \text{true}$ if cell $(i,j)$ contains $k$, and false otherwise.
+    \begin{itemize}
+        \item Because the solution is valid, each cell has one number (satisfying cell constraints).
+        \item Because rows, columns, and blocks contain no duplicates, the "at most one" ($\leq 1$) constraints for each are satisfied.
+        \item Because the solution contains the initial clues, $\phi_{clues}$ is satisfied.
+    \end{itemize}
+    Therefore, $v \models \phi_{Sudoku}$.
+\end{proof}
 
 \section*{Background: Compactness}
 
