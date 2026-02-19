@@ -49,8 +49,8 @@
 % ctrl shift D to toggle night 
 \begin{document}
 
-\title{Week 2-4: Propositional Logic (Tutorial starts from Page 8)}
-\author{Wang Xiyu}
+\title{Week 2-4: Propositional Logic (HW2 start from page 29)}
+\author{Wang Xiyu A0282500R}
 \date{}
 \maketitle
 \tableofcontents
@@ -910,7 +910,7 @@ By this definition,
 
 
 \newpage
-\section*{Tutorial}
+\section*{HW1}
 \begin{definition}[Generic Closure]
 Let $U$ be a universe of elements and let $O$ be a set of functions whose domain is $U$ and codomain is $\mathscr{P}(U)$.
 The arity of a function $f \in O$ is denoted by ${arity}(f)$. A function $f$ of arity $r$ has type
@@ -1495,7 +1495,7 @@ $'\neg'$ must not be at index 1. Thus $\not \exists \phi \in INDFORM, \phi \in \
 
 
 \newpage 
-
+\section*{HW2}
 \begin{lemma}[Characterization of Well-Formed Formulae]
 Let $P$ be a set of propositions and $C=\{\neg,\vee\}$.
 Every well-formed formula $\phi$ over $(P,C)$ is of exactly one of the following forms:
@@ -2059,7 +2059,46 @@ the compactness theorem, we need to prove that $\exists v, v\models \Gamma$.
 
 
 \section*{Q16}
-Solve Questions 10 and 11 on page 53 (end of Section 1.5) in
-\emph{A Mathematical Introduction to Logic} by Herbert B. Enderton.
 
+Let $\top$ and $\bot$ be the 0-place connectives (truth and falsity). For a wff $\phi$ and sentence symbol $A$, let $\phi^A_{\top}$ and $\phi^A_{\bot}$ denote the substitution of $A$ with $\top$ and $\bot$ respectively. Define the formula $\phi^*_A = (\phi^A_{\top} \lor \phi^A_{\bot})$.
+
+\begin{proof}
+\subsubsection*{1. $\phi \models \phi^*_A$.}
+Let $v$ be a valuation such that $v \models \phi$.
+\begin{itemize}
+    \item If $v(A) = T\implies v(\phi) = v(\phi^A_{\top})$.  $v \models \phi \implies v \models \phi^A_{\top}$.
+    \item If $v(A) = F\implies v(\phi) = v(\phi^A_{\bot})$. $v \models \phi \implies v \models \phi^A_{\bot}$.
+    \item either way, $v \models (\phi^A_{\top} \lor \phi^A_{\bot})$ Thus, $\phi \models \phi^*_A$.
+\end{itemize}
+
+\subsubsection*{2. If $\phi \models \psi$ and $A$ does not occur in $\psi$, then $\phi^*_A \models \psi$.}
+Let $v \models \phi^*_A \implies v \models \phi^A_{\top}$ or $v \models \phi^A_{\bot}$.
+\begin{itemize}
+    \item Case 1: $v \models \phi^A_{\top}$. Let $v'$ be valuation $v[A \mapsto \text{true}] \implies v' \models \phi$. $\phi \models \psi \implies v' \models \psi$. $A \not \in OCCUR(\psi) \implies \psi$ is independent of $A \implies v \models \psi$.
+    \item Case 2: similar
+    \item Thus, $\phi^*_A \models \psi$
+\end{itemize}
+
+\subsubsection*{3. $\phi$ is satisfiable iff $\phi^*_A$ is satisfiable.}
+\begin{itemize}
+    \item ($\Rightarrow$) $\phi$ is satisfiable $ \implies \exists v \models \phi$. By part 1, $\phi \models \phi^*_A \implies v \models \phi^*_A$
+    \item ($\Leftarrow$) $\phi^*_A$ is satisfiable $\implies \exists v, v \models \phi^A_{\top}$ or $v \models \phi^A_{\bot}$. $v \models \phi^A_{\top} \implies v[A \mapsto \text{true}] \models \phi$. $v \models \phi^A_{\bot} \implies v[A \mapsto \text{false}] \models \phi$
+\end{itemize}
+\end{proof}
+
+
+\begin{theorem}[Interpolation Theorem]
+If $\alpha \models \beta$, then there exists a formula $\gamma$ such that $\alpha \models \gamma \models \beta$, and $OCCUR(\gamma) \subseteq OCCUR(\alpha) \cap OCCUR(\beta)$.
+\end{theorem}
+
+\begin{proof}
+Let $S = OCCUR(\alpha) \setminus OCCUR(\beta)$,
+\begin{itemize}
+    \item Let $\alpha_0 = \alpha$.
+    \item $\forall i \in [1, n]$, let $\alpha_i = (\alpha_{i-1})_{A_i}^*$.
+    \item By part 1, $\alpha_{i-1} \models \alpha_i$, by transitivity $\alpha \models \alpha_n$.
+    \item By part 2, $\alpha \models \beta$ and $A_1 \notin OCCUR(\beta)\implies \alpha_1 \models \beta$. Repeat $\forall A_i \in S, \alpha_n \models \beta$.
+    \item $\gamma = \alpha_n$ contains no propositions from $S$, meaning $OCCUR(\gamma) \subseteq OCCUR(\alpha) \cap OCCUR(\beta)$.
+\end{itemize}
+\end{proof}
 \end{document}

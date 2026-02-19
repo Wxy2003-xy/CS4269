@@ -20,4 +20,4 @@
 \contentsline {section}{\numberline {4}Proof System}{13}{section.4}%
 \contentsline {subsection}{\numberline {4.1}Hilbert Style Proof System }{13}{subsection.4.1}%
 \contentsline {subsection}{\numberline {4.2}Resolution Proof System}{15}{subsection.4.2}%
-\contentsline {paragraph}{Structural Induction Principle.}{29}{section*.49}%
+\contentsline {paragraph}{Structural Induction Principle.}{29}{section*.50}%
