@@ -8,16 +8,20 @@
 \contentsline {subsection}{\numberline {2.1}Truth Assignment/Proposition evaluation}{4}{subsection.2.1}%
 \contentsline {subsection}{\numberline {2.2}Entail/Model}{4}{subsection.2.2}%
 \contentsline {subsubsection}{\numberline {2.2.1}Valuation and Model}{5}{subsubsection.2.2.1}%
-\contentsline {subsubsection}{\numberline {2.2.2}Logical Equivalence}{5}{subsubsection.2.2.2}%
-\contentsline {subsection}{\numberline {2.3}Satisfiability of Formula}{5}{subsection.2.3}%
-\contentsline {subsubsection}{\numberline {2.3.1}Valid formula(tautology)}{5}{subsubsection.2.3.1}%
-\contentsline {subsection}{\numberline {2.4}Satisfiability of a set of formula}{5}{subsection.2.4}%
+\contentsline {subsubsection}{\numberline {2.2.2}$\models $ as a relation}{5}{subsubsection.2.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.3}Logical Equivalence}{5}{subsubsection.2.2.3}%
+\contentsline {subsection}{\numberline {2.3}Satisfiability of Formula}{6}{subsection.2.3}%
+\contentsline {subsubsection}{\numberline {2.3.1}Valid formula(tautology)}{6}{subsubsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.4}Satisfiability of a set of formula}{6}{subsection.2.4}%
 \contentsline {subsubsection}{\numberline {2.4.1}Relevance}{6}{subsubsection.2.4.1}%
-\contentsline {subsubsection}{\numberline {2.4.2}Logical consequence}{6}{subsubsection.2.4.2}%
+\contentsline {subsubsection}{\numberline {2.4.2}Logical consequence}{7}{subsubsection.2.4.2}%
 \contentsline {subsection}{\numberline {2.5}Modelling Computations as Propositional Logic}{7}{subsection.2.5}%
-\contentsline {section}{\numberline {3}Compactness Theorem}{8}{section.3}%
+\contentsline {section}{\numberline {3}Compactness Theorem}{9}{section.3}%
 \contentsline {subsection}{\numberline {3.1}Application of the Compactness theorem for proposition logics}{12}{subsection.3.1}%
-\contentsline {section}{\numberline {4}Proof System}{13}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Hilbert Style Proof System }{13}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Resolution Proof System}{15}{subsection.4.2}%
-\contentsline {paragraph}{Structural Induction Principle.}{29}{section*.50}%
+\contentsline {section}{\numberline {4}Proof System}{14}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Hilbert Style Proof System }{14}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Resolution Proof System}{16}{subsection.4.2}%
+\contentsline {section}{\numberline {5}Complexity}{16}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Turing Machine}{16}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Semantics of TM}{16}{subsection.5.2}%
+\contentsline {paragraph}{Structural Induction Principle.}{30}{section*.51}%

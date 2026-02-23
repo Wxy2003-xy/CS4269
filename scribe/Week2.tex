@@ -201,6 +201,45 @@ A valuation $v$ is a model of a formula $\phi$, if and only if $v(\phi) = T$.
     \item A formula can have many or one or none models 
 \end{itemize}
 
+\subsubsection{$\models$ as a relation}
+\begin{definition}
+    $\models \text{ } \subseteq \{2^{|P|} \times FORM\}$ is a binary relation, between truth assignment to formula. 
+    We define as follows: 
+    \begin{itemize}
+        \item $\forall p \in P, v \models p \iff v(p) = 1$
+        \item $v \not\models p$ otherwise.
+    \end{itemize}
+    Consider a valuation $v$ as a subset of $P$ such that the propositions in $v$ denoted by $v(p)$ is assigned with true. $v \in \mathscr{P}(P)$
+\end{definition}
+$$
+\begin{array}{|c|c||c|c|c|c|c|}
+\hline
+\phi & \psi & \neg \phi & (\phi \wedge \psi) & (\phi \vee \psi) & (\phi \to \psi) & (\phi \leftrightarrow \psi) \\
+\hline
+0 & 0 & 1 & 0 & 0 & 1 & 1 \\
+\hline
+0 & 1 & 1 & 0 & 1 & 1 & 0 \\
+\hline
+1 & 0 & 0 & 0 & 1 & 0 & 0 \\
+\hline
+1 & 1 & 0 & 1 & 1 & 1 & 1 \\
+\hline
+\end{array}
+$$
+\begin{definition}
+    \[p(v) = v(p)\]
+    A proposition can be viewed as a circuit is jsut a wire, thus if a proposition is assigned with true by a valuation, the valuation valuates this proposion to be true
+\end{definition}
+\begin{lemma}
+    Let $\phi \in FORM, v \in \mathscr{P}(P), v \models \phi \iff \phi(v) = 1$
+\end{lemma}
+\begin{proof}
+    Base case: $\forall \phi = p \in P, v\models \phi \iff v(p) = 1 \iff p(v) = 1$\\
+    Inductive case: 
+    \begin{enumerate}
+        \item 
+    \end{enumerate}
+\end{proof}
 \subsubsection{Logical Equivalence}
 \begin{definition}
     Syntax definition of logical equivalence is as follows: 
@@ -280,6 +319,9 @@ A valuation $v$ is a model of a formula $\phi$, if and only if $v(\phi) = T$.
     \[\forall p \in OCCUR(\phi), v_1(p) = v_2(p) \rightarrow (v_1 \models \phi \rightarrow v_2 \models \phi)\]
     $v_1, v_2$ can be different valuations over $p' \notin OCCUR(\phi)$
 \end{lemma}
+\begin{proof}
+Let $p \in P, $
+\end{proof}
 \subsubsection{Logical consequence}
 Semantic logical consequence:
 \begin{definition}
@@ -884,6 +926,18 @@ By this definition,
     \item Any set of clauses that contains the empty set is unsatisfiable
 \end{itemize}
 
+
+\section{Complexity}
+\subsection{Turing Machine}
+\begin{definition}[Turing Machine]
+    \[\mathcal{M} = \langle Q, \Sigma, \Gamma, \delta, q_0, q_{Acc} , q_{Rej}, k\rangle\]
+    \begin{itemize}
+        \item 
+    \end{itemize}
+    \subsubsection*{Transifiton function}
+\end{definition}
+
+\subsection{Semantics of TM}
 
 
 
