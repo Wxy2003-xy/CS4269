@@ -856,6 +856,7 @@ Sometimes HSPS requires us to creatively introduce new hypothesis to assist in t
         \end{align*} 
     \end{proof}
 \end{example}
+As seen from  this example, HSPS can get convoluted and unintuitive for relatively straightforward consequences. 
 \subsection{Metatheorems}
 \subsubsection{Monotonicity theorem}
 \begin{theorem}
@@ -925,14 +926,14 @@ Sometimes HSPS requires us to creatively introduce new hypothesis to assist in t
         \end{align*}
     \end{itemize}
 \end{proof}
-As seen from  this example, HSPS can get convoluted and unintuitive for relatively straightforward consequences. 
 \begin{theorem}[Soundness of HSPS]
     HSPS is sound. 
     \[\Gamma \vdash \phi \implies \Gamma \models \phi\]
 \end{theorem}
 \begin{proof}
     Define property $H(i): \forall j\leq i, \Gamma \models c_j$.\\
-    Base case: $i = 1$. Suppose $\Gamma \vdash \phi, \exists \pi = c_1, c_2, \dots, c_k, c_k = \phi$. 
+    \subsubsection*{Base case: $i = 1$}
+    Suppose $\Gamma \vdash \phi, \exists \pi = c_1, c_2, \dots, c_k, c_k = \phi$. 
     By definition, $c_1 \in \Gamma$ or 
     \begin{itemize}
         \item $\exists \phi, \psi, c_1 \equiv \phi \rightarrow (\psi \rightarrow \phi)$
@@ -941,9 +942,21 @@ As seen from  this example, HSPS can get convoluted and unintuitive for relative
     \end{itemize}
     Note that Modus Ponens is not possible to yield $c_1$ as we need at least 1 previous formula.\\
     If $c_1 \in \Gamma, \Gamma \models c_1$; Else, if $c_1$ comes from any other axiom, $c_1$ is valid, i.e. $\forall v, v\models c_1$, therefore $\Gamma \models c_1$
-
+    \subsubsection*{Inductive step:}
+    Suppose $H(i), \forall j < i, \Gamma \models c_j, \forall v \models \Gamma, v \models c_j$.
+    \begin{itemize}
+        \item Case 1, 2: $c_{i+1} \in \Gamma$, or $c_{i+1}$ is from an axiom, $\Gamma \models c_{i+1}, H(i+1)$
+        \item Case 3: $c_{i+1}$ comes from MP: $\exists j < i, \Gamma \vdash c_j, \Gamma \vdash c_j \rightarrow c_{i+1}$. By inductive hypothesis, $\forall v \models \Gamma, 
+        v\models c_j, v \models c_j \rightarrow c_{i+1}$
+        \begin{align*}
+            &v(c_j) = T\\
+            &v(c_j \rightarrow c_{i+1}) = T \equiv v(\neg c_j \lor c_{i+1}) = T\\
+            &\quad \quad v(\neg c_j) = T \text{ OR } v(c_{i+1}) = T\\
+            &v(c_j) = T \implies v(\neg c_j) = F \implies v(c_{i+1}) = T \\
+            &\implies \forall v \models \Gamma, v\models c_{i+1} \implies \Gamma \models c_{i+1}
+        \end{align*}
+    \end{itemize}
 \end{proof}
-
 \begin{theorem}[Completeness of HSPS]
     HSPS is complete. 
     \[\Gamma \models \phi \implies \Gamma \vdash \phi\]
@@ -980,7 +993,7 @@ is said to be in Conjunctive Normal Form is
 By this definition,
 \begin{itemize}
     \item $\Gamma = \emptyset$ is vacuously satisfiable
-    \item $\Gamma = \{\emptyset\}$ is no satisifiale. 
+    \item $\Gamma = \{\emptyset\}$ is not satisifiale. 
     \item Any set of clauses that contains the empty set is unsatisfiable
 \end{itemize}
 \begin{theorem}
@@ -1005,7 +1018,7 @@ By this definition,
     \[\vdash_{RES} \Gamma \implies \Gamma \text{ is unsatisfiable}\]
 \end{theorem}
 \begin{proof}
-    $\vdash_{RES} \Gamma \rightarrow$ there exists a finite sequence ends with $C_k$
+    $\vdash_{RES} \Gamma \rightarrow$ there exists a finite sequence ends with $C_k$. 
 \end{proof}
 \begin{theorem}[Completeness]
 The resolution proof system is complete
