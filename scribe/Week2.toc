@@ -28,7 +28,7 @@
 \contentsline {subsection}{\numberline {5.1}Turing Machine}{18}{subsection.5.1}%
 \contentsline {subsection}{\numberline {5.2}Semantics of TM}{19}{subsection.5.2}%
 \contentsline {subsection}{\numberline {5.3}Running time and Space}{21}{subsection.5.3}%
-\contentsline {subsection}{\numberline {5.4}Complexity classes}{22}{subsection.5.4}%
+\contentsline {subsection}{\numberline {5.4}Complexity classes}{21}{subsection.5.4}%
 \contentsline {subsection}{\numberline {5.5}Hardness}{22}{subsection.5.5}%
 \contentsline {subsection}{\numberline {5.6}Reduction}{22}{subsection.5.6}%
-\contentsline {paragraph}{Structural Induction Principle.}{37}{section*.59}%
+\contentsline {paragraph}{Structural Induction Principle.}{36}{section*.61}%

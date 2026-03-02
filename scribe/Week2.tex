@@ -1000,19 +1000,12 @@ By this definition,
     Each well-formed formula can be transformed to a logically equivalent CNF
 \end{theorem}
 \begin{proof}
-    
+\subsubsection*{Base case: $\phi \in P$}
+trivial
+\subsubsection*{Inductive Case 1: $\neg$ }
+Suppose there exists a CNF $\bigwedge_i \bigvee_j \ell_{i, j}$ logically equivalent to $\phi$
 \end{proof}
-\begin{enumerate}
-    \item Use deduction and proof by contradiction to move everything to the assumpton side, and have $\bot$ on the conclusion side
-    \begin{align*}
-        &\Gamma \cup \{A\} \vdash B \implies \Gamma \vdash A \rightarrow B\\
-        &\Gamma \cup \{\neg A\} \vdash \bot \implies \Gamma \vdash A
-    \end{align*}
-    We can prove $\Gamma \cup \{A, \neg B\} \vdash \bot$ to prove $\Gamma \vdash A \rightarrow B$,
-\end{enumerate}
-\begin{theorem}[Deduction Theorem]
-    \[\Gamma \cup \{A\} \vdash B \implies \Gamma \vdash A \rightarrow B\]
-\end{theorem}
+
 \begin{theorem}[Soundness]
     The resolution proof system is sound 
     \[\vdash_{RES} \Gamma \implies \Gamma \text{ is unsatisfiable}\]
