@@ -925,39 +925,274 @@ By this definition,
     \item $\Gamma = \{\emptyset\}$ is no satisifiale. 
     \item Any set of clauses that contains the empty set is unsatisfiable
 \end{itemize}
-
-
+\begin{theorem}
+    Each well-formed formula can be transformed to a logically equivalent CNF
+\end{theorem}
+\begin{proof}
+    
+\end{proof}
+\begin{enumerate}
+    \item Use deduction and proof by contradiction to move everything to the assumpton side, and have $\bot$ on the conclusion side
+    \begin{align*}
+        &\Gamma \cup \{A\} \vdash B \implies \Gamma \vdash A \rightarrow B\\
+        &\Gamma \cup \{\neg A\} \vdash \bot \implies \Gamma \vdash A
+    \end{align*}
+    We can prove $\Gamma \cup \{A, \neg B\} \vdash \bot$ to prove $\Gamma \vdash A \rightarrow B$,
+\end{enumerate}
+\begin{theorem}[Deduction Theorem]
+    \[\Gamma \cup \{A\} \vdash B \implies \Gamma \vdash A \rightarrow B\]
+\end{theorem}
+\begin{theorem}[Soundness]
+    The resolution proof system is sound 
+    \[\vdash_{RES} \Gamma \implies \Gamma \text{ is unsatisfiable}\]
+\end{theorem}
+\begin{proof}
+    $\vdash_{RES} \Gamma \rightarrow$ there exists a finite sequence ends with $C_k$
+\end{proof}
+\begin{theorem}[Completeness]
+The resolution proof system is complete
+\[\Gamma \text{ is unsatisfiable } \implies \vdash_{RES} \Gamma\]
+    
+\end{theorem}
+\begin{proof}
+    
+\end{proof}
 \section{Complexity}
 \subsection{Turing Machine}
 \begin{definition}[Turing Machine]
     \[\mathcal{M} = \langle Q, \Sigma, \Gamma, \delta, q_0, q_{Acc} , q_{Rej}, k\rangle\]
     \begin{itemize}
-        \item 
+        \item $Q$: the set of states
+        \item $\Sigma$: finite input alphabet
+        \item $\Gamma$: finite worktap alphabet, $\square \in \Gamma$
+        \item $\delta$: the set of transitions
+        \item $q_0$: starting state, $q_0 \in Q$
+        \item $q_{Acc}$: accepting state, $q_{Acc} \in Q$
+        \item $q_{Rej}$: rejecting state, $q_{Rej} \in Q$   (Optional)
+        \item $k$: the number of worktaps (Optional)
     \end{itemize}
+    A TM has 1 read-only input tape, may have 1 write only output tape, and $k$ work tape. We can show that any finitely many $k$ tapes
+    is equivalent to 1 worktap TM. [TODO]
     \subsubsection*{Transifiton function}
+    \[\delta = \langle (Q\times \Sigma \times \Gamma^k) \times (Q \times \{L, R, S\} \times \Gamma^k \times \{L, R, S\}^k \times \Gamma \times \{L, R, S\}) \rangle\]
+    A state transition 
+    \[\tau = \langle q, \sigma, \gamma_1, \gamma_2, \dots, \gamma_k, q', d, \gamma_1', \gamma_2', \dots, \gamma_k', d_1, d_2, \dots, d_k, \gamma', d_o\rangle\]
+    \begin{align*}
+        \tau = &\langle q, \sigma, \\
+        &\gamma_1, \gamma_2, \dots, \gamma_k, \\
+        & q', d, \\
+        &\gamma_1', \gamma_2', \dots, \gamma_k', \\
+        &d_1, d_2, \dots, d_k, \\
+        &\gamma', d_o\rangle
+    \end{align*}
+    Represents a transition from state $q$, when the head reading input symbol $\sigma$,
+     and worktap symbol $\gamma_i$ on worktape $i$, transition into state $q'$, write worktape symbol $\gamma_i'$, move the input head in the direction $d$, 
+     and workhead $i$ in direction $d_i$, writing $\gamma'$ on the output tape and move output head in direction $d_o$
+     \subsubsection*{Non-determiniestic TM}
+     Non deterministic TM has non-deterministic transition funcitons
+    \[\delta \subseteq \langle (Q\times \Sigma \times \Gamma^k) \times (Q \times \{L, R, S\} \times \Gamma^k \times \{L, R, S\}^k \times \Gamma \times \{L, R, S\}) \rangle\]
 \end{definition}
 
 \subsection{Semantics of TM}
+\begin{definition}[Configuration]
+    A configuration $C_t$ of a Turing machine at step $t$ captures the overall state of the TM. Now we only consider TM with no rejecting states and output tape.
+    \begin{align*}
+        C = \langle &q,\\
+        & w_{in}^1\triangledown w_{in}^2, \\
+        & w_{w1}^1\triangledown w_{w1}^2 \\
+        & w_{w2}^1\triangledown w_{w2}^2 \\
+        &\quad ...\\
+        & w_{wk}^1\triangledown w_{wk}^2 \rangle
+    \end{align*}
+    Where $w^1 \triangledown w^2 = w$, the symbol read by the head at each configuration is the first symbol after $\triangledown$. Note that $\triangledown$ is not a 
+    Symbol but just an indication of the head position.\\
+    The initial configuration will starts at the starting state $q_0$, input head and work heads all at the beginning, and all worktapes empty.
+    \[
+        C_0 = \langle 
+        q_0, \triangledown w_{in}, 
+        \underbrace{\triangledown, \triangledown, \dots, \triangledown}_{k},
+        \rangle
+    \]
+    Configuration 
+    \begin{align*}
+        C_{t+ 1} = \langle &q,\\
+        & w_{in}^1\triangledown w_{in}^2, \\
+        & w_{w1}^1\triangledown w_{w1}^2 \\
+        & w_{w2}^1\triangledown w_{w2}^2 \\
+        &\quad ...\\
+        & w_{wk}^1\triangledown w_{wk}^2 \rangle
+    \end{align*}
+
+    is a valid successor of 
+    \begin{align*}
+        C_{t} = \langle &q',\\
+        & w_{in}^{1'}\triangledown w_{in}^{2'}, \\
+        & w_{w1}^{1'}\triangledown w_{w1}^{2'} \\
+        & w_{w2}^{1'}\triangledown w_{w2}^{2'} \\
+        &\quad ...\\
+        & w_{wk}^{1'}\triangledown w_{wk}^{2'} \rangle
+    \end{align*}
+    \[\exists \tau = \langle p, \sigma, \gamma_1, \gamma_2, \dots, \gamma_k, p', d, \gamma_1', \gamma_2', \dots, \gamma_k', d_1, d_2, \dots, d_k, \gamma', d_o\rangle\]
+    such that: 
+    \begin{itemize}
+        \item $\sigma$ is the first symbol after the input head: $w_{in}^2[0]$
+        \item $\gamma_i$ is the first symbol after work head $i: w_{wi}^2[0]$
+        \item \begin{itemize}
+            \item if $d = S: w_{in}' = w_{in}$\\
+                    $\quad |w_{in}^1| - |w_{in}'^1| = 0$
+            \item if $d = L: w_{in}' = w_{in}^1[:-1]\triangledown w_{in}^1[-1]\cdot w_{in}^2$\\   
+                    $\quad |w_{in}^1| - |w_{in}'^1| = 1$
+            \item if $d = L: w_{in}' = w_{in}^1\cdot w_{in}^2[0]\triangledown w_{in}^2[1:]$\\   
+                    $\quad |w_{in}^1| - |w_{in}'^1| = -1$
+        \end{itemize}
+        \item $\forall i \in [1, k]$, \begin{itemize}
+            \item if $d_i = S: w_{wi}' = w_{wi}$\\
+                    $\quad |w_{wi}^1| - |w_{wi}'^1| = 0$
+            \item if $d_i = L: w_{wi}' = w_{wi}^1[:-1]\triangledown w_{wi}^1[-1]\cdot w_{wi}^2$\\   
+                    $\quad |w_{wi}^1| - |w_{wi}'^1| = 1$
+            \item if $d_i = L: w_{wi}' = w_{wi}^1\cdot w_{wi}^2[0]\triangledown w_{wi}^2[1:]$\\   
+                    $\quad |w_{wi}^1| - |w_{wi}'^1| = -1$
+        \end{itemize}
+
+    \end{itemize}
+\end{definition}
+\begin{definition}
+    $\forall w\in \Sigma^*$, $\mathcal{M}$ yields some valid sequences of configuratures, which is called a run $\pi_w = C_0, C_1, \dots$
+    where 
+    \begin{itemize}
+        \item $C_0$ is the initial configuration
+        \item $\forall t \geq 1, C_t$ is a valid successsor of $C_{t-1}$
+    \end{itemize}
+    A run is accepting if 
+    \begin{enumerate}
+        \item $\pi$ is finite, and
+        \item $\pi$ ends with a configurration $C_n$, where $C_n .q = q_{Acc}$ 
+    \end{enumerate}
+    A run is rejecting if 
+    \begin{itemize}
+        \item $\pi$ is infinite, or
+        \item $\pi$ ends with a configurration $C_n$, where $C_n .q \neq q_{Acc}$ 
+    \end{itemize}
+\end{definition}
+\begin{definition}
+    $w \in \Sigma*$ is accepted by $\mathcal{M}$ if $\exists \pi_w, \pi_w$ is accepting.
+\end{definition}
+Now we can bridge to the concept of languages, 
+\begin{definition}
+    The set of strings accepted by $\mathcal{M}$ is the language described by $\mathcal{M}$, ie
+    \[L(\mathcal{M}) = \{w\in \Sigma^* \mid w \text{ is accepted by } \mathcal{M}\}\]
+\end{definition}
+Now we will focus on decidable languages, and their recognizoing non deterministic TM.
+\begin{definition}[Terminating Turing Machine]
+    $\mathcal{M}$ is termeinating if $\forall w\in \Sigma^*, \forall \pi_w, \pi_w$ is finite.
+\end{definition}
+\subsection{Running time and Space}
+\begin{definition}
+    \[T: \mathbb{N} \mapsto \mathbb{N}\]
+    The running time of $\mathcal{M}$ is bounded by $T$ if 
+    \[\forall w \in \Sigma^*, \forall \pi_w, |\pi_w| \leq T(|w|)\]
+\end{definition}
+\begin{definition}[Space usage]
+    The space usage of at configuration $C_i$ is 
+    \[space(C_i) = |w_{out}| + \sum_{j=1}^{k} |w_{wj}|\]
+\end{definition}
+\begin{definition}
+    \[S:\mathbb{N} \mapsto \mathbb{N}\]
+    The space usage of $\mathcal{M}$ is bounded by $S$ if 
+    \[\forall w \in \Sigma^*, \forall \pi_w, \forall C \in \pi_w, space(C) \leq S(|w|)\]
+\end{definition}
+\begin{definition}
+    $L$ is computable by $\mathcal{M}$ if $L = L(\mathcal{M})$
+\end{definition}
+\begin{definition}
+    $L$ is computable in time $T$ if $\exists \mathcal{M}$
+    \begin{enumerate}
+        \item $L = L(\mathcal{M})$ and 
+        \item the running time of $\mathcal{M}$ is bounded by $T$
+    \end{enumerate}
+\end{definition}
+\begin{definition}
+    $L$ is computable in space $S$ if $\exists \mathcal{M}$
+    \begin{enumerate}
+        \item $L = L(\mathcal{M})$ and 
+        \item the space usage of $\mathcal{M}$ is bounded by $S$
+    \end{enumerate}
+\end{definition}
+\begin{theorem}[Church-Turing Thesis]
+    Any model of computation is only as powerful as the Turing machine.\\
+    $\forall L, \exists N$ in a new model of cmputation, $L(N) = L \implies \exists \mathcal{M} \in TM, L(\mathcal{M}) = L$
+\end{theorem}
+\subsection{Complexity classes}
+\begin{definition}[$NTIME$]
+    \[NTIME(T(\cdot)) = \{L \mid L \text{ is computable in time } T(\cdot)\}\]
+\end{definition}
+\begin{definition}[$DTIME$]
+    \[DTIME(T(\cdot)) = \{L \mid \exists \text{ deterministic }\mathcal{M}, L(\mathcal{M}) = L, \mathcal{M} \text{ running time is bounded by } T(\cdot) \}\]
+\end{definition}\begin{definition}[$NSPACE$]
+    \[NSPACE(S(\cdot)) = \{L \mid L \text{ is computable in space } S(\cdot)\}\]
+\end{definition}\begin{definition}[$DSPACE$]
+    \[DSPACE(S(\cdot)) = \{L \mid \exists \text{ deterministic }\mathcal{M}, L(\mathcal{M}) = L, \mathcal{M} \text{ space usage is bounded by } S(\cdot) \}\]
+\end{definition}
+\begin{align*}
+    P = PTIME &= \bigcup_{k \geq 0}DTIME(f_k), \quad f_k(n) = n^k\\
+    PSPACE &= \bigcup_{k \geq 0}DSPACE(f_k), \quad f_k(n) = n^k\\
+    NP = NPTIME &= \bigcup_{k \geq 0}NTIME(f_k), \quad f_k(n) = n^k\\
+    NPSPACE &= \bigcup_{k \geq 0}NSPACE(f_k), \quad f_k(n) = n^k
+\end{align*}
+\begin{theorem}
+    \[PTIME \subseteq NPTIME\]
+\end{theorem}
+\begin{theorem}
+    \[PSPACE \subseteq NPSPACE\]
+\end{theorem}
+\begin{theorem}
+    \[NPSPACE \subseteq PSPACE\]
+\end{theorem}
+\begin{proof}
+    
+\end{proof}
+\begin{corollary}
+    \[PSPACE = NPSPACE\]
+\end{corollary}
+\subsection{Hardness}
+\begin{definition}[Hardness of Turing machine]
+    $\mathcal{M}_1 \leq \mathcal{M}_2$ if all runs of $\mathcal{M}_1$ are smaller than $\mathcal{M}_2$
+\end{definition}
+
+\subsection{Reduction}
+\begin{theorem}[Constant speed up theorem]
+    $L$ is computable by $f \implies L$ is computable by $f'$, where 
+    \[f'(n) = f(\frac{n}{c})\]
+\end{theorem}
+\begin{theorem}
+    For all non-deterministic turing machines $\mathcal{M}_1$ with, there exists a deterministic turing machine $\mathcal{M}_2$,
+    such taht $L(\mathcal{M}_1) = L(\mathcal{M}_2)$
+\end{theorem}
+\begin{lemma}
+    For all deterministic turing machine with $\mathcal{M}_1$ with $k$ worktapes, 
+    there exists a deterministic turing machine $\mathcal{M}_2$ with 1 worktape such that $L(\mathcal{M}_1) = L(\mathcal{M}_2)$. Same for non deterministic TM.
+\end{lemma}
 
 
+Consider deterministic TM $\mathcal{M}$ with an output tape, it induces function 
+\[f_{\mathcal{M}}: \Sigma^* \mapsto \Gamma^*\]
+Such that 
+\[f_\mathcal{M} = \begin{cases}
+    \text{undefined, if } \mathcal{M} \text{ does not terminate;}\\
+    u \text{, if } \mathcal{M} \text{ terminates, such that in the final configuration, output tape contains } u
+\end{cases}\]
 
+\begin{corollary}
+    $f_{\mathcal{M}}$ is total if $\mathcal{M}$ is terminating
+\end{corollary}
+\begin{theorem}
+    A partial function $f:\Sigma^* \mapsto \Gamma^*$ is computable is $\exists \mathcal{M}$ that induces $f_{\mathcal{M}}, f = f_{\mathcal{M}}$
+\end{theorem}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+\begin{theorem}
+    A total function is computable in time $T:\mathbb{N} \mapsto \mathbb{N}$ if there exists $\mathcal{M}$ such that $f_{\mathcal{M}} = f$, and $\mathcal{M}$ is 
+    running time bounded by $T$
+\end{theorem}
 
 
 
@@ -2155,4 +2390,122 @@ Let $S = OCCUR(\alpha) \setminus OCCUR(\beta)$,
     \item $\gamma = \alpha_n$ contains no propositions from $S$, meaning $OCCUR(\gamma) \subseteq OCCUR(\alpha) \cap OCCUR(\beta)$.
 \end{itemize}
 \end{proof}
+
+
+
+\newpage 
+\section*{HW3}
+\section*{Hilbert-style Proof System}
+The Hilbert-style (or Frege) proof system for propositional logic comprises of 3 axiom schema and the modus ponens rule of inference
+
+\begin{itemize}
+    \item \textbf{Axiom Schema 1:} $\varphi \rightarrow (\psi \rightarrow \varphi)$ 
+    \item \textbf{Axiom Schema 2:} $(\varphi \rightarrow (\psi \rightarrow \rho)) \rightarrow ((\varphi \rightarrow \psi) \rightarrow (\varphi \rightarrow \rho))$ 
+    \item \textbf{Axiom Schema 3:} $((\varphi \rightarrow \perp) \rightarrow \perp) \rightarrow \varphi$
+    \item \textbf{Modus Ponens:} From $\varphi$ and $\varphi \rightarrow \psi$, infer $\psi$
+\end{itemize}
+
+\section*{Question 1}
+Let $\Gamma, \Gamma'$ be sets of propositional logic formulae and let $\varphi$ be a formula. Show that if $\Gamma \vdash \varphi$ and if $\Gamma \subseteq \Gamma'$, then $\Gamma' \vdash \varphi$
+
+\section*{Theorem 1 (Deduction Theorem)}
+Let $\Gamma$ be a set of propositional logic formulae and $\varphi, \psi$ be propositional logic formulae. $\Gamma \vdash (\varphi \rightarrow \psi)$ iff $\Gamma \cup \{\varphi\} \vdash \psi$
+
+\section*{Question 2}
+Prove Theorem 1. Do not use the completeness theorem (Theorem 3) to establish this! We will instead use Theorem 1 to establish Theorem 3 in later questions. \textit{Hint: One direction is easier. For the other direction, consider a proof $\pi = \psi_1, \psi_2, \dots, \psi_n$ of $\psi$ from $\Gamma \cup \{\varphi\}$, 
+Use induction on the index $i$ to show that the formula $(\varphi \rightarrow \psi_i)$ can be proved from $\Gamma$}
+
+\section*{Question 3}
+Prove the following (in the Hilbert proof system). Here, $\varphi, \psi,$ and $\rho$ are propositional logic formulae, and $\Gamma$ is a set of propositional logic formulae
+\begin{itemize}
+    \item (a) $\vdash \varphi \rightarrow \varphi$ 
+    \item (b) $\vdash (\psi \rightarrow \varphi) \rightarrow \varphi$, where $\psi = \varphi \rightarrow \perp$
+    \item (c) $\{\perp\} \vdash \varphi$ 
+    \item (d) $\vdash \psi \rightarrow (\varphi \rightarrow \rho)$ where $\psi = \varphi \rightarrow \perp$
+\end{itemize}
+
+\section*{Theorem 2 (Soundness of Hilbert-style Proof System)}
+Let $\Gamma$ be a set of propositional logic formulae and $\varphi$ be a propositional logic formula. If $\Gamma \vdash \varphi$, then $\Gamma \models \varphi$
+
+\section*{Question 4}
+Prove Theorem 2. \textit{Hint: Given a proof, inductively establish that every formula in the proof is a logical consequence of the assumptions.}
+
+\section*{Theorem 3 (Completeness of Hilbert-style Proof System)}
+Let $\Gamma$ be a set of propositional logic formulae and $\varphi$ be a propositional logic formula. If $\Gamma \models \varphi$, then $\Gamma \vdash \varphi$
+
+\section*{Theorem 4 (Weak Completeness of Hilbert-style Proof System)}
+Let $\varphi$ be a propositional logic formula. If $\models \varphi$, then $\vdash \varphi$.
+
+\section*{Question 5}
+Prove that two notions of a set being inconsistent are identical. That is, prove that the following two statements are equivalent
+\begin{enumerate}
+    \item There is a formula $\varphi$ such that $\Gamma \vdash \varphi$ and $\Gamma \vdash (\varphi \rightarrow \perp)$
+    \item For every formula $\rho$, $\Gamma \vdash \rho$
+\end{enumerate}
+
+\section*{Lemma 1}
+Let $\Gamma$ be a set of formulae and $\varphi$ be a formula. If $\Gamma \cup \{\varphi \rightarrow \perp\}$ is inconsistent, then $\Gamma \vdash \varphi$
+
+\section*{Lemma 2}
+Let $\Gamma$ be a set of formulae and $\varphi$ be a formula. If $\Gamma \cup \{\varphi\}$ is inconsistent, then $\Gamma \vdash (\varphi \rightarrow \perp)$
+
+\section*{Lemma 3}
+Let $\Gamma$ be a set of formulae. If $\Gamma$ is inconsistent, then there is a finite subset $\Gamma' \subseteq_{fin} \Gamma$ of $\Gamma$ such that $\Gamma'$ is also inconsistent
+
+\section*{Question 6}
+\begin{itemize}
+    \item (a) Prove Lemma 1
+    \item (b) Prove Lemma 2
+    \item (c) Let $\Gamma$ be a set of formulae and $\varphi$ be a formula. Show that, if $\Gamma$ is consistent, then at least one of $\Gamma \cup \{\varphi\}$ or $\Gamma \cup \{\varphi \rightarrow \perp\}$ is consistent
+    \item (d) Let $\Gamma, \Gamma'$ be sets of formulae such that $\Gamma \subseteq \Gamma'$. If $\Gamma'$ is consistent, then so is $\Gamma$
+    \item (e) Prove Lemma 3
+\end{itemize}
+
+\section*{Question 7}
+\begin{itemize}
+    \item (a) Prove, using induction, that $\Delta_i$ is consistent, for every $i$
+    \item (b) Prove that $\Delta$ is consistent
+    \item (c) Prove that $\Delta$ is negation-complete, i.e., for every formula $\psi$, we have $(\psi \rightarrow \perp) \in \Delta$ iff $(\psi \notin \Delta)$
+    \item (d) Use the fact that $\Delta$ is negation-complete to show that for every formula $\psi$, $\psi \in \Delta$ iff $\Delta \vdash \psi$
+\end{itemize}
+
+\section*{Question 8}
+\begin{itemize}
+    \item (a) Show that for any formula $\psi$, $v \models \psi$ iff $\psi \in \Delta$
+    \item (b) Show that $v \models (\varphi \rightarrow \perp)$ and thus $\not\models \varphi$
+\end{itemize}
+
+\section*{Question 9}
+Prove Theorem 3 using Theorem 4, the Compactness theorem and the Deduction theorem
+
+\section*{Theorem 5 (Soundness of Resolution Proof System)}
+Let $\Gamma$ be a set of clauses (over propositions $P$). If there is a resolution proof of $\Gamma$, then $\Gamma$ is unsatisfiable.
+
+\section*{Question 10}
+Prove Theorem 5, \textit{Hint: Consider a resolution proof $\pi = C_1, C_2, \dots, C_n$ of $\Gamma$. Use induction to establish that for every $1 \le i \le n$ if a valuation $v$ is such that $v \models \Gamma,$ then $v \models C_i$.}
+
+\section*{Theorem 6 (Completeness of Resolution Proof System)}
+Let $\Gamma$ be a set of clauses (over propositions $P$). If $\Gamma$ is unsatisfiable, then there is a resolution proof of $\Gamma$
+
+\section*{Question 11}
+Let $\Gamma$ be an unsatisfiable set of clauses Show that, if $\Gamma$ is unsatisfiable, then there is a finite set $\Gamma_0 \subseteq_{fin} \Gamma$ such that $\Gamma_0$ is unsatisfiable.
+
+\section*{Question 12}
+Let $\Gamma_1, \Gamma_2$ be sets of clauses such that $\Gamma_1 \subseteq \Gamma_2$. Show that, if there is a resolution proof of $\Gamma_1$, then there is also a resolution proof of $\Gamma_2$
+
+\section*{Question 13}
+Inductively show that $\Delta_i$ is unsatisfiable, for every $0 \le i \le k$. Also show that $\Delta_i \neq \emptyset$ for every $0 \le i \le k$
+
+\section*{Question 14}
+Inductively show that $\Delta_i$ does not contain the literals $\{p_1, \neg p_1, \dots, p_i, \neg p_i\}$ for every $1 \le i \le k$
+
+\section*{Question 15}
+Finish the proof of Theorem 6 by explicitly constructing a resolution proof for $\Gamma$ and establishing its correctness
+
+\section*{Question 16}
+Assume that the Hilbert-style Proof System is sound and complete for propositional logic, Use these facts to establish that the Compactness Theorem holds true for propositional logic
+
+\section*{Question 17}
+Assume that the Resolution Proof System is sound and complete for propositional logic. Use these facts to establish that the Compactness Theorem holds true for propositional logic
+
 \end{document}
