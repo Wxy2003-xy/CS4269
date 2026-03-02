@@ -135,15 +135,6 @@ We are proving that the set $T_0$ we get from the intersection construction stil
     $T_0$ is \textbf{the} smallest Closed set (unique). In other word, 
     \[\forall T_0' \in \{T \mid \forall S \in ACS, T \subseteq S\}, T_0' = T_0\]
 \end{lemma}
-\begin{proof}
-Suppose otherwise, $\exists T_0' \in ACS \neq T_0$. 
-\begin{align*}
-    T_0, T_0' \in ACS &\rightarrow \forall S \in ACS, T_0 \subseteq S, T_0' \subseteq S\\
-    &\rightarrow T_0 \subseteq T_0'\land T_0' \subseteq T_0\\
-    &\rightarrow T_0 = T_0'
-\end{align*}
-A contradiction.
-\end{proof}
 Now we can use the generative rule to define formula, which is called \textbf{Backus-Naur form}. Note that a context-free grammar is a type of formal language. 
 Backus Naur form is a specification language for this type of grammar. It is used to describe language syntax.
 \subsection{Subformula}
@@ -794,8 +785,6 @@ satisfiable.
 \end{proof}
 \section{Proof System}
 \subsection{Hilbert Style Proof System }
-In HSPS we deal with formulas formed over 
-\[\phi += \]
 Four axiom schema of the hilberts style proof system. Axiom schema means that the $\phi, \psi, \rho$ in these schema are placehoders that 
 can be replaced by any valid formula
 \begin{enumerate}
@@ -867,6 +856,62 @@ Sometimes HSPS requires us to creatively introduce new hypothesis to assist in t
         \end{align*} 
     \end{proof}
 \end{example}
+\subsection{Metatheorems}
+\subsubsection{Monotonicity theorem}
+\begin{theorem}
+\[\Gamma \vdash A, \Gamma \subseteq \Delta \implies \Delta \vdash A\]    
+\end{theorem}
+\begin{proof}
+    Let the proof of $A$ from $\Gamma$ be the sequence $\langle \phi_1, \phi_2, \dots, \phi_n\rangle, \phi_n = A$
+    \subsubsection*{Base case: $n = 1$}
+    \begin{itemize}
+        \item Case 1: $\phi_1 \in \Gamma \implies \phi_1 \in \Delta \implies \Delta \vdash \phi_1$
+        \item Case 2: $\phi_1$ is from one of the axiom schema, $\Delta \vdash \phi_1$
+    \end{itemize}
+    \subsubsection*{Inductive step: $\forall i < n, \Gamma \vdash \phi_i, \Delta \vdash \phi_i$}
+    \begin{itemize}
+        \item Case 1, 2: $\phi_{i+1} \in \Gamma$ or $\phi_{i+1}$ is from one of the axiom schema, trivial
+        \item Case 3: $\phi_{i+1}$ is from Modus Ponens, $\exists \phi_j$ such that 
+        \begin{prooftree}
+            \AxiomC{$\phi_j \to \phi_{i+1}$}
+            \AxiomC{$\phi_j$}
+            \BinaryInfC{$\phi_{i+1}$}
+        \end{prooftree}
+        $\Gamma \vdash \phi_j, \Gamma \vdash \phi_j \rightarrow \phi_{i+1}$ by inductive hypothesis, $\Delta \vdash \phi_j, \Delta \vdash \phi_j \rightarrow \phi_{i+1}$, by MP, $\Delta \vdash \phi_{i+1}$
+    \end{itemize}
+\end{proof}
+\subsubsection{Deduction}
+\begin{theorem}
+\[\Gamma \cup \{A\} \vdash B \iff \Gamma \vdash A \rightarrow B\]
+\end{theorem}
+\begin{proof}
+    \subsubsection*{$(\implies)$}
+    We will use structural induction over the length of derivation from $\Gamma \cup \{A\}$ to $B$, 
+    $\Gamma \cup \{A\} \vdash B \implies \exists \langle \phi_1, \phi_2, \dots, \phi_n\rangle, \phi_n = B$.
+    \subsubsection*{Base case: $n = 1, \phi_n = B$}
+    \begin{itemize}
+        \item Case 1: $B$ is an axiom $\Gamma \vdash B$. By simplification axiom, $\Gamma \vdash B \rightarrow (A \rightarrow B)$, by MP, $\Gamma \vdash A\rightarrow B$.
+        \item Case 2: $B = A$, we will use the simplification and distribution axioms:
+        \begin{itemize}
+            \item $p \equiv A$
+            \item $q \equiv (A\rightarrow A)$
+            \item $r \equiv A$
+        \end{itemize}
+        \begin{itemize} 
+            \item $(A\rightarrow ((A \rightarrow A)\rightarrow A)) \rightarrow ((A\rightarrow (A \rightarrow A))\rightarrow (A \rightarrow A))$ (Distribution)
+            \item $A\rightarrow((A\rightarrow A)\rightarrow A)$ (Simplification)
+            \item $(A\rightarrow(A\rightarrow A)) \rightarrow(A \rightarrow A)$ (MP)
+            \item $A \rightarrow(A \rightarrow A)$ (Simplification)
+            \item $(A \rightarrow A)$ (MP)
+        \end{itemize}
+        $\Gamma \vdash A \rightarrow A \implies \Gamma \vdash A \rightarrow B$
+    \end{itemize}
+    \subsubsection*{Inductive step: Suppose $\forall i < n, \Gamma \cup \{A\} \vdash \phi_i \implies \Gamma \vdash A\rightarrow \phi_i$}
+    \begin{itemize}
+        \item Case 1: $\phi_{i+1}$ is in $\Gamma$ or $\phi_{i+1}$ is from one of the axioms, trivial
+        \item Case 2: $\phi_{i+1}$ is obtained from MP, where $\exists j \leq i, \phi_j $
+    \end{itemize}
+\end{proof}
 As seen from  this example, HSPS can get convoluted and unintuitive for relatively straightforward consequences. 
 \begin{theorem}[Soundness of HSPS]
     HSPS is sound. 
