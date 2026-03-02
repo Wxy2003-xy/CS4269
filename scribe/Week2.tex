@@ -908,8 +908,21 @@ Sometimes HSPS requires us to creatively introduce new hypothesis to assist in t
     \end{itemize}
     \subsubsection*{Inductive step: Suppose $\forall i < n, \Gamma \cup \{A\} \vdash \phi_i \implies \Gamma \vdash A\rightarrow \phi_i$}
     \begin{itemize}
-        \item Case 1: $\phi_{i+1}$ is in $\Gamma$ or $\phi_{i+1}$ is from one of the axioms, trivial
-        \item Case 2: $\phi_{i+1}$ is obtained from MP, where $\exists j \leq i, \phi_j $
+        \item Case 1, 2, 3: $\phi_{i+1}$ is in $\Gamma$ or $\phi_{i+1}$ is from one of the axioms, trivial; If $\phi_{i+1} = A$, the same as Case 2 in base case
+        \item Case 4: $\phi_{i+1}$ is obtained from MP, where $\exists j \leq i$, 
+        \begin{align*}
+        &\Gamma\cup \{A\} \vdash \phi_j &&\implies \Gamma \vdash A \rightarrow \phi_j\\
+        &\Gamma\cup \{A\} \vdash \phi_{j} \rightarrow \phi_{i+1} &&\implies \Gamma \vdash A \rightarrow (\phi_j \rightarrow \phi_{i+1})
+        \end{align*}
+        \begin{prooftree}
+            \AxiomC{$\phi_j \to \phi_{i+1}$}
+            \AxiomC{$\phi_j$}
+            \BinaryInfC{$\phi_{i+1}$}
+        \end{prooftree}
+        \begin{align*}
+            &\Gamma \vdash (A \rightarrow \phi_j) \rightarrow (A \rightarrow \phi_{i+1}) && \text{ by distribution}\\
+            &\Gamma \vdash A \rightarrow \phi_{i+1} && \text{ by MP}
+        \end{align*}
     \end{itemize}
 \end{proof}
 As seen from  this example, HSPS can get convoluted and unintuitive for relatively straightforward consequences. 

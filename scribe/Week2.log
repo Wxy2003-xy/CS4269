@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.11.22)  2 MAR 2026 17:15
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.11.22)  2 MAR 2026 19:02
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -926,27 +926,27 @@ Overfull \hbox (19.20302pt too wide) detected at line 856
  []
 
 [15] [16] [17] [18] [19] [20] [21] [22] [23] [24] [25] [26] [27] [28]
-Overfull \hbox (42.76476pt too wide) detected at line 1570
+Overfull \hbox (42.76476pt too wide) detected at line 1583
 []
  []
 
 
-Overfull \hbox (95.14935pt too wide) detected at line 1573
+Overfull \hbox (95.14935pt too wide) detected at line 1586
 \OMS/lmsy/m/n/10 8\OML/lmm/m/it/10 ^^^ \OMS/lmsy/m/n/10 2 \OML/lmm/m/it/10 FORM[]; ^^^ \OMS/lmsy/m/n/10 2 [] \OML/lmm/m/it/10 AltFORM[][]^^^ \OT1/lmr/m/n/10 = (\OMS/lmsy/m/n/10 :\OML/lmm/m/it/10  \OT1/lmr/m/n/10 )\OML/lmm/m/it/10 ;   \OMS/lmsy/m/n/10 2 [] \OML/lmm/m/it/10 AltFORM[][]^^^ \OT1/lmr/m/n/10 = (\OML/lmm/m/it/10  [] \OMS/lmsy/m/n/10 _ \OML/lmm/m/it/10  []\OT1/lmr/m/n/10 )\OML/lmm/m/it/10 ;  [];  [] \OMS/lmsy/m/n/10 2 [] \OML/lmm/m/it/10 AltFORM[]
  []
 
 [29] [30] [31] [32] [33] [34]
-Overfull \hbox (21.13402pt too wide) detected at line 1814
+Overfull \hbox (21.13402pt too wide) detected at line 1827
 \OML/lmm/m/it/10 ^^^ \OMS/lmsy/m/n/10 2 \OT1/lmr/m/n/10 (\OMS/lmsy/m/n/10 f\OT1/lmr/m/n/10 (\OMS/lmsy/m/n/10 :\OML/lmm/m/it/10  \OT1/lmr/m/n/10 ) \OMS/lmsy/m/n/10 j \OML/lmm/m/it/10   \OMS/lmsy/m/n/10 2 \OML/lmm/m/it/10 ExFORM[]\OMS/lmsy/m/n/10 g [ f\OT1/lmr/m/n/10 (\OML/lmm/m/it/10  [] \OMS/lmsy/m/n/10 _ \OML/lmm/m/it/10  []\OT1/lmr/m/n/10 ) \OMS/lmsy/m/n/10 j \OML/lmm/m/it/10  [] \OMS/lmsy/m/n/10 2 \OML/lmm/m/it/10 ExFORM[]; \OMS/lmsy/m/n/10 9\OML/lmm/m/it/10 j \OMS/lmsy/m/n/10 ^^T \OML/lmm/m/it/10 x \OMS/lmsy/m/n/10 ^^@ \OT1/lmr/m/n/10 1\OML/lmm/m/it/10 ;  [] \OMS/lmsy/m/n/10 2 \OML/lmm/m/it/10 ExFORM[]\OMS/lmsy/m/n/10 g\OT1/lmr/m/n/10 )
  []
 
 
-Overfull \hbox (48.2036pt too wide) detected at line 1816
+Overfull \hbox (48.2036pt too wide) detected at line 1829
 \OT1/lmr/m/n/10 (\OML/lmm/m/it/10 ^^^ \OMS/lmsy/m/n/10 2 f\OT1/lmr/m/n/10 (\OMS/lmsy/m/n/10 :\OML/lmm/m/it/10  \OT1/lmr/m/n/10 ) \OMS/lmsy/m/n/10 j \OML/lmm/m/it/10   \OMS/lmsy/m/n/10 2 \OML/lmm/m/it/10 ExFORM[]\OMS/lmsy/m/n/10 g\OT1/lmr/m/n/10 ) \OMS/lmsy/m/n/10 ^^H \OT1/lmr/m/n/10 (\OML/lmm/m/it/10 ^^^ \OMS/lmsy/m/n/10 2 f\OT1/lmr/m/n/10 (\OML/lmm/m/it/10  [] \OMS/lmsy/m/n/10 _ \OML/lmm/m/it/10  []\OT1/lmr/m/n/10 ) \OMS/lmsy/m/n/10 j \OML/lmm/m/it/10  [] \OMS/lmsy/m/n/10 2 \OML/lmm/m/it/10 ExFORM[]; \OMS/lmsy/m/n/10 9\OML/lmm/m/it/10 j \OMS/lmsy/m/n/10 ^^T \OML/lmm/m/it/10 x \OMS/lmsy/m/n/10 ^^@ \OT1/lmr/m/n/10 1\OML/lmm/m/it/10 ;  [] \OMS/lmsy/m/n/10 2 \OML/lmm/m/it/10 ExFORM[]\OMS/lmsy/m/n/10 g\OT1/lmr/m/n/10 )
  []
 
 [35] [36] [37]
-Overfull \hbox (141.07687pt too wide) in paragraph at lines 2009--2011
+Overfull \hbox (141.07687pt too wide) in paragraph at lines 2022--2024
 \T1/lmr/m/n/10 Assume $\OML/lmm/m/it/10 P\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 ^^^\OT1/lmr/m/n/10 )$ \T1/lmr/m/n/10 holds. If $\OML/lmm/m/it/10 ^^^$ \T1/lmr/m/n/10 has a CNF, we can first con-vert $\OMS/lmsy/m/n/10 :\OML/lmm/m/it/10 ^^^$ \T1/lmr/m/n/10 into NNF [][]https://en.wikipedia.org/wiki/Negation_normal_form[][] 
  []
 
@@ -963,7 +963,7 @@ Here is how much of TeX's memory you used:
  1141 hyphenation exceptions out of 8191
  98i,16n,94p,1610b,929s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmbxi10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmmi5.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmmi9.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmr12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmr17.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmr5.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmr7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmr9.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmsy5.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmsy7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/rsfs/rsfs10.pfb>
-Output written on Week2.pdf (51 pages, 491979 bytes).
+Output written on Week2.pdf (51 pages, 492485 bytes).
 PDF statistics:
  983 PDF objects out of 1000 (max. 8388607)
  876 compressed objects within 9 object streams
