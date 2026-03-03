@@ -1005,11 +1005,32 @@ trivial
 \subsubsection*{Inductive Case 1: $\neg$ }
 Suppose there exists a CNF $\bigwedge_i \bigvee_j \ell_{i, j}$ logically equivalent to $\phi$. 
 \begin{align*}
-    \phi = \neg\neg \phi  &= \neg\neg (\bigwedge_i \bigvee_j \ell_{i, j})\\
-    & = \neg(\bigvee (\neg \bigvee_j \ell_{i, j}))\\
-    &=\neg (\bigvee \bigwedge \neg \ell_{i, j})\\
-    &=\bigwedge \bigvee \neg \neg(\ell_{i, j})
+    \neg \phi &= \neg ((\ell_{1,1}\lor \ell_{1, 2}\lor \dots) \land (\ell_{2, 1}\lor \ell_{2, 2} \lor \dots ) \land \dots)\\
+    &=\neg(\ell_{1,1}\lor \ell_{1, 2}\lor \dots) \lor \neg(\ell_{2, 1}\lor \ell_{2, 2} \lor \dots ) \lor \dots\\
+    &=(\neg \ell_{1,1}\land \neg\ell_{1, 2}\land \dots) \lor (\neg\ell_{2, 1}\land \neg\ell_{2, 2} \land \dots ) \lor \dots\\
+    &= (\neg \ell_{1,1} \lor \neg \ell_{2, 1} \lor \dots) \land ()
 \end{align*}
+\subsubsection*{Inductive Case 2: $\land$}
+Suppose $\phi \equiv \bigwedge_{i \in I} C_i$ and $\psi \equiv \bigwedge_{j \in J} D_j$ are CNFs.
+\begin{align*}
+    \phi \land \psi &\equiv \left( \bigwedge_{i \in I} C_i \right) \land \left( \bigwedge_{j \in J} D_j \right) \\
+    &\equiv \bigwedge_{k \in I \cup J} E_k
+\end{align*}
+where $E_k$ is a clause from the set of clauses of $\phi$ or $\psi$. Since the conjunction of two conjunctions is simply a larger conjunction of the original clauses, the result is by definition a CNF.
+
+\subsubsection*{Inductive Case 3: $\lor$}
+Suppose $\phi \equiv \bigwedge_{i \in I} C_i$ and $\psi \equiv \bigwedge_{j \in J} D_j$ are CNFs. By applying the Distributive Law:
+\begin{align*}
+    \phi \lor \psi &\equiv \left( \bigwedge_{i \in I} C_i \right) \lor \left( \bigwedge_{j \in J} D_j \right) \\
+    &\equiv \bigwedge_{i \in I} \left( C_i \lor \left( \bigwedge_{j \in J} D_j \right) \right) \\
+    &\equiv \bigwedge_{i \in I} \left( \bigwedge_{j \in J} (C_i \lor D_j) \right) \\
+    &\equiv \bigwedge_{i \in I, j \in J} (C_i \lor D_j)
+\end{align*}
+
+Since each $C_i$ and $D_j$ are disjunctions of literals, their union $C_i \lor D_j$ is also a disjunction of literals, and thus a valid clause. The resulting expression is a conjunction of these clauses, satisfying the definition of a CNF.
+
+\subsubsection*{Conclusion}
+By the principle of induction on the complexity of the formula, we have shown that if the sub-formulas of $\phi$ have equivalent CNFs, then $\neg \phi$, $\phi \land \psi$, and $\phi \lor \psi$ also have equivalent CNFs. Since the set of connectives $\{\neg, \land, \lor\}$ is functionally complete, every well-formed formula can be transformed into a logically equivalent CNF.
 We can bring all negations to literal level, and supply an additional negation to each literal to negate the whole formula.
 \end{proof}
 
