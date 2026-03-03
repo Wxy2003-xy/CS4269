@@ -18,14 +18,62 @@
 \usepackage{pdfpages}
 \usepackage{mathrsfs}
 \newtheorem{theorem}{Theorem}[section]
-\newtheorem{lemma}[theorem]{Lemma}
+% \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{corollary}[theorem]{Corollary}
-\newtheorem{definition}[theorem]{Definition}
+% \newtheorem{definition}[theorem]{Definition}
 \newtheorem{example}[theorem]{Example}
 \usepackage{listings}  
 \usepackage{tikz-cd}
 \usepackage{forest}     
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems}
 
+% remove/comment out the old line:
+% \newtheorem{definition}[theorem]{Definition}
+
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+\newtheorem{definition}[theorem]{Definition}
+\let\olddefinition\definition
+\let\endolddefinition\enddefinition
+\renewenvironment{definition}
+  {\begin{tcolorbox}[
+      colback=red!10,
+      colframe=red!50!black,
+      boxrule=0.6pt,
+      arc=2pt,
+      left=6pt,right=6pt,top=4pt,bottom=4pt,
+      breakable
+    ]\olddefinition}
+  {\endolddefinition\end{tcolorbox}}
+
+\newtheorem{lemma}[theorem]{Lemma}
+\let\oldlemma\lemma
+\let\endoldlemma\endlemma
+\renewenvironment{lemma}
+  {\begin{tcolorbox}[
+      colback=green!8,
+      colframe=green!50!black,
+      boxrule=0.6pt,
+      arc=2pt,
+      left=6pt,right=6pt,top=4pt,bottom=4pt
+    ]\oldlemma}
+  {\endoldlemma\end{tcolorbox}}
+
+  \let\oldtheorem\theorem
+\let\endoldtheorem\endtheorem
+\renewenvironment{theorem}
+  {\begin{tcolorbox}[
+      colback=yellow!6,
+      colframe=yellow!60!black,
+      boxrule=0.6pt,
+      arc=2pt,
+      left=6pt,right=6pt,top=4pt,bottom=4pt,
+      parbox=false
+    ]\oldtheorem}
+  {\endoldtheorem\end{tcolorbox}}
 \usepackage{bussproofs}
 \usetikzlibrary{arrows.meta}
 \usetikzlibrary{arrows.meta,decorations.pathreplacing,calc}
@@ -45,11 +93,11 @@
   breakatwhitespace=true,
   tabsize=3
 }
-\geometry{top=1in, bottom=1in, left=1.5in, right=1.5in}
+\geometry{top=0.5in, bottom=0.5in, left=1in, right=1in}
 % ctrl shift D to toggle night 
 \begin{document}
 
-\title{Week 2-4: Propositional Logic (HW2 start from page 29)}
+\title{Propositional Logic}
 \author{Wang Xiyu A0282500R}
 \date{}
 \maketitle
@@ -66,7 +114,6 @@ a valid formula can be formulated based on this, for example $\neg \lor p$ means
 \[\Sigma = P\cup C\cup \{(, )\}\]
 \[FORM :\{\psi = p \in P \mid \neg \psi \mid \psi \lor \psi \mid (\psi) \}\]
 However this is a recursive definition as the definition of the a formula $\psi$ involves itself. We need to find a declarative way to define this recursive/inductive construction. 
-
 \begin{definition}
     FORM is \textbf{the smallest} set of strings over $\Sigma$ where 
     \begin{enumerate}
@@ -81,7 +128,7 @@ Let's remove the attributive \textbf{the smallest} first and define another set 
 \begin{definition}
     Closed is a set of strings over $\Sigma$ where 
     \begin{enumerate}
-        \item $P \subseteq Closed$
+        \item $P \subseteq Closed $
         \item $\forall \psi \in Closed, \neg \psi \in Closed$
         \item $\forall \psi_1, \psi_2 \in Closed, \psi_1 \lor \psi_2 \in Closed$
     \end{enumerate}
@@ -391,6 +438,197 @@ Note that there can be different definition on the size of the
 Similar to reduction, we need also now to show that 
 \[\exists v: P \mapsto \{T, F\}, v \models \phi \iff \langle G = (V, E), k\rangle \in L_{color}\]
 \textcolor{red}{TODO}
+
+\begin{center}
+\emph{Introduce propositional variables that encode atomic choices, then add
+constraints that enforce the combinatorial structure of the problem.}
+\end{center}
+
+\subsubsection*{1. Hamiltonian Path}
+
+\paragraph{Instance.}
+Graph $G=(V,E)$ with $|V|=n$.
+
+\paragraph{Variables.}
+For every vertex $v \in V$ and position $i \in \{1,\dots,n\}$:
+\[
+X_{v,i} \quad \text{``vertex $v$ is at position $i$ in the path.''}
+\]
+
+\paragraph{Constraints.}
+
+\begin{enumerate}
+    \item \textbf{Each position has exactly one vertex:}
+    \[
+    \bigvee_{v \in V} X_{v,i}
+    \quad\text{and pairwise exclusion.}
+    \]
+    \item \textbf{Each vertex appears exactly once:}
+    \[
+    \bigvee_{i=1}^{n} X_{v,i}
+    \quad\text{and pairwise exclusion.}
+    \]
+    \item \textbf{Adjacency constraint:}
+    If $(u,v) \notin E$, then for all $i$:
+    \[
+    \neg X_{u,i} \lor \neg X_{v,i+1}.
+    \]
+\end{enumerate}
+
+Satisfiable iff $G$ has a Hamiltonian path.
+
+\bigskip
+
+\subsubsection*{2. Clique of Size $k$}
+
+\paragraph{Instance.}
+Graph $G=(V,E)$.
+
+\paragraph{Variables.}
+For each vertex $v \in V$:
+\[
+X_v \quad \text{``vertex $v$ is selected.''}
+\]
+
+\paragraph{Constraints.}
+
+\begin{enumerate}
+    \item \textbf{At least $k$ vertices selected:}
+    Encode using a cardinality constraint.
+    \item \textbf{Selected vertices form a clique:}
+    If $(u,v) \notin E$, then
+    \[
+    \neg X_u \lor \neg X_v.
+    \]
+\end{enumerate}
+
+Satisfiable iff there exists a clique of size $\ge k$.
+
+\bigskip
+
+\subsubsection*{3. 3-Dimensional Matching}
+
+\paragraph{Instance.}
+Sets $X,Y,Z$ and triples $T \subseteq X \times Y \times Z$.
+
+\paragraph{Variables.}
+For each triple $t \in T$:
+\[
+X_t \quad \text{``triple $t$ is chosen.''}
+\]
+
+\paragraph{Constraints.}
+
+\begin{enumerate}
+    \item \textbf{No element used twice:}
+
+    If triples $t,t'$ share an element, then
+    \[
+    \neg X_t \lor \neg X_{t'}.
+    \]
+
+    \item \textbf{Select exactly $k$ triples:}
+    Encode cardinality constraint.
+\end{enumerate}
+
+Satisfiable iff there is a matching of size $k$.
+
+\bigskip
+
+\subsubsection*{4. Subset Sum}
+
+\paragraph{Instance.}
+Numbers $a_1,\dots,a_n$, target $B$.
+
+\paragraph{Variables.}
+\[
+X_i \quad \text{``$a_i$ is selected.''}
+\]
+
+\paragraph{Constraints.}
+
+We encode:
+\[
+\sum_{i=1}^n a_i X_i = B.
+\]
+
+This is reduced to propositional logic by building a binary addition circuit:
+
+\begin{itemize}
+    \item Introduce variables for each bit of partial sums.
+    \item Encode full-adder constraints using propositional clauses.
+\end{itemize}
+
+Satisfiable iff there exists a subset summing to $B$.
+
+\bigskip
+
+\subsubsection*{5. Exact Cover}
+
+\paragraph{Instance.}
+Universe $U$, collection $\mathcal{S} = \{S_1,\dots,S_m\}$.
+
+\paragraph{Variables.}
+\[
+X_i \quad \text{``set $S_i$ is selected.''}
+\]
+
+\paragraph{Constraints.}
+
+For every element $u \in U$:
+
+\begin{enumerate}
+    \item \textbf{At least one covering set:}
+    \[
+    \bigvee_{u \in S_i} X_i
+    \]
+    \item \textbf{At most one covering set:}
+    If $u \in S_i \cap S_j$ and $i \neq j$:
+    \[
+    \neg X_i \lor \neg X_j.
+    \]
+\end{enumerate}
+
+Satisfiable iff an exact cover exists.
+
+\bigskip
+
+\subsubsection*{6. Scheduling with Precedence Constraints}
+
+\paragraph{Instance.}
+Tasks $T_1,\dots,T_n$, time slots $1,\dots,m$.
+
+\paragraph{Variables.}
+\[
+X_{i,t} \quad \text{``task $i$ scheduled at time $t$.''}
+\]
+
+\paragraph{Constraints.}
+
+\begin{enumerate}
+    \item Each task scheduled exactly once.
+    \item At most one task per time slot.
+    \item If $T_i$ must precede $T_j$:
+    \[
+    X_{i,t} \rightarrow
+    \bigvee_{t' > t} X_{j,t'}.
+    \]
+\end{enumerate}
+
+\bigskip
+
+\subsubsection*{General Pattern}
+
+Almost all NP problems can be modelled by:
+
+\begin{enumerate}
+    \item Encoding choices with propositional variables.
+    \item Enforcing structural constraints with local clauses.
+    \item Encoding counting via cardinality circuits if needed.
+\end{enumerate}
+
+This modelling perspective is precisely what makes SAT solvers
+universal engines for combinatorial search.
 
 \section{Compactness Theorem}
 \begin{definition}
@@ -857,6 +1095,90 @@ Sometimes HSPS requires us to creatively introduce new hypothesis to assist in t
     \end{proof}
 \end{example}
 As seen from  this example, HSPS can get convoluted and unintuitive for relatively straightforward consequences. 
+\subsubsection*{1. Self-Implication: $\vdash p \to p$}
+
+\paragraph{Idea.}
+We must simulate identity using only distribution.
+
+\begin{enumerate}
+    \item $p \to ((p \to p) \to p)$ \hfill (Axiom 1)
+    \item $p \to (p \to p)$ \hfill (Axiom 1)
+    \item $(p \to ((p \to p) \to p)) \to ((p \to (p \to p)) \to (p \to p))$ \hfill (Axiom 2)
+    \item $(p \to (p \to p)) \to (p \to p)$ \hfill (MP 1,3)
+    \item $p \to p$ \hfill (MP 2,4)
+\end{enumerate}
+
+Even the trivial tautology requires a nontrivial derivation.
+
+\bigskip
+\subsubsection*{2. Contraposition: $\vdash (p \to q) \to ((q \to \bot) \to (p \to \bot))$}
+
+\paragraph{Idea.}
+Assume $p \to q$ and $q \to \bot$; derive $p \to \bot$ via Axiom 2.
+
+\begin{enumerate}
+    \item $(p \to (q \to \bot)) \to ((p \to q) \to (p \to \bot))$ \hfill (Axiom 2)
+    \item $(q \to \bot) \to (p \to (q \to \bot))$ \hfill (Axiom 1)
+    \item $(p \to q) \to ((q \to \bot) \to (p \to \bot))$
+\end{enumerate}
+
+The last line follows by two applications of Modus Ponens
+using (1) and (2).
+
+This shows implication reversal must be encoded indirectly.
+
+\bigskip
+\subsubsection*{3. Peirce’s Law: $\vdash ((p \to q) \to p) \to p$}
+
+This formula characterizes classical logic.
+
+\paragraph{Sketch.}
+
+\begin{enumerate}
+    \item $((p \to q) \to p) \to (((p \to q) \to p) \to ((p \to q) \to p))$ \hfill (Ax1)
+    \item Use Axiom 2 repeatedly to simulate assumption chaining.
+    \item Derive $(((p \to q) \to p) \to \bot) \to \bot$.
+    \item Apply Axiom 3 (DNE) to conclude $((p \to q) \to p) \to p$.
+\end{enumerate}
+
+The essential trick:
+Peirce’s law is obtained by embedding the formula into
+a double-negation context and applying Axiom 3.
+
+This is far from syntactically obvious.
+
+\bigskip
+\subsubsection*{4. Explosion: $\vdash \bot \to p$}
+
+In this system $\bot$ is primitive via $p \to \bot$.
+
+\paragraph{Idea.}
+Show that from $\bot$ we can derive anything.
+
+\begin{enumerate}
+    \item $p \to (\bot \to p)$ \hfill (Ax1)
+    \item $\bot \to (p \to \bot)$ \hfill (Ax1)
+    \item $(\bot \to (p \to \bot)) \to ((\bot \to p) \to (\bot \to \bot))$ \hfill (Ax2)
+    \item Derive $\bot \to \bot$ using the $p \to p$ pattern.
+    \item Conclude $\bot \to p$.
+\end{enumerate}
+
+Notice how even explosion must be simulated through distribution.
+
+\bigskip
+\subsubsection*{5. Double Negation Introduction: $\vdash p \to ((p \to \bot) \to \bot)$}
+
+Although Axiom 3 gives elimination,
+introduction must be derived.
+
+\begin{enumerate}
+    \item $(p \to \bot) \to (p \to (p \to \bot))$ \hfill (Ax1)
+    \item Use Axiom 2 to rearrange implication nesting.
+    \item Conclude $p \to ((p \to \bot) \to \bot)$.
+\end{enumerate}
+
+This illustrates asymmetry between DNE and its converse.
+
 \subsection{Metatheorems}
 \subsubsection{Monotonicity theorem}
 \begin{theorem}
@@ -961,10 +1283,195 @@ As seen from  this example, HSPS can get convoluted and unintuitive for relative
     HSPS is complete. 
     \[\Gamma \models \phi \implies \Gamma \vdash \phi\]
 \end{theorem}
-\begin{proof}
-    
-\end{proof}
 
+{\color{blue}
+    \subsection{Weak Completeness and Completeness of HSPS}
+
+We work with the Hilbert-Style Propositional System (HSPS):
+
+\begin{itemize}
+    \item Axiom 1: $p \to (q \to p)$
+    \item Axiom 2: $(p \to (q \to r)) \to ((p \to q) \to (p \to r))$
+    \item Axiom 3: $((p \to \bot) \to \bot) \to p$
+    \item Rule: Modus Ponens
+\end{itemize}
+
+We write $\vdash \varphi$ for provability and $\models \varphi$ for semantic validity.
+
+\bigskip
+\subsubsection*{1. Weak Completeness}
+
+\begin{theorem}[Weak Completeness]
+If $\models \varphi$, then $\vdash \varphi$.
+\end{theorem}
+
+\paragraph{Idea.}
+We prove the contrapositive: if $\nvdash \varphi$, then $\not\models \varphi$.
+That is, if $\varphi$ is not provable, then there exists a valuation falsifying it.
+
+\paragraph{Step 1: Consistency and Maximal Consistency.}
+
+A set $\Gamma$ is \emph{consistent} if $\Gamma \nvdash \bot$.
+
+If $\nvdash \varphi$, then $\{\neg \varphi\}$ is consistent.
+
+Using a standard Lindenbaum construction:
+
+\begin{itemize}
+    \item Extend any consistent set $\Gamma$
+    \item to a \emph{maximal consistent set} $\Delta$
+    \item such that for every formula $\psi$:
+    \[
+    \psi \in \Delta \quad \text{or} \quad \neg \psi \in \Delta.
+    \]
+\end{itemize}
+
+This construction relies only on classical logic and
+the deduction theorem (derivable in HSPS).
+
+\paragraph{Step 2: Canonical Valuation.}
+
+Define a valuation $v_\Delta$ by:
+
+\[
+v_\Delta(p) =
+\begin{cases}
+\text{true} & \text{if } p \in \Delta \\
+\text{false} & \text{otherwise}
+\end{cases}
+\]
+
+We prove by structural induction:
+
+\[
+\psi \in \Delta
+\quad \Longleftrightarrow \quad
+v_\Delta \models \psi.
+\]
+
+The key steps use:
+
+\begin{itemize}
+    \item Maximality of $\Delta$
+    \item Closure under Modus Ponens
+    \item Axiom 3 for classical negation
+\end{itemize}
+
+\paragraph{Step 3: Falsifying $\varphi$.}
+
+Since $\neg \varphi \in \Delta$,
+we obtain:
+
+\[
+v_\Delta \models \neg \varphi,
+\quad\text{hence}\quad
+v_\Delta \not\models \varphi.
+\]
+
+Therefore $\varphi$ is not valid.
+
+\paragraph{Conclusion.}
+
+\[
+\models \varphi \;\Longrightarrow\; \vdash \varphi.
+\]
+
+\hfill $\square$
+
+\bigskip
+\subsubsection*{2. Strong Completeness (Full Completeness)}
+
+\begin{theorem}[Completeness]
+If $\Gamma \models \varphi$, then $\Gamma \vdash \varphi$.
+\end{theorem}
+
+\paragraph{Reduction to Weak Completeness.}
+
+Suppose $\Gamma \models \varphi$.
+
+Then:
+\[
+\models \bigwedge \Gamma \to \varphi.
+\]
+
+If $\Gamma$ is finite, we directly apply weak completeness:
+
+\[
+\vdash (\bigwedge \Gamma) \to \varphi.
+\]
+
+Repeated applications of Modus Ponens yield:
+
+\[
+\Gamma \vdash \varphi.
+\]
+
+\paragraph{Infinite Case.}
+
+If $\Gamma$ is infinite:
+
+\begin{itemize}
+    \item If $\Gamma \models \varphi$,
+    \item then some finite subset $\Gamma_0 \subseteq \Gamma$
+    satisfies $\Gamma_0 \models \varphi$
+    (compactness of propositional logic).
+\end{itemize}
+
+Apply the finite case to $\Gamma_0$,
+then use monotonicity of derivability:
+
+\[
+\Gamma \vdash \varphi.
+\]
+
+\bigskip
+\subsubsection*{3. Conceptual Structure}
+
+Weak completeness:
+\[
+\models \varphi \Rightarrow \vdash \varphi.
+\]
+
+Strong completeness:
+\[
+\Gamma \models \varphi \Rightarrow \Gamma \vdash \varphi.
+\]
+
+The essential engine is:
+
+\begin{enumerate}
+    \item Maximal consistent sets
+    \item Canonical valuation
+    \item Truth lemma
+\end{enumerate}
+
+Axiom 3 ensures classicality, making the canonical model work.
+
+\bigskip
+\subsubsection*{4. Final Picture}
+
+Soundness:
+\[
+\vdash \varphi \Rightarrow \models \varphi.
+\]
+
+Completeness:
+\[
+\models \varphi \Rightarrow \vdash \varphi.
+\]
+
+Hence:
+
+\[
+\vdash \varphi
+\quad \Longleftrightarrow \quad
+\models \varphi.
+\]
+
+HSPS is therefore sound and complete for classical propositional logic.
+
+\hfill $\blacksquare$
+}
 
 
 
@@ -1781,7 +2288,6 @@ Claim:\[\forall i \geq 0, FORM_i \text{ is (P,C)-closed}\]
 \end{proof}
 \subsection*{6.4}
 Claim: \[\exists i \geq 0, FORM_i \text{ is (P,C)-closed}\]
-\begin{proof}
 \begin{lemma}
     \[\forall i \geq 0, \forall \phi \in FORM_i, |\phi| \leq 2^{i+3} - 3\]
     The longest formula in $FORM_i$ has size $2^{i+3}-3$. Parentheses are counted in string length
@@ -1803,6 +2309,8 @@ Claim: \[\exists i \geq 0, FORM_i \text{ is (P,C)-closed}\]
         |(\phi \lor \phi)| &=  2\times (2^{i+3} - 3) + 3 = 2^{(i+1)+3} - 3
     \end{align*}
 \end{proof}
+\begin{proof}
+
 Suppose $\exists i \geq 0, FORM_i $ is (P,C)-closed, and from lemma 2.20 the longest formula in $FORM_i$ has size 
 $|\phi_{max}| = 2^{i+3} - 3. \rightarrow \forall \phi \in FORM_i, (\neg \phi) \in FORM_i \rightarrow \phi_{max}' = (\neg \phi_{max}) \in FORM_i, |\phi_{max}'| > 2^{i+3} - 3$, a contradiction.
 
