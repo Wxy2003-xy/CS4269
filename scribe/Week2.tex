@@ -1034,20 +1034,60 @@ By the principle of induction on the complexity of the formula, we have shown th
 We can bring all negations to literal level, and supply an additional negation to each literal to negate the whole formula.
 \end{proof}
 
+\subsubsection*{The Resolution Rule}
+The system relies on a single rule of inference. Given two clauses $C'$ and $D'$ such that $C' = C \oplus \{p\}$ and $D' = D \oplus \{\neg p\}$ (where $\oplus$ denotes a disjoint union), the \textbf{resolvent} with respect to $p$ is defined as the clause:
+\[ Res(C', D') = C \cup D \]
+
+\subsubsection*{Resolution Proofs}
+A resolution proof of $\Gamma$ is a finite sequence of clauses $\pi = C_1, C_2, \dots, C_n$ where the final clause $C_n$ is the empty clause $\{\}$. For every clause $C_i$ in the sequence, one of the following must be true:
+\begin{enumerate}
+    \item $C_i$ is an original clause from the set $\Gamma$ ($C_i \in \Gamma$).
+    \item $C_i$ is the resolvent of two previous clauses $C_j$ and $C_k$ (where $j, k < i$) with respect to some proposition $p$.
+\end{enumerate}
+
+\subsubsection*{Soundness and Completeness}
 \begin{theorem}[Soundness]
-    The resolution proof system is sound 
-    \[\vdash_{RES} \Gamma \implies \Gamma \text{ is unsatisfiable}\]
+    The resolution proof system is sound: 
+    \[ \Gamma \vdash_{RES} \Box \implies \Gamma \text{ is unsatisfiable} \]
 \end{theorem}
+
 \begin{proof}
-    $\vdash_{RES} \Gamma \rightarrow$ there exists a finite sequence ends with $C_k$. 
+    Suppose there exists a resolution derivation $C_1, C_2, \dots, C_k$ where $C_k = \Box$. We proceed by induction on the length of the derivation $k$.
+    
+    \subsubsection*{Base Case: $k=1$}
+    If the empty clause $\Box$ is in the derivation at step 1, then $\Box \in \Gamma$. Since an empty clause is by definition unsatisfiable (it is an empty disjunction), $\Gamma$ is unsatisfiable.
+
+    \subsubsection*{Inductive Step}
+    Assume any clause derived in $i \leq k$ steps is a semantic consequence of $\Gamma$. Consider $C_{k+1}$ derived from $C_a$ and $C_b$ ($a, b \leq k$) using the resolution rule on literal $p$:
+    \[ C_a = \{p\} \cup C'_a, \quad C_b = \{\neg p\} \cup C'_b, \quad C_{k+1} = C'_a \cup C'_b \]
+    By the Inductive Hypothesis, $\Gamma \models C_a$ and $\Gamma \models C_b$. Let $v$ be a valuation satisfying $\Gamma$. 
+    \begin{itemize}
+        \item If $v(p) = F$, then since $v(C_a) = T$, it must be that $v(C'_a) = T$.
+        \item If $v(p) = T$, then since $v(C_b) = T$, it must be that $v(C'_b) = T$.
+    \end{itemize}
+    In either case, $v(C'_a \cup C'_b) = T$. Thus $\Gamma \models C_{k+1}$. If $C_{k+1} = \Box$, then $\Gamma \models \bot$, meaning $\Gamma$ has no model and is unsatisfiable.
 \end{proof}
+
+
+
 \begin{theorem}[Completeness]
-The resolution proof system is complete
-\[\Gamma \text{ is unsatisfiable } \implies \vdash_{RES} \Gamma\]
-    
+    The resolution proof system is complete:
+    \[ \Gamma \text{ is unsatisfiable } \implies \Gamma \vdash_{RES} \Box \]
 \end{theorem}
+
 \begin{proof}
+    We prove this by induction on the number of distinct propositional variables $n$ in $\Gamma$.
     
+    \subsubsection*{Base Case: $n=0$}
+    If $\Gamma$ is unsatisfiable and has 0 variables, it must contain the empty clause $\Box$. Thus $\Gamma \vdash_{RES} \Box$.
+
+    \subsubsection*{Inductive Step}
+    Pick a variable $p$ and define two sets:
+    \begin{itemize}
+        \item $\Gamma_{p=T}$: The set of clauses obtained by setting $p$ to True (remove clauses containing $p$, remove $\neg p$ from remaining).
+        \item $\Gamma_{p=F}$: The set of clauses obtained by setting $p$ to False (remove clauses containing $\neg p$, remove $p$ from remaining).
+    \end{itemize}
+    If $\Gamma$ is unsatisfiable, then both $\Gamma_{p=T}$ and $\Gamma_{p=F}$ are unsatisfiable. By the Inductive Hypothesis, there exist resolution proofs for $\Box$ from both sets. By re-inserting $p$ and $\neg p$, these proofs yield $\Gamma \vdash_{RES} \{p\}$ and $\Gamma \vdash_{RES} \{\neg p\}$. Resolving these two results yields $\Box$.
 \end{proof}
 \section{Complexity}
 \subsection{Turing Machine}
@@ -1285,6 +1325,245 @@ Such that
     A total function is computable in time $T:\mathbb{N} \mapsto \mathbb{N}$ if there exists $\mathcal{M}$ such that $f_{\mathcal{M}} = f$, and $\mathcal{M}$ is 
     running time bounded by $T$
 \end{theorem}
+
+
+
+
+
+\subsection{Cook--Levin Theorem}
+
+\begin{theorem}[Cook--Levin]
+\textsc{SAT} is NP-complete. In particular, for every nondeterministic Turing
+machine $\mathcal{M}$ running in polynomial time, there exists a polynomial-time
+reduction mapping any input $w$ to a Boolean formula $\Phi_{\mathcal{M},w}$
+such that
+\[
+w \in L(\mathcal{M})
+\;\Longleftrightarrow\;
+\Phi_{\mathcal{M},w} \text{ is satisfiable.}
+\]
+\end{theorem}
+
+\paragraph{Proof Outline.}
+\begin{enumerate}
+    \item $\textsc{SAT} \in \textsf{NP}$.
+    \item Every language in $\textsf{NP}$ reduces to $\textsc{SAT}$.
+\end{enumerate}
+
+We focus on (2) under the Turing machine semantics defined above.
+
+\subsubsection*{Step 1: $\textsc{SAT} \in \textsf{NP}$}
+
+Given a Boolean formula $\varphi$, guess a valuation and evaluate $\varphi$
+in time polynomial in $|\varphi|$. Hence $\textsc{SAT} \in \textsf{NP}$.
+
+\subsubsection*{Step 2: Reduction from $\textsf{NP}$ to $\textsc{SAT}$}
+
+Let $L \in \textsf{NP}$. Then there exists a nondeterministic Turing machine
+$\mathcal{M}$ and a polynomial $p(n)$ such that for every input $w$:
+
+\[
+w \in L
+\quad \Longleftrightarrow \quad
+\mathcal{M} \text{ has an accepting run on } w
+\text{ of length } \le p(|w|).
+\]
+
+Fix $w$ with $|w|=n$, and let $T = p(n)$.
+We construct a Boolean formula $\Phi_{\mathcal{M},w}$ expressing:
+
+\begin{center}
+``There exists an accepting run of $\mathcal{M}$ on $w$
+of length $\le T$.'' 
+\end{center}
+
+\subsubsection*{Encoding Configurations}
+
+Since $\mathcal{M}$ runs for at most $T$ steps:
+
+\begin{itemize}
+    \item The input head moves at most $T$ cells.
+    \item Each work tape head moves at most $T$ cells.
+\end{itemize}
+
+Thus each tape region used is bounded by $O(T)$ cells.
+
+We represent the entire computation as a \emph{tableau}:
+\[
+\text{Time } 0,1,\dots,T
+\quad \times \quad
+\text{Tape positions } -T,\dots,T
+\]
+
+Each row corresponds to a configuration.
+
+\subsubsection*{Propositional Variables}
+
+We introduce variables:
+
+\begin{itemize}
+    \item $Q_{t,q}$: machine is in state $q$ at time $t$.
+    \item $H^i_{t,x}$: head of tape $i$ is at position $x$ at time $t$.
+    \item $S^i_{t,x,\gamma}$: tape $i$ at position $x$ contains symbol $\gamma$
+    at time $t$.
+\end{itemize}
+
+Here $i=0$ denotes the input tape and $i=1,\dots,k$ the work tapes.
+
+The number of variables is polynomial in $T$.
+
+\subsubsection*{Constraints}
+
+The formula $\Phi_{\mathcal{M},w}$ is a conjunction of four parts.
+
+\paragraph{(A) Exactly-One Constraints}
+
+For every time $t$:
+
+\begin{itemize}
+    \item Exactly one state holds:
+    \[
+    \bigvee_{q \in Q} Q_{t,q}
+    \quad \land \quad
+    \bigwedge_{q \neq q'} (\neg Q_{t,q} \lor \neg Q_{t,q'})
+    \]
+    \item Exactly one head position per tape.
+    \item Exactly one symbol per tape cell.
+\end{itemize}
+
+\paragraph{(B) Initial Configuration}
+
+We enforce:
+
+\begin{itemize}
+    \item $Q_{0,q_0}$.
+    \item Input tape contains $w$.
+    \item Work tapes contain blanks.
+    \item All heads at starting position.
+\end{itemize}
+
+All of these are expressed as unit clauses.
+
+\paragraph{(C) Transition Constraints}
+
+For every $t<T$ and every possible local configuration,
+we encode the transition relation.
+
+Fix a transition
+\[
+\tau = \langle q, \sigma, \gamma_1,\dots,\gamma_k,
+q', d, \gamma_1',\dots,\gamma_k', d_1,\dots,d_k \rangle.
+\]
+
+For each position $x$, we enforce:
+
+If at time $t$:
+\begin{itemize}
+    \item state is $q$,
+    \item input head at $x$ reading $\sigma$,
+    \item work head $i$ at $x_i$ reading $\gamma_i$,
+\end{itemize}
+
+then at time $t+1$:
+\begin{itemize}
+    \item state is $q'$,
+    \item written symbols updated,
+    \item heads moved according to $d,d_i$,
+    \item all other cells unchanged.
+\end{itemize}
+
+Each such condition is encoded by clauses of the form:
+
+\[
+(\text{current configuration})
+\rightarrow
+(\text{next configuration})
+\]
+
+which is translated into CNF using Tseitin transformation.
+
+\paragraph{(D) Acceptance}
+
+We require that for some $t \le T$:
+
+\[
+Q_{t,q_{Acc}}
+\]
+
+This is encoded as:
+\[
+\bigvee_{t=0}^{T} Q_{t,q_{Acc}}.
+\]
+
+\subsubsection*{Correctness}
+
+\paragraph{Soundness}
+
+If $\mathcal{M}$ has an accepting run of length $\le T$,
+assign variables according to that run.
+
+All constraints (A)--(D) are satisfied.
+Hence $\Phi_{\mathcal{M},w}$ is satisfiable.
+
+\paragraph{Completeness}
+
+If $\Phi_{\mathcal{M},w}$ is satisfiable,
+the satisfying assignment defines:
+
+\begin{itemize}
+    \item A unique state per time,
+    \item A unique head position per time,
+    \item A unique symbol per cell,
+\end{itemize}
+
+and transition constraints ensure each configuration
+is a valid successor of the previous one.
+
+Thus we extract a valid accepting run of $\mathcal{M}$ on $w$.
+Hence $w \in L(\mathcal{M})$.
+
+\subsubsection*{Size and Complexity}
+
+\begin{itemize}
+    \item Time bound $T = p(n)$.
+    \item Tableau size $O(T^2)$.
+    \item Number of variables and clauses polynomial in $T$.
+\end{itemize}
+
+Therefore $\Phi_{\mathcal{M},w}$ can be constructed in polynomial time.
+
+\subsubsection*{Conclusion}
+
+We have shown:
+
+\[
+L \in \textsf{NP}
+\quad \Longrightarrow \quad
+L \le_p \textsc{SAT}.
+\]
+
+Since $\textsc{SAT} \in \textsf{NP}$, we conclude:
+
+\[
+\textsc{SAT} \text{ is NP-complete.}
+\]
+
+\hfill $\square$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

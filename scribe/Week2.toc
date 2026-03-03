@@ -24,11 +24,19 @@
 \contentsline {subsubsection}{\numberline {4.2.1}Monotonicity theorem}{15}{subsubsection.4.2.1}%
 \contentsline {subsubsection}{\numberline {4.2.2}Deduction}{16}{subsubsection.4.2.2}%
 \contentsline {subsection}{\numberline {4.3}Resolution Proof System}{17}{subsection.4.3}%
-\contentsline {section}{\numberline {5}Complexity}{19}{section.5}%
-\contentsline {subsection}{\numberline {5.1}Turing Machine}{19}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2}Semantics of TM}{20}{subsection.5.2}%
-\contentsline {subsection}{\numberline {5.3}Running time and Space}{22}{subsection.5.3}%
-\contentsline {subsection}{\numberline {5.4}Complexity classes}{23}{subsection.5.4}%
-\contentsline {subsection}{\numberline {5.5}Hardness}{23}{subsection.5.5}%
-\contentsline {subsection}{\numberline {5.6}Reduction}{23}{subsection.5.6}%
-\contentsline {paragraph}{Structural Induction Principle.}{38}{section*.64}%
+\contentsline {section}{\numberline {5}Complexity}{20}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Turing Machine}{20}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Semantics of TM}{21}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Running time and Space}{23}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}Complexity classes}{24}{subsection.5.4}%
+\contentsline {subsection}{\numberline {5.5}Hardness}{24}{subsection.5.5}%
+\contentsline {subsection}{\numberline {5.6}Reduction}{24}{subsection.5.6}%
+\contentsline {subsection}{\numberline {5.7}Cook--Levin Theorem}{25}{subsection.5.7}%
+\contentsline {paragraph}{Proof Outline.}{25}{section*.28}%
+\contentsline {paragraph}{(A) Exactly-One Constraints}{26}{section*.34}%
+\contentsline {paragraph}{(B) Initial Configuration}{26}{section*.35}%
+\contentsline {paragraph}{(C) Transition Constraints}{27}{section*.36}%
+\contentsline {paragraph}{(D) Acceptance}{27}{section*.37}%
+\contentsline {paragraph}{Soundness}{27}{section*.39}%
+\contentsline {paragraph}{Completeness}{27}{section*.40}%
+\contentsline {paragraph}{Structural Induction Principle.}{42}{section*.86}%
