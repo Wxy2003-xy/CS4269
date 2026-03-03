@@ -1003,7 +1003,14 @@ By this definition,
 \subsubsection*{Base case: $\phi \in P$}
 trivial
 \subsubsection*{Inductive Case 1: $\neg$ }
-Suppose there exists a CNF $\bigwedge_i \bigvee_j \ell_{i, j}$ logically equivalent to $\phi$
+Suppose there exists a CNF $\bigwedge_i \bigvee_j \ell_{i, j}$ logically equivalent to $\phi$. 
+\begin{align*}
+    \phi = \neg\neg \phi  &= \neg\neg (\bigwedge_i \bigvee_j \ell_{i, j})\\
+    & = \neg(\bigvee (\neg \bigvee_j \ell_{i, j}))\\
+    &=\neg (\bigvee \bigwedge \neg \ell_{i, j})\\
+    &=\bigwedge \bigvee \neg \neg(\ell_{i, j})
+\end{align*}
+We can bring all negations to literal level, and supply an additional negation to each literal to negate the whole formula.
 \end{proof}
 
 \begin{theorem}[Soundness]
