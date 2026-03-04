@@ -616,7 +616,196 @@ X_{i,t} \quad \text{``task $i$ scheduled at time $t$.''}
 \end{enumerate}
 
 \bigskip
+\subsection{Encoding a Full Adder in Pure Propositional Logic}
 
+A full adder takes three input bits:
+
+\[
+x,\; y,\; c_{in}
+\]
+
+and produces two outputs:
+
+\[
+s \quad (\text{sum bit}), \qquad c_{out} \quad (\text{carry bit})
+\]
+
+Semantically:
+
+\[
+s = x \oplus y \oplus c_{in}
+\]
+\[
+c_{out} = (x \land y) \lor (x \land c_{in}) \lor (y \land c_{in})
+\]
+
+We now encode this purely in propositional logic using only
+$\land,\lor,\neg$ (or $\to,\bot$ if preferred).
+
+\bigskip
+\subsubsection*{1. Encoding the Sum Bit}
+
+The sum is true iff an odd number of inputs are true.
+
+Truth table characterization:
+
+\[
+s \leftrightarrow
+(x \land \neg y \land \neg c_{in})
+\lor
+(\neg x \land y \land \neg c_{in})
+\lor
+(\neg x \land \neg y \land c_{in})
+\lor
+(x \land y \land c_{in})
+\]
+
+Thus we encode:
+
+\[
+(s \rightarrow \Phi_s)
+\;\land\;
+(\Phi_s \rightarrow s)
+\]
+
+where $\Phi_s$ is the disjunction above.
+
+\bigskip
+\subsubsection*{2. Encoding the Carry Bit}
+
+Carry is true iff at least two inputs are true:
+
+\[
+c_{out} \leftrightarrow
+(x \land y)
+\lor
+(x \land c_{in})
+\lor
+(y \land c_{in})
+\]
+
+Again encode as:
+
+\[
+(c_{out} \rightarrow \Phi_c)
+\;\land\;
+(\Phi_c \rightarrow c_{out})
+\]
+
+\bigskip
+\subsubsection*{3. CNF Encoding (SAT-friendly)}
+
+To encode for SAT, we introduce clauses.
+
+\paragraph{Carry Constraints}
+
+\[
+\neg c_{out} \lor x \lor y
+\]
+\[
+\neg c_{out} \lor x \lor c_{in}
+\]
+\[
+\neg c_{out} \lor y \lor c_{in}
+\]
+
+\[
+\neg x \lor \neg y \lor c_{out}
+\]
+\[
+\neg x \lor \neg c_{in} \lor c_{out}
+\]
+\[
+\neg y \lor \neg c_{in} \lor c_{out}
+\]
+
+\bigskip
+\paragraph{Sum Constraints (XOR Form)}
+
+We can encode $s = x \oplus y \oplus c_{in}$ using clauses:
+
+\[
+(x \lor y \lor c_{in} \lor \neg s)
+\]
+\[
+(\neg x \lor \neg y \lor c_{in} \lor \neg s)
+\]
+\[
+(\neg x \lor y \lor \neg c_{in} \lor \neg s)
+\]
+\[
+(x \lor \neg y \lor \neg c_{in} \lor \neg s)
+\]
+
+\[
+(\neg x \lor \neg y \lor \neg c_{in} \lor s)
+\]
+\[
+(x \lor y \lor \neg c_{in} \lor s)
+\]
+\[
+(x \lor \neg y \lor c_{in} \lor s)
+\]
+\[
+(\neg x \lor y \lor c_{in} \lor s)
+\]
+
+These clauses exactly encode the XOR behavior.
+
+\bigskip
+\subsubsection*{4. Circuit-Style Encoding (Cleaner)}
+
+Instead of expanding XOR directly, introduce auxiliary variables:
+
+\[
+t = x \oplus y
+\]
+\[
+s = t \oplus c_{in}
+\]
+
+Each XOR can be encoded with 4 clauses:
+
+\[
+(t \leftrightarrow x \oplus y)
+\]
+
+which in CNF becomes:
+
+\[
+(\neg x \lor \neg y \lor \neg t)
+\land
+(x \lor y \lor \neg t)
+\land
+(x \lor \neg y \lor t)
+\land
+(\neg x \lor y \lor t)
+\]
+
+This keeps formula size linear.
+
+\bigskip
+\subsubsection*{5. Why This Matters}
+
+Full adders are the atomic building blocks of:
+
+\begin{itemize}
+    \item Binary addition circuits
+    \item Subset Sum encodings
+    \item Integer programming to SAT reductions
+    \item Cook--Levin tableau arithmetic
+\end{itemize}
+
+Any arithmetic constraint can be reduced to propositional logic
+by composing full adders.
+
+\bigskip
+\subsubsection*{Conceptual Insight}
+
+Arithmetic $\longrightarrow$ Circuits $\longrightarrow$ Propositional Logic
+
+This translation is what makes SAT complete for NP:
+even numeric computation can be flattened into Boolean structure.
 \subsubsection*{General Pattern}
 
 Almost all NP problems can be modelled by:

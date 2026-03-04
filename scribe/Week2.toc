@@ -34,39 +34,42 @@
 \contentsline {paragraph}{Instance.}{10}{section*.27}%
 \contentsline {paragraph}{Variables.}{10}{section*.28}%
 \contentsline {paragraph}{Constraints.}{10}{section*.29}%
-\contentsline {section}{\numberline {3}Compactness Theorem}{10}{section.3}%
-\contentsline {subsection}{\numberline {3.1}Application of the Compactness theorem for proposition logics}{14}{subsection.3.1}%
-\contentsline {section}{\numberline {4}Proof System}{15}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Hilbert Style Proof System }{15}{subsection.4.1}%
-\contentsline {paragraph}{Idea.}{16}{section*.32}%
-\contentsline {paragraph}{Idea.}{16}{section*.34}%
-\contentsline {paragraph}{Sketch.}{17}{section*.36}%
-\contentsline {paragraph}{Idea.}{17}{section*.38}%
-\contentsline {subsection}{\numberline {4.2}Metatheorems}{17}{subsection.4.2}%
-\contentsline {subsubsection}{\numberline {4.2.1}Monotonicity theorem}{17}{subsubsection.4.2.1}%
-\contentsline {subsubsection}{\numberline {4.2.2}Deduction}{18}{subsubsection.4.2.2}%
-\contentsline {subsection}{\numberline {4.3}Weak Completeness and Completeness of HSPS}{19}{subsection.4.3}%
-\contentsline {paragraph}{Idea.}{20}{section*.48}%
-\contentsline {paragraph}{Step 1: Consistency and Maximal Consistency.}{20}{section*.49}%
-\contentsline {paragraph}{Step 2: Canonical Valuation.}{20}{section*.50}%
-\contentsline {paragraph}{Step 3: Falsifying $\varphi $.}{20}{section*.51}%
-\contentsline {paragraph}{Conclusion.}{20}{section*.52}%
-\contentsline {paragraph}{Reduction to Weak Completeness.}{20}{section*.54}%
-\contentsline {paragraph}{Infinite Case.}{21}{section*.55}%
-\contentsline {subsection}{\numberline {4.4}Resolution Proof System}{21}{subsection.4.4}%
-\contentsline {section}{\numberline {5}Complexity}{24}{section.5}%
-\contentsline {subsection}{\numberline {5.1}Turing Machine}{24}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2}Semantics of TM}{25}{subsection.5.2}%
-\contentsline {subsection}{\numberline {5.3}Running time and Space}{27}{subsection.5.3}%
-\contentsline {subsection}{\numberline {5.4}Complexity classes}{28}{subsection.5.4}%
-\contentsline {subsection}{\numberline {5.5}Hardness}{28}{subsection.5.5}%
-\contentsline {subsection}{\numberline {5.6}Reduction}{29}{subsection.5.6}%
-\contentsline {subsection}{\numberline {5.7}Cook--Levin Theorem}{29}{subsection.5.7}%
-\contentsline {paragraph}{Proof Outline.}{29}{section*.73}%
-\contentsline {paragraph}{(A) Exactly-One Constraints}{30}{section*.79}%
-\contentsline {paragraph}{(B) Initial Configuration}{30}{section*.80}%
-\contentsline {paragraph}{(C) Transition Constraints}{30}{section*.81}%
-\contentsline {paragraph}{(D) Acceptance}{31}{section*.82}%
-\contentsline {paragraph}{Soundness}{31}{section*.84}%
-\contentsline {paragraph}{Completeness}{31}{section*.85}%
-\contentsline {paragraph}{Structural Induction Principle.}{45}{section*.131}%
+\contentsline {subsection}{\numberline {2.6}Encoding a Full Adder in Pure Propositional Logic}{10}{subsection.2.6}%
+\contentsline {paragraph}{Carry Constraints}{11}{section*.33}%
+\contentsline {paragraph}{Sum Constraints (XOR Form)}{11}{section*.34}%
+\contentsline {section}{\numberline {3}Compactness Theorem}{12}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Application of the Compactness theorem for proposition logics}{15}{subsection.3.1}%
+\contentsline {section}{\numberline {4}Proof System}{17}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Hilbert Style Proof System }{17}{subsection.4.1}%
+\contentsline {paragraph}{Idea.}{18}{section*.40}%
+\contentsline {paragraph}{Idea.}{18}{section*.42}%
+\contentsline {paragraph}{Sketch.}{19}{section*.44}%
+\contentsline {paragraph}{Idea.}{19}{section*.46}%
+\contentsline {subsection}{\numberline {4.2}Metatheorems}{19}{subsection.4.2}%
+\contentsline {subsubsection}{\numberline {4.2.1}Monotonicity theorem}{19}{subsubsection.4.2.1}%
+\contentsline {subsubsection}{\numberline {4.2.2}Deduction}{20}{subsubsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.3}Weak Completeness and Completeness of HSPS}{21}{subsection.4.3}%
+\contentsline {paragraph}{Idea.}{22}{section*.56}%
+\contentsline {paragraph}{Step 1: Consistency and Maximal Consistency.}{22}{section*.57}%
+\contentsline {paragraph}{Step 2: Canonical Valuation.}{22}{section*.58}%
+\contentsline {paragraph}{Step 3: Falsifying $\varphi $.}{22}{section*.59}%
+\contentsline {paragraph}{Conclusion.}{22}{section*.60}%
+\contentsline {paragraph}{Reduction to Weak Completeness.}{22}{section*.62}%
+\contentsline {paragraph}{Infinite Case.}{23}{section*.63}%
+\contentsline {subsection}{\numberline {4.4}Resolution Proof System}{23}{subsection.4.4}%
+\contentsline {section}{\numberline {5}Complexity}{26}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Turing Machine}{26}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Semantics of TM}{27}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Running time and Space}{29}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}Complexity classes}{30}{subsection.5.4}%
+\contentsline {subsection}{\numberline {5.5}Hardness}{30}{subsection.5.5}%
+\contentsline {subsection}{\numberline {5.6}Reduction}{31}{subsection.5.6}%
+\contentsline {subsection}{\numberline {5.7}Cook--Levin Theorem}{31}{subsection.5.7}%
+\contentsline {paragraph}{Proof Outline.}{31}{section*.81}%
+\contentsline {paragraph}{(A) Exactly-One Constraints}{32}{section*.87}%
+\contentsline {paragraph}{(B) Initial Configuration}{32}{section*.88}%
+\contentsline {paragraph}{(C) Transition Constraints}{32}{section*.89}%
+\contentsline {paragraph}{(D) Acceptance}{33}{section*.90}%
+\contentsline {paragraph}{Soundness}{33}{section*.92}%
+\contentsline {paragraph}{Completeness}{33}{section*.93}%
+\contentsline {paragraph}{Structural Induction Principle.}{47}{section*.139}%
