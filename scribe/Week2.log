@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.11.22)  4 MAR 2026 14:24
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.11.22)  6 MAR 2026 11:17
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -990,35 +990,26 @@ Overfull \hbox (68.80685pt too wide) in paragraph at lines 3032--3034
 \T1/lmr/m/n/10 Assume $\OML/lmm/m/it/10 P\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 ^^^\OT1/lmr/m/n/10 )$ \T1/lmr/m/n/10 holds. If $\OML/lmm/m/it/10 ^^^$ \T1/lmr/m/n/10 has a CNF, we can first con-vert $\OMS/lmsy/m/n/10 :\OML/lmm/m/it/10 ^^^$ \T1/lmr/m/n/10 into NNF [][]https://en.wikipedia.org/wiki/Negation_normal_form[][] 
  []
 
-[49] [50] [51] [52] [53] [54] [55] [56] [57] [58] [59] [60] (./Week2.aux)
+[49] [50] [51] [52] [53] [54] [55] [56] [57] [58] [59] [60] [61] (./Week2.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-
-Package rerunfilecheck Warning: File `Week2.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `Week2.out':
-(rerunfilecheck)             Before: 61750C9AB3989CAF7B715184D6FD3CDF;5825
-(rerunfilecheck)             After:  A4C031BA056E069D8AE1D391062C11A1;6149.
+Package rerunfilecheck Info: File `Week2.out' has not changed.
+(rerunfilecheck)             Checksum: A4C031BA056E069D8AE1D391062C11A1;6149.
  ) 
 Here is how much of TeX's memory you used:
- 38322 strings out of 476025
- 846456 string characters out of 5790016
+ 38326 strings out of 476025
+ 846503 string characters out of 5790016
  1895388 words of memory out of 5000000
- 57625 multiletter control sequences out of 15000+600000
+ 57626 multiletter control sequences out of 15000+600000
  623732 words of font info for 103 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  98i,16n,94p,1629b,929s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmbxi10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmcsc10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmcsco10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmmi5.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmmi9.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmr12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmr17.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmr5.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmr7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmr9.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmss10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmssbx10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmsy5.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmsy7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/rsfs/rsfs10.pfb>
-Output written on Week2.pdf (60 pages, 614349 bytes).
+Output written on Week2.pdf (61 pages, 615825 bytes).
 PDF statistics:
- 1208 PDF objects out of 1440 (max. 8388607)
- 1082 compressed objects within 11 object streams
- 556 named destinations out of 1000 (max. 500000)
- 293 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1221 PDF objects out of 1440 (max. 8388607)
+ 1094 compressed objects within 11 object streams
+ 559 named destinations out of 1000 (max. 500000)
+ 301 words of extra memory for PDF output out of 10000 (max. 10000000)
 

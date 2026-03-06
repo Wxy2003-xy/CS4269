@@ -3475,25 +3475,7 @@ The Hilbert-style (or Frege) proof system for propositional logic comprises of 3
 
 \section*{Question 1}
 Let $\Gamma, \Gamma'$ be sets of propositional logic formulae and let $\varphi$ be a formula. Show that if $\Gamma \vdash \varphi$ and if $\Gamma \subseteq \Gamma'$, then $\Gamma' \vdash \varphi$
-\begin{proof}
-    $\Gamma \vdash \varphi \implies \exists $ a proof for $\phi, \langle \phi_1, \phi_2, \dots, \phi_n\rangle, \phi_n = \varphi$
-    \subsubsection*{Base case: $n = 1$}
-    \begin{itemize}
-        \item Case 1: $\varphi \in \Gamma \implies \varphi \in \Gamma' \implies \Gamma' \vdash \varphi$
-        \item Case 2: $\varphi$ is from Axiom 1 or 2 or 3, $\vdash \varphi \implies \Gamma' \vdash \varphi$
-    \end{itemize}
-    \subsubsection*{Inductive case: Suppose $\forall i < n, \Gamma \vdash \phi_i \implies \Gamma' \vdash \phi_i$}
-    \begin{itemize}
-        \item Case 1: $\varphi$ is from axiom 1, 2, 3, trivial
-        \item Case 2: $\varphi$ is from Modus Ponens, $\exists i, j < n, \phi_i \equiv \phi_j \rightarrow \varphi, \Gamma \vdash \phi_i, \Gamma \vdash \phi_j$ 
-        \begin{prooftree}
-            \AxiomC{$\phi_j \to \varphi$}
-            \AxiomC{$\phi_j$}
-            \BinaryInfC{$\varphi$}
-        \end{prooftree}
-        From indeuctive hypothesis, $\Gamma' \vdash \phi_i, \Gamma' \vdash \phi_j, \Gamma' \vdash \varphi$
-    \end{itemize}
-\end{proof}
+
 \section*{Theorem 1 (Deduction Theorem)}
 Let $\Gamma$ be a set of propositional logic formulae and $\varphi, \psi$ be propositional logic formulae. $\Gamma \vdash (\varphi \rightarrow \psi)$ iff $\Gamma \cup \{\varphi\} \vdash \psi$
 
