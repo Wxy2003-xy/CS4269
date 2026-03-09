@@ -97,13 +97,13 @@
 % ctrl shift D to toggle night 
 \begin{document}
 
-\title{Propositional Logic}
+\title{CS4269}
 \author{Wang Xiyu A0282500R}
 \date{}
 \maketitle
 \tableofcontents
 \newpage
-\section{Syntax}
+\section{Syntax of Propositional Logics}
 \begin{definition}
     DSyntax decides what are allowed to be written
 \end{definition}
@@ -206,7 +206,7 @@ A formula $\phi_1$ is a subformula of $\phi_2$ if and only if $\phi_1$ is a well
 \[p \lor q \not\preccurlyeq \neg p \lor q\]
 \textcolor{red}{What if we tighten the syntax by strictly enforce the use of parenthese whenver we can}
 
-\section{Sematics}
+\section{Sematics of Propositional Logics}
 \begin{definition}
     Sematics describe meanings.
 \end{definition}
@@ -819,7 +819,7 @@ Almost all NP problems can be modelled by:
 This modelling perspective is precisely what makes SAT solvers
 universal engines for combinatorial search.
 
-\section{Compactness Theorem}
+\section{Compactness Theorem for Propositional Logics}
 \begin{definition}
     Axiom of Choice: formally
     \[\forall X, \emptyset \in X \lor \exists f, dom(f)= X \land \forall A \in X, f(A) \in A\]
@@ -3494,21 +3494,93 @@ Let $\Gamma, \Gamma'$ be sets of propositional logic formulae and let $\varphi$ 
         From indeuctive hypothesis, $\Gamma' \vdash \phi_i, \Gamma' \vdash \phi_j, \Gamma' \vdash \varphi$
     \end{itemize}
 \end{proof}
-\section*{Theorem 1 (Deduction Theorem)}
-Let $\Gamma$ be a set of propositional logic formulae and $\varphi, \psi$ be propositional logic formulae. $\Gamma \vdash (\varphi \rightarrow \psi)$ iff $\Gamma \cup \{\varphi\} \vdash \psi$
-
 \section*{Question 2}
-Prove Theorem 1. Do not use the completeness theorem (Theorem 3) to establish this! We will instead use Theorem 1 to establish Theorem 3 in later questions. \textit{Hint: One direction is easier. For the other direction, consider a proof $\pi = \psi_1, \psi_2, \dots, \psi_n$ of $\psi$ from $\Gamma \cup \{\varphi\}$, 
-Use induction on the index $i$ to show that the formula $(\varphi \rightarrow \psi_i)$ can be proved from $\Gamma$}
 
+\begin{theorem}[Deduction Theorem]
+    Let $\Gamma$ be a set of propositional logic formulae and $\varphi, \psi$ be propositional logic formulae. $\Gamma \vdash (\varphi \rightarrow \psi)$ iff $\Gamma \cup \{\varphi\} \vdash \psi$.
+\end{theorem}
+
+\begin{proof}
+    \subsubsection*{($\implies$)} 
+    \begin{enumerate}
+        \item $\Gamma \vdash \varphi \rightarrow \psi$ (Given)
+        \item $\Gamma \cup \{\varphi\} \vdash \varphi \rightarrow \psi$ (Monotonicity)
+        \item $\Gamma \cup \{\varphi\} \vdash \varphi$ (Assumption)
+        \item $\Gamma \cup \{\varphi\} \vdash \psi$ (MP 2, 3)
+    \end{enumerate}
+
+    \subsubsection*{($\impliedby$)} 
+    Let $\pi = \psi_1, \dots, \psi_n$ be a proof of $\psi$ from $\Gamma \cup \{\varphi\}$. Assume $\forall j < i, \Gamma \vdash \varphi \rightarrow \psi_j$.
+
+    \paragraph{Case 1: $\psi_i \in \Gamma$ or $\psi_i$ is an Axiom}
+    \begin{enumerate}
+        \item $\Gamma \vdash \psi_i$ (Assumption/Axiom)
+        \item $\Gamma \vdash \psi_i \rightarrow (\varphi \rightarrow \psi_i)$ (Ax 1)
+        \item $\Gamma \vdash \varphi \rightarrow \psi_i$ (MP 1, 2)
+    \end{enumerate}
+
+    \paragraph{Case 2: $\psi_i = \varphi$}
+    \begin{enumerate}
+        \item $\Gamma \vdash (\varphi\rightarrow ((\varphi \rightarrow \varphi)\rightarrow \varphi)) \rightarrow ((\varphi\rightarrow (\varphi \rightarrow \varphi))\rightarrow (\varphi \rightarrow \varphi))$ (Ax 2)
+        \item $\Gamma \vdash \varphi\rightarrow((\varphi\rightarrow \varphi)\rightarrow \varphi)$ (Ax 1)
+        \item $\Gamma \vdash (\varphi\rightarrow(\varphi\rightarrow \varphi)) \rightarrow(\varphi \rightarrow \varphi)$ (MP 1, 2)
+        \item $\Gamma \vdash \varphi \rightarrow(\varphi \rightarrow \varphi)$ (Ax 1)
+        \item $\Gamma \vdash (\varphi \rightarrow \varphi)$ (MP 3, 4)
+    \end{enumerate}
+
+    \paragraph{Case 3: $\psi_i$ via MP from $\psi_j, \psi_k$ where $\psi_j = \psi_k \rightarrow \psi_i$}
+    \begin{enumerate}
+        \item $\Gamma \vdash \varphi \rightarrow (\psi_k \rightarrow \psi_i)$ (IH)
+        \item $\Gamma \vdash (\varphi \rightarrow (\psi_k \rightarrow \psi_i)) \rightarrow ((\varphi \rightarrow \psi_k) \rightarrow (\varphi \rightarrow \psi_i))$ (Ax 2)
+        \item $\Gamma \vdash (\varphi \rightarrow \psi_k) \rightarrow (\varphi \rightarrow \psi_i)$ (MP 1, 2)
+        \item $\Gamma \vdash \varphi \rightarrow \psi_k$ (IH)
+        \item $\Gamma \vdash \varphi \rightarrow \psi_i$ (MP 3, 4)
+    \end{enumerate}
+
+\end{proof}
 \section*{Question 3}
-Prove the following (in the Hilbert proof system). Here, $\varphi, \psi,$ and $\rho$ are propositional logic formulae, and $\Gamma$ is a set of propositional logic formulae
-\begin{itemize}
-    \item (a) $\vdash \varphi \rightarrow \varphi$ 
-    \item (b) $\vdash (\psi \rightarrow \varphi) \rightarrow \varphi$, where $\psi = \varphi \rightarrow \perp$
-    \item (c) $\{\perp\} \vdash \varphi$ 
-    \item (d) $\vdash \psi \rightarrow (\varphi \rightarrow \rho)$ where $\psi = \varphi \rightarrow \perp$
-\end{itemize}
+\subsection*{(a) $\vdash \varphi \rightarrow \varphi$}
+Done in Q2
+
+\subsection*{(b) $\vdash (\psi \rightarrow \varphi) \rightarrow \varphi$, where $\psi = \varphi \rightarrow \perp$}
+\begin{proof}
+    $\equiv \{\psi \rightarrow \varphi\} \vdash \varphi$.
+    \begin{enumerate}
+        \item $(\varphi \rightarrow \perp) \rightarrow \varphi$ (Assumption)
+        \item $((\varphi \rightarrow \perp) \rightarrow \perp) \rightarrow \varphi$ (Axiom 3)
+        \item $((\varphi \rightarrow \perp) \rightarrow \varphi) \rightarrow (((\varphi \rightarrow \perp) \rightarrow (\varphi \rightarrow \perp)) \rightarrow ((\varphi \rightarrow \perp) \rightarrow \perp))$ (Axiom 2)
+        \item $((\varphi \rightarrow \perp) \rightarrow (\varphi \rightarrow \perp)) \rightarrow ((\varphi \rightarrow \perp) \rightarrow \perp)$ (MP 1, 3)
+        \item $(\varphi \rightarrow \perp) \rightarrow (\varphi \rightarrow \perp)$ (Part a)
+        \item $(\varphi \rightarrow \perp) \rightarrow \perp$ (MP 4, 5)
+        \item $\varphi$ (MP 2, 6)
+    \end{enumerate}
+    (Wikipedia: Peirce's law).
+\end{proof}
+
+\subsection*{(c) $\{\perp\} \vdash \varphi$}
+\begin{proof}
+    \begin{enumerate}
+        \item $\perp$ (Assumption)
+        \item $\perp \rightarrow ((\varphi \rightarrow \perp) \rightarrow \perp)$ (Axiom 1)
+        \item $(\varphi \rightarrow \perp) \rightarrow \perp$ (MP 1, 2)
+        \item $((\varphi \rightarrow \perp) \rightarrow \perp) \rightarrow \varphi$ (Axiom 3)
+        \item $\varphi$ (MP 3, 4)
+    \end{enumerate}
+\end{proof}
+
+\subsection*{(d) $\vdash \psi \rightarrow (\varphi \rightarrow \rho)$ where $\psi = \varphi \rightarrow \perp$}
+\begin{proof}
+    $\equiv \{\varphi \rightarrow \perp, \varphi\} \vdash \rho$.
+    \begin{enumerate}
+        \item $\varphi \rightarrow \perp$ (Assumption)
+        \item $\varphi$ (Assumption)
+        \item $\perp$ (MP 1, 2)
+        \item $\perp \rightarrow ((\rho \rightarrow \perp) \rightarrow \perp)$ (Axiom 1)
+        \item $(\rho \rightarrow \perp) \rightarrow \perp$ (MP 3, 4)
+        \item $((\rho \rightarrow \perp) \rightarrow \perp) \rightarrow \rho$ (Axiom 3)
+        \item $\rho$ (MP 5, 6)
+    \end{enumerate}
+\end{proof}
 
 \section*{Theorem 2 (Soundness of Hilbert-style Proof System)}
 Let $\Gamma$ be a set of propositional logic formulae and $\varphi$ be a propositional logic formula. If $\Gamma \vdash \varphi$, then $\Gamma \models \varphi$
@@ -3521,7 +3593,10 @@ Let $\Gamma$ be a set of propositional logic formulae and $\varphi$ be a proposi
 
 \section*{Theorem 4 (Weak Completeness of Hilbert-style Proof System)}
 Let $\varphi$ be a propositional logic formula. If $\models \varphi$, then $\vdash \varphi$.
-
+\begin{definition}[Inconsistent set]
+    $\Gamma$ is inconsistent $\iff$
+    \[\exists \varphi, \Gamma \vdash \varphi, \Gamma \vdash (\varphi \rightarrow \bot)\]
+\end{definition}
 \section*{Question 5}
 Prove that two notions of a set being inconsistent are identical. That is, prove that the following two statements are equivalent
 \begin{enumerate}
@@ -3541,16 +3616,106 @@ Let $\Gamma$ be a set of formulae. If $\Gamma$ is inconsistent, then there is a 
 \section*{Question 6}
 \begin{itemize}
     \item (a) Prove Lemma 1
+        \begin{proof}
+            From deduction thm, $\Gamma \vdash (\varphi \rightarrow \perp) \rightarrow \psi$ and $\Gamma \vdash (\varphi \rightarrow \perp) \rightarrow (\psi \rightarrow \perp)$.
+            \begin{enumerate}
+                \item $\Gamma \vdash (\varphi \rightarrow \perp) \rightarrow (\psi \rightarrow \perp)$ 
+                \item $\Gamma \vdash ((\varphi \rightarrow \perp) \rightarrow (\psi \rightarrow \perp)) \rightarrow (((\varphi \rightarrow \perp) \rightarrow \psi) \rightarrow ((\varphi \rightarrow \perp) \rightarrow \perp))$ (Ax 2)
+                \item $\Gamma \vdash ((\varphi \rightarrow \perp) \rightarrow \psi) \rightarrow ((\varphi \rightarrow \perp) \rightarrow \perp)$ (MP 1, 2)
+                \item $\Gamma \vdash (\varphi \rightarrow \perp) \rightarrow \psi$
+                \item $\Gamma \vdash (\varphi \rightarrow \perp) \rightarrow \perp$ (MP 3, 4)
+                \item $\Gamma \vdash ((\varphi \rightarrow \perp) \rightarrow \perp) \rightarrow \varphi$ (Ax 3)
+                \item $\Gamma \vdash \varphi$ (MP 5, 6)
+            \end{enumerate}
+        \end{proof}
     \item (b) Prove Lemma 2
+    \begin{proof}
+        By definition, $\Gamma \cup \{\varphi\} \vdash \psi$ and $\Gamma \cup \{\varphi\} \vdash (\psi \rightarrow \perp)$ for some $\psi$. 
+        By the Deduction:
+        \begin{enumerate}
+            \item $\Gamma \vdash \varphi \rightarrow \psi$
+            \item $\Gamma \vdash \varphi \rightarrow (\psi \rightarrow \perp)$
+            \item $\Gamma \vdash (\varphi \rightarrow (\psi \rightarrow \perp)) \rightarrow ((\varphi \rightarrow \psi) \rightarrow (\varphi \rightarrow \perp))$ (Ax 2)
+            \item $\Gamma \vdash (\varphi \rightarrow \psi) \rightarrow (\varphi \rightarrow \perp)$ (MP 2, 3)
+            \item $\Gamma \vdash \varphi \rightarrow \perp$ (MP 1, 4)
+        \end{enumerate}
+    \end{proof}
     \item (c) Let $\Gamma$ be a set of formulae and $\varphi$ be a formula. Show that, if $\Gamma$ is consistent, then at least one of $\Gamma \cup \{\varphi\}$ or $\Gamma \cup \{\varphi \rightarrow \perp\}$ is consistent
+    \begin{proof}
+        Suppos otherwise, $\Gamma$ is consistent, $\Gamma \cup \{\varphi\}$ and $\Gamma \cup \{\varphi \rightarrow \perp\}$ are inconsistent.
+        Since $\Gamma \cup \{\varphi\}$ is inconsistent, by Lemma 2
+        \[
+        \Gamma \vdash \varphi \rightarrow \perp.
+        \]
+        Since $\Gamma \cup \{\varphi \rightarrow \perp\}$ is inconsistent, by Lemma 1 we have
+        \[
+        \Gamma \vdash \varphi.
+        \]
+        \[
+        \Gamma \vdash \perp.
+        \]
+        By explosion, pick an arbitrary formula $\psi, 
+        \Gamma \vdash \bot \vdash \psi, \Gamma \vdash \bot \vdash \psi \rightarrow \bot, \Gamma$ is inconsistent, contradiction.
+        \end{proof}
     \item (d) Let $\Gamma, \Gamma'$ be sets of formulae such that $\Gamma \subseteq \Gamma'$. If $\Gamma'$ is consistent, then so is $\Gamma$
-    \item (e) Prove Lemma 3
+    \begin{proof}
+        Suppose othrewise, $\Gamma$ is inconsistent,
+        \[
+        \Gamma \vdash \perp.
+        \]
+        $\Gamma \subseteq \Gamma'$, by monotonicity of derivability we have
+        \[
+        \Gamma' \vdash \perp.
+        \]
+        Contradiction.
+        \end{proof}
+    \item (e)
+    \begin{proof}
+        $\Gamma $ is inconsistent, $\exists \varphi,  \Gamma \vdash \varphi, \Gamma \vdash (\varphi \rightarrow \bot)$
+        there exists a finite proof for both $\varphi$ and $\varphi \rightarrow \bot$. Consider 
+        \begin{itemize}
+            \item $\pi_1 = \langle\phi_1, \phi_2, \dots, \phi_n\rangle, \phi_n = \varphi$
+            \item $\pi_2 = \langle\psi_1, \psi_2, \dots, \psi_m\rangle, \psi_m = \varphi \rightarrow \bot$
+        \end{itemize}
+        We construct $\Gamma'$ as such: $\forall i < n, j < m, $ if $\phi_i \in \Gamma, \phi_i \in \Gamma'$; if $\psi_j \in \Gamma, \psi_j \in \Gamma'$ 
+        Therefore $\forall \eta \in \Gamma', \eta \in \Gamma, \Gamma' \subseteq \Gamma$; $|\Gamma'| \leq n + m, \Gamma'$ is a finite subset of $\Gamma$.
+        Since $pi_1$ is a proof for $\phi$, $\forall \phi \in \pi_1, \phi \in \Gamma \implies \phi \in \Gamma'$; We can easily show that same proof can be 
+        constructed from $\Gamma'$ by induction. Same case for $\Gamma'\vdash \varphi \rightarrow \bot$. Therefore $\Gamma'$ is inconsistent.       
+    \end{proof}
 \end{itemize}
+\begin{definition}
+    \begin{itemize}
+        \item $\Delta_0 = \{\varphi \rightarrow \bot\}$
+        \item $\Delta_{i+1} = \begin{cases}
+            \Delta_i \cup \{\varphi_i\} \text{ if } \Delta_i \cup \{\varphi_i\} \text{ is consistent}\\
+            \Delta_i \cup \{\varphi_i \rightarrow \bot\} \text{ otherwise}
+        \end{cases}$
+    \end{itemize}
+    \[\Delta = \bigcup_{i\geq 0} \Delta_i\]
+\end{definition}
+\begin{lemma}
+    $\Gamma$ is consistent $\implies \Gamma \cup \{\varphi\}$ or $\Gamma \cup \{\varphi \rightarrow \bot\}$ is consistent.
+\end{lemma}
 
 \section*{Question 7}
 \begin{itemize}
     \item (a) Prove, using induction, that $\Delta_i$ is consistent, for every $i$
+    \begin{proof}
+        \subsubsection*{Base case: $\Delta_0$}
+        Suppose otherwise, $\Delta_0=\{\varphi \rightarrow \bot\}$ is inconsistent. Then by Lemma 1, 
+        \[
+        \vdash \varphi.
+        \]
+        Contradiction.
+        \subsubsection*{Inductive case: Suppose $\forall j \leq i, \Delta_j$ is consistent}
+        By lemma above, $\Delta_i$ is consistent $\implies \Delta_i \cup \{\varphi_i\}$ is consistent or $\Delta_i \cup \{\varphi_i \rightarrow \bot\}$
+        is consistent $\implies \Delta_{i+1}$ is consistent
+    \end{proof}
+
     \item (b) Prove that $\Delta$ is consistent
+    \begin{proof}
+        Suppose otherwise, $\Delta$ is inconsistent, by Lemma 3, $\exists \Delta' \subseteq_{fin} \Delta, \Delta'$ is inconsistent.
+    \end{proof}
     \item (c) Prove that $\Delta$ is negation-complete, i.e., for every formula $\psi$, we have $(\psi \rightarrow \perp) \in \Delta$ iff $(\psi \notin \Delta)$
     \item (d) Use the fact that $\Delta$ is negation-complete to show that for every formula $\psi$, $\psi \in \Delta$ iff $\Delta \vdash \psi$
 \end{itemize}
