@@ -1,0 +1,678 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}    
+\usepackage[T1]{fontenc}       
+\usepackage{lmodern}           
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,       % false: boxed links; true: colored links
+    linkcolor=blue,        % color of internal links (sections, etc.)
+    urlcolor=cyan,         % color of external links
+    linktoc=all            % 'all' makes both text and page number clickable
+}
+\usepackage{amsmath}   
+\usepackage{amssymb}   
+\usepackage{geometry}  
+\usepackage{enumerate} 
+\usepackage{xcolor}  
+\usepackage{amsthm}
+\usepackage{pdfpages}
+\usepackage{mathrsfs}
+\newtheorem{theorem}{Theorem}[section]
+% \newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+% \newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\usepackage{listings}  
+\usepackage{tikz-cd}
+\usepackage{forest}     
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems}
+
+% remove/comment out the old line:
+% \newtheorem{definition}[theorem]{Definition}
+
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+\newtheorem{definition}[theorem]{Definition}
+\let\olddefinition\definition
+\let\endolddefinition\enddefinition
+\renewenvironment{definition}
+  {\begin{tcolorbox}[
+      colback=red!10,
+      colframe=red!50!black,
+      boxrule=0.6pt,
+      arc=2pt,
+      left=6pt,right=6pt,top=4pt,bottom=4pt,
+      breakable
+    ]\olddefinition}
+  {\endolddefinition\end{tcolorbox}}
+
+\newtheorem{lemma}[theorem]{Lemma}
+\let\oldlemma\lemma
+\let\endoldlemma\endlemma
+\renewenvironment{lemma}
+  {\begin{tcolorbox}[
+      colback=green!8,
+      colframe=green!50!black,
+      boxrule=0.6pt,
+      arc=2pt,
+      left=6pt,right=6pt,top=4pt,bottom=4pt
+    ]\oldlemma}
+  {\endoldlemma\end{tcolorbox}}
+
+  \let\oldtheorem\theorem
+\let\endoldtheorem\endtheorem
+\renewenvironment{theorem}
+  {\begin{tcolorbox}[
+      colback=yellow!6,
+      colframe=yellow!60!black,
+      boxrule=0.6pt,
+      arc=2pt,
+      left=6pt,right=6pt,top=4pt,bottom=4pt,
+      parbox=false
+    ]\oldtheorem}
+  {\endoldtheorem\end{tcolorbox}}
+\usepackage{bussproofs}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{arrows.meta,decorations.pathreplacing,calc}
+\lstset{frame=tb,
+  language=C,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,   
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{brown},
+  stringstyle=\color{orange},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+\geometry{top=0.5in, bottom=0.5in, left=1in, right=1in}
+% ctrl shift D to toggle night 
+\begin{document}
+
+\title{HW3}
+\author{Wang Xiyu A0282500R}
+\date{}
+\maketitle
+\newpage
+\section*{Hilbert-style Proof System}
+The Hilbert-style (or Frege) proof system for propositional logic comprises of 3 axiom schema and the modus ponens rule of inference
+
+\begin{itemize}
+    \item \textbf{Axiom Schema 1:} $\varphi \rightarrow (\psi \rightarrow \varphi)$ 
+    \item \textbf{Axiom Schema 2:} $(\varphi \rightarrow (\psi \rightarrow \rho)) \rightarrow ((\varphi \rightarrow \psi) \rightarrow (\varphi \rightarrow \rho))$ 
+    \item \textbf{Axiom Schema 3:} $((\varphi \rightarrow \perp) \rightarrow \perp) \rightarrow \varphi$
+    \item \textbf{Modus Ponens:} From $\varphi$ and $\varphi \rightarrow \psi$, infer $\psi$
+\end{itemize}
+
+\section*{Question 1}
+Let $\Gamma, \Gamma'$ be sets of propositional logic formulae and let $\varphi$ be a formula. Show that if $\Gamma \vdash \varphi$ and if $\Gamma \subseteq \Gamma'$, then $\Gamma' \vdash \varphi$
+\begin{proof}
+    $\Gamma \vdash \varphi \implies \exists $ a proof for $\phi, \langle \phi_1, \phi_2, \dots, \phi_n\rangle, \phi_n = \varphi$
+    \subsubsection*{Base case: $n = 1$}
+    \begin{itemize}
+        \item Case 1: $\varphi \in \Gamma \implies \varphi \in \Gamma' \implies \Gamma' \vdash \varphi$
+        \item Case 2: $\varphi$ is from Axiom 1 or 2 or 3, $\vdash \varphi \implies \Gamma' \vdash \varphi$
+    \end{itemize}
+    \subsubsection*{Inductive case: Suppose $\forall i < n, \Gamma \vdash \phi_i \implies \Gamma' \vdash \phi_i$}
+    \begin{itemize}
+        \item Case 1: $\varphi$ is from axiom 1, 2, 3, trivial
+        \item Case 2: $\varphi$ is from Modus Ponens, $\exists i, j < n, \phi_i \equiv \phi_j \rightarrow \varphi, \Gamma \vdash \phi_i, \Gamma \vdash \phi_j$ 
+        \begin{prooftree}
+            \AxiomC{$\phi_j \to \varphi$}
+            \AxiomC{$\phi_j$}
+            \BinaryInfC{$\varphi$}
+        \end{prooftree}
+        From indeuctive hypothesis, $\Gamma' \vdash \phi_i, \Gamma' \vdash \phi_j, \Gamma' \vdash \varphi$
+    \end{itemize}
+\end{proof}
+\section*{Question 2}
+
+\begin{theorem}[Deduction Theorem]
+    Let $\Gamma$ be a set of propositional logic formulae and $\varphi, \psi$ be propositional logic formulae. $\Gamma \vdash (\varphi \rightarrow \psi)$ iff $\Gamma \cup \{\varphi\} \vdash \psi$.
+\end{theorem}
+
+\begin{proof}
+    \subsubsection*{($\implies$)} 
+    \begin{enumerate}
+        \item $\Gamma \vdash \varphi \rightarrow \psi$ (Given)
+        \item $\Gamma \cup \{\varphi\} \vdash \varphi \rightarrow \psi$ (Monotonicity)
+        \item $\Gamma \cup \{\varphi\} \vdash \varphi$ (Assumption)
+        \item $\Gamma \cup \{\varphi\} \vdash \psi$ (MP 2, 3)
+    \end{enumerate}
+
+    \subsubsection*{($\impliedby$)} 
+    Let $\pi = \psi_1, \dots, \psi_n$ be a proof of $\psi$ from $\Gamma \cup \{\varphi\}$. Assume $\forall j < i, \Gamma \vdash \varphi \rightarrow \psi_j$.
+
+    \paragraph{Case 1: $\psi_i \in \Gamma$ or $\psi_i$ is an Axiom}
+    \begin{enumerate}
+        \item $\Gamma \vdash \psi_i$ (Assumption/Axiom)
+        \item $\Gamma \vdash \psi_i \rightarrow (\varphi \rightarrow \psi_i)$ (Ax 1)
+        \item $\Gamma \vdash \varphi \rightarrow \psi_i$ (MP 1, 2)
+    \end{enumerate}
+
+    \paragraph{Case 2: $\psi_i = \varphi$}
+    \begin{enumerate}
+        \item $\Gamma \vdash (\varphi\rightarrow ((\varphi \rightarrow \varphi)\rightarrow \varphi)) \rightarrow ((\varphi\rightarrow (\varphi \rightarrow \varphi))\rightarrow (\varphi \rightarrow \varphi))$ (Ax 2)
+        \item $\Gamma \vdash \varphi\rightarrow((\varphi\rightarrow \varphi)\rightarrow \varphi)$ (Ax 1)
+        \item $\Gamma \vdash (\varphi\rightarrow(\varphi\rightarrow \varphi)) \rightarrow(\varphi \rightarrow \varphi)$ (MP 1, 2)
+        \item $\Gamma \vdash \varphi \rightarrow(\varphi \rightarrow \varphi)$ (Ax 1)
+        \item $\Gamma \vdash (\varphi \rightarrow \varphi)$ (MP 3, 4)
+    \end{enumerate}
+
+    \paragraph{Case 3: $\psi_i$ via MP from $\psi_j, \psi_k$ where $\psi_j = \psi_k \rightarrow \psi_i$}
+    \begin{enumerate}
+        \item $\Gamma \vdash \varphi \rightarrow (\psi_k \rightarrow \psi_i)$ (IH)
+        \item $\Gamma \vdash (\varphi \rightarrow (\psi_k \rightarrow \psi_i)) \rightarrow ((\varphi \rightarrow \psi_k) \rightarrow (\varphi \rightarrow \psi_i))$ (Ax 2)
+        \item $\Gamma \vdash (\varphi \rightarrow \psi_k) \rightarrow (\varphi \rightarrow \psi_i)$ (MP 1, 2)
+        \item $\Gamma \vdash \varphi \rightarrow \psi_k$ (IH)
+        \item $\Gamma \vdash \varphi \rightarrow \psi_i$ (MP 3, 4)
+    \end{enumerate}
+
+\end{proof}
+\section*{Question 3}
+\subsection*{(a) $\vdash \varphi \rightarrow \varphi$}
+Done in Q2
+
+\subsection*{(b) $\vdash (\psi \rightarrow \varphi) \rightarrow \varphi$, where $\psi = \varphi \rightarrow \perp$}
+\begin{proof}
+    $\equiv \{\psi \rightarrow \varphi\} \vdash \varphi$.
+    \begin{enumerate}
+        \item $(\varphi \rightarrow \perp) \rightarrow \varphi$ (Assumption)
+        \item $((\varphi \rightarrow \perp) \rightarrow \perp) \rightarrow \varphi$ (Axiom 3)
+        \item $((\varphi \rightarrow \perp) \rightarrow \varphi) \rightarrow (((\varphi \rightarrow \perp) \rightarrow (\varphi \rightarrow \perp)) \rightarrow ((\varphi \rightarrow \perp) \rightarrow \perp))$ (Axiom 2)
+        \item $((\varphi \rightarrow \perp) \rightarrow (\varphi \rightarrow \perp)) \rightarrow ((\varphi \rightarrow \perp) \rightarrow \perp)$ (MP 1, 3)
+        \item $(\varphi \rightarrow \perp) \rightarrow (\varphi \rightarrow \perp)$ (Part a)
+        \item $(\varphi \rightarrow \perp) \rightarrow \perp$ (MP 4, 5)
+        \item $\varphi$ (MP 2, 6)
+    \end{enumerate}
+    (Wikipedia: Peirce's law).
+\end{proof}
+
+\subsection*{(c) $\{\perp\} \vdash \varphi$}
+\begin{proof}
+    \begin{enumerate}
+        \item $\perp$ (Assumption)
+        \item $\perp \rightarrow ((\varphi \rightarrow \perp) \rightarrow \perp)$ (Axiom 1)
+        \item $(\varphi \rightarrow \perp) \rightarrow \perp$ (MP 1, 2)
+        \item $((\varphi \rightarrow \perp) \rightarrow \perp) \rightarrow \varphi$ (Axiom 3)
+        \item $\varphi$ (MP 3, 4)
+    \end{enumerate}
+\end{proof}
+
+\subsection*{(d) $\vdash \psi \rightarrow (\varphi \rightarrow \rho)$ where $\psi = \varphi \rightarrow \perp$}
+\begin{proof}
+    $\equiv \{\varphi \rightarrow \perp, \varphi\} \vdash \rho$.
+    \begin{enumerate}
+        \item $\varphi \rightarrow \perp$ (Assumption)
+        \item $\varphi$ (Assumption)
+        \item $\perp$ (MP 1, 2)
+        \item $\perp \rightarrow ((\rho \rightarrow \perp) \rightarrow \perp)$ (Axiom 1)
+        \item $(\rho \rightarrow \perp) \rightarrow \perp$ (MP 3, 4)
+        \item $((\rho \rightarrow \perp) \rightarrow \perp) \rightarrow \rho$ (Axiom 3)
+        \item $\rho$ (MP 5, 6)
+    \end{enumerate}
+\end{proof}
+
+\section*{Theorem 2 (Soundness of Hilbert-style Proof System)}
+Let $\Gamma$ be a set of propositional logic formulae and $\varphi$ be a propositional logic formula. If $\Gamma \vdash \varphi$, then $\Gamma \models \varphi$
+
+\section*{Question 4}
+Prove Theorem 2. \textit{Hint: Given a proof, inductively establish that every formula in the proof is a logical consequence of the assumptions.}
+\begin{proof}
+    Let $\pi=\phi_1,\phi_2,\dots,\phi_n$ be a proof of $\varphi$ from $\Gamma$, so $\phi_n=\varphi$
+    \[
+    \Gamma \models \phi_i
+    \]
+    $\forall 1\le i\le n$.
+    
+    \begin{enumerate}
+        \item If $\phi_i \in \Gamma \implies \Gamma \models \phi_i$.
+    
+        \item If $\phi_i$ from an axiom, $\models \phi_i$
+    
+        \item Otherwise, $\phi_i$ is by MP from $\phi_j$ and $\phi_k=\phi_j\rightarrow \phi_i$, where $j,k<i$. By IH
+        \[
+        \Gamma \models \phi_j, \qquad
+        \Gamma \models \phi_j\rightarrow \phi_i.
+        \]
+        Let $v\models \Gamma, v\models \phi_j, v\models \phi_j\rightarrow \phi_i, v\models (\neg \phi_j \lor \phi_i), v\models \phi_i$
+    \end{enumerate}
+    
+    Therefore $\Gamma \models \phi_n = \varphi$. Thus $\Gamma \vdash \varphi$ implies $\Gamma \models \varphi$.
+    \end{proof}
+\section*{Theorem 3 (Completeness of Hilbert-style Proof System)}
+Let $\Gamma$ be a set of propositional logic formulae and $\varphi$ be a propositional logic formula. If $\Gamma \models \varphi$, then $\Gamma \vdash \varphi$
+
+\section*{Theorem 4 (Weak Completeness of Hilbert-style Proof System)}
+Let $\varphi$ be a propositional logic formula. If $\models \varphi$, then $\vdash \varphi$.
+\begin{definition}[Inconsistent set]
+    $\Gamma$ is inconsistent $\iff$
+    \[\exists \varphi, \Gamma \vdash \varphi, \Gamma \vdash (\varphi \rightarrow \bot)\]
+\end{definition}
+\section*{Question 5}
+Prove that two notions of a set being inconsistent are identical. That is, prove that the following two statements are equivalent
+\begin{enumerate}
+    \item There is a formula $\varphi$ such that $\Gamma \vdash \varphi$ and $\Gamma \vdash (\varphi \rightarrow \perp)$
+    \item For every formula $\rho$, $\Gamma \vdash \rho$
+\end{enumerate}
+\begin{proof}
+    $(1 \Rightarrow 2)$: If $\Gamma \vdash \varphi$ and $\Gamma \vdash \varphi \rightarrow \bot$, then by MP $\Gamma \vdash \bot$; since $\{\bot\} \vdash \rho$ for every formula $\rho$, by monotonicity we get $\Gamma \vdash \rho$ for every formula $\rho$.
+    
+    $(2 \Rightarrow 1)$: for any formula $\varphi$, taking $\rho=\varphi$ and $\rho=\varphi \rightarrow \bot$ gives $\Gamma \vdash \varphi$ and $\Gamma \vdash \varphi \rightarrow \bot$.
+    \end{proof}
+\section*{Lemma 1}
+Let $\Gamma$ be a set of formulae and $\varphi$ be a formula. If $\Gamma \cup \{\varphi \rightarrow \perp\}$ is inconsistent, then $\Gamma \vdash \varphi$
+
+\section*{Lemma 2}
+Let $\Gamma$ be a set of formulae and $\varphi$ be a formula. If $\Gamma \cup \{\varphi\}$ is inconsistent, then $\Gamma \vdash (\varphi \rightarrow \perp)$
+
+\section*{Lemma 3}
+Let $\Gamma$ be a set of formulae. If $\Gamma$ is inconsistent, then there is a finite subset $\Gamma' \subseteq_{fin} \Gamma$ of $\Gamma$ such that $\Gamma'$ is also inconsistent
+
+\section*{Question 6}
+\begin{itemize}
+    \item (a) Prove Lemma 1
+        \begin{proof}
+            From deduction thm, $\Gamma \vdash (\varphi \rightarrow \perp) \rightarrow \psi$ and $\Gamma \vdash (\varphi \rightarrow \perp) \rightarrow (\psi \rightarrow \perp)$.
+            \begin{enumerate}
+                \item $\Gamma \vdash (\varphi \rightarrow \perp) \rightarrow (\psi \rightarrow \perp)$ 
+                \item $\Gamma \vdash ((\varphi \rightarrow \perp) \rightarrow (\psi \rightarrow \perp)) \rightarrow (((\varphi \rightarrow \perp) \rightarrow \psi) \rightarrow ((\varphi \rightarrow \perp) \rightarrow \perp))$ (Ax 2)
+                \item $\Gamma \vdash ((\varphi \rightarrow \perp) \rightarrow \psi) \rightarrow ((\varphi \rightarrow \perp) \rightarrow \perp)$ (MP 1, 2)
+                \item $\Gamma \vdash (\varphi \rightarrow \perp) \rightarrow \psi$
+                \item $\Gamma \vdash (\varphi \rightarrow \perp) \rightarrow \perp$ (MP 3, 4)
+                \item $\Gamma \vdash ((\varphi \rightarrow \perp) \rightarrow \perp) \rightarrow \varphi$ (Ax 3)
+                \item $\Gamma \vdash \varphi$ (MP 5, 6)
+            \end{enumerate}
+        \end{proof}
+    \item (b) Prove Lemma 2
+    \begin{proof}
+        By definition, $\Gamma \cup \{\varphi\} \vdash \psi$ and $\Gamma \cup \{\varphi\} \vdash (\psi \rightarrow \perp)$ for some $\psi$. 
+        By the Deduction:
+        \begin{enumerate}
+            \item $\Gamma \vdash \varphi \rightarrow \psi$
+            \item $\Gamma \vdash \varphi \rightarrow (\psi \rightarrow \perp)$
+            \item $\Gamma \vdash (\varphi \rightarrow (\psi \rightarrow \perp)) \rightarrow ((\varphi \rightarrow \psi) \rightarrow (\varphi \rightarrow \perp))$ (Ax 2)
+            \item $\Gamma \vdash (\varphi \rightarrow \psi) \rightarrow (\varphi \rightarrow \perp)$ (MP 2, 3)
+            \item $\Gamma \vdash \varphi \rightarrow \perp$ (MP 1, 4)
+        \end{enumerate}
+    \end{proof}
+    \item (c) Let $\Gamma$ be a set of formulae and $\varphi$ be a formula. Show that, if $\Gamma$ is consistent, then at least one of $\Gamma \cup \{\varphi\}$ or $\Gamma \cup \{\varphi \rightarrow \perp\}$ is consistent
+    \begin{proof}
+        Suppos otherwise, $\Gamma$ is consistent, $\Gamma \cup \{\varphi\}$ and $\Gamma \cup \{\varphi \rightarrow \perp\}$ are inconsistent.
+        Since $\Gamma \cup \{\varphi\}$ is inconsistent, by Lemma 2
+        \[
+        \Gamma \vdash \varphi \rightarrow \perp.
+        \]
+        Since $\Gamma \cup \{\varphi \rightarrow \perp\}$ is inconsistent, by Lemma 1 we have
+        \[
+        \Gamma \vdash \varphi.
+        \]
+        \[
+        \Gamma \vdash \perp.
+        \]
+        By explosion, pick an arbitrary formula $\psi, 
+        \Gamma \vdash \bot \vdash \psi, \Gamma \vdash \bot \vdash \psi \rightarrow \bot, \Gamma$ is inconsistent, contradiction.
+        \end{proof}
+    \item (d) Let $\Gamma, \Gamma'$ be sets of formulae such that $\Gamma \subseteq \Gamma'$. If $\Gamma'$ is consistent, then so is $\Gamma$
+    \begin{proof}
+        Suppose othrewise, $\Gamma$ is inconsistent,
+        \[
+        \Gamma \vdash \perp.
+        \]
+        $\Gamma \subseteq \Gamma'$, by monotonicity of derivability we have
+        \[
+        \Gamma' \vdash \perp.
+        \]
+        Contradiction.
+        \end{proof}
+    \item (e)
+    \begin{proof}
+        $\Gamma $ is inconsistent, $\exists \varphi,  \Gamma \vdash \varphi, \Gamma \vdash (\varphi \rightarrow \bot)$
+        there exists a finite proof for both $\varphi$ and $\varphi \rightarrow \bot$. Consider 
+        \begin{itemize}
+            \item $\pi_1 = \langle\phi_1, \phi_2, \dots, \phi_n\rangle, \phi_n = \varphi$
+            \item $\pi_2 = \langle\psi_1, \psi_2, \dots, \psi_m\rangle, \psi_m = \varphi \rightarrow \bot$
+        \end{itemize}
+        We construct $\Gamma'$ as such: $\forall i < n, j < m, $ if $\phi_i \in \Gamma, \phi_i \in \Gamma'$; if $\psi_j \in \Gamma, \psi_j \in \Gamma'$ 
+        Therefore $\forall \eta \in \Gamma', \eta \in \Gamma, \Gamma' \subseteq \Gamma$; $|\Gamma'| \leq n + m, \Gamma'$ is a finite subset of $\Gamma$.
+        Since $pi_1$ is a proof for $\phi$, $\forall \phi \in \pi_1, \phi \in \Gamma \implies \phi \in \Gamma'$; We can easily show that same proof can be 
+        constructed from $\Gamma'$ by induction. Same case for $\Gamma'\vdash \varphi \rightarrow \bot$. Therefore $\Gamma'$ is inconsistent.       
+    \end{proof}
+\end{itemize}
+\begin{definition}
+    \begin{itemize}
+        \item $\Delta_0 = \{\varphi \rightarrow \bot\}$
+        \item $\Delta_{i+1} = \begin{cases}
+            \Delta_i \cup \{\varphi_i\} \text{ if } \Delta_i \cup \{\varphi_i\} \text{ is consistent}\\
+            \Delta_i \cup \{\varphi_i \rightarrow \bot\} \text{ otherwise}
+        \end{cases}$
+    \end{itemize}
+    \[\Delta = \bigcup_{i\geq 0} \Delta_i\]
+\end{definition}
+\begin{lemma}
+    $\Gamma$ is consistent $\implies \Gamma \cup \{\varphi\}$ or $\Gamma \cup \{\varphi \rightarrow \bot\}$ is consistent.
+\end{lemma}
+
+\section*{Question 7}
+\begin{itemize}
+    \item (a) Prove, using induction, that $\Delta_i$ is consistent, for every $i$
+    \begin{proof}
+        \subsubsection*{Base case: $\Delta_0$}
+        Suppose otherwise, $\Delta_0=\{\varphi \rightarrow \bot\}$ is inconsistent. Then by Lemma 1, 
+        \[
+        \vdash \varphi.
+        \]
+        Contradiction.
+        \subsubsection*{Inductive case: Suppose $\forall j \leq i, \Delta_j$ is consistent}
+        By lemma above, $\Delta_i$ is consistent $\implies \Delta_i \cup \{\varphi_i\}$ is consistent or $\Delta_i \cup \{\varphi_i \rightarrow \bot\}$
+        is consistent $\implies \Delta_{i+1}$ is consistent
+    \end{proof}
+
+    \item (b) Prove that $\Delta$ is consistent
+    \begin{proof}
+        Suppose otherwise, $\Delta$ is inconsistent, by Lemma 3, $\exists \Delta' \subseteq_{fin} \Delta, \Delta'$ is inconsistent. Since $\Delta'$ is finite, let the highest ranked formula in $\Delta'$
+        be $n, \forall \varphi \in \Delta', \varphi \in \Delta_n$. From b), $\Delta_n$ is consistent, by 6d), $\Delta'$ is consistent, contradiction.
+    \end{proof}
+    \item (c) Prove that $\Delta$ is negation-complete, i.e., for every formula $\psi$, we have $(\psi \rightarrow \perp) \in \Delta$ iff $(\psi \notin \Delta)$
+    \begin{proof}
+        \subsubsection*{$\implies$}
+        Let $\psi = \varphi_{n+1}, \Delta_{n}$ is consistent. $\Delta_{n+1} = \Delta_n \cup \{\psi\}$ if $\Delta_n \cup \{\psi\}$ is consistnet. Suppose $\psi \rightarrow \bot\in \Delta$, 
+        $\Delta \vdash \psi, \Delta \vdash \psi \rightarrow \bot \implies \Delta$ is inconsitent, contradiction. Therefore $\psi \in \Delta \implies \psi \rightarrow \bot \notin \Delta$ 
+        \subsubsection*{$\impliedby$}
+        Suppose otherwise, $\psi \rightarrow \bot \in \Delta, \psi \in \Delta, \Delta \vdash \psi, \Delta \vdash \psi \rightarrow \bot \implies \Delta$ is inconsistent, contradiction.
+    \end{proof}
+    \item (d) Use the fact that $\Delta$ is negation-complete to show that for every formula $\psi$, $\psi \in \Delta$ iff $\Delta \vdash \psi$
+    \begin{proof}
+        \subsubsection*{$\implies$}
+        trivial by definition
+        \subsubsection*{$\impliedby$}
+        Consider $\Delta \vdash \psi$. Suppose $\psi \notin \Delta, \psi \rightarrow \bot \in \Delta, 
+        \Delta \vdash \psi \rightarrow \bot$. 
+        Since $\Delta \vdash \psi$, by MP, $\Delta \vdash \bot$, 
+        $\Delta$ is inconsistent, contradiction. Therefore $\psi \in \Delta$.
+        \end{proof}
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section*{Question 8}
+\begin{itemize}
+    \item (a) Show that for any formula $\psi$, $v \models \psi$ iff $\psi \in \Delta$
+    \begin{proof}
+        \subsubsection*{Base case:}
+        \begin{enumerate}
+            \item $\psi \in P$: by definition, $v(p) = true \iff p \in \Delta$
+            \item $\psi = \bot$: always $v(\bot) = false, \bot \notin \Delta \implies v\models \bot \iff \bot \in \Delta$ vacuously
+        \end{enumerate}
+        \subsubsection*{Inductive case: $\psi = a \rightarrow b$}
+        Suppose 
+        \begin{itemize}
+            \item $v\models a \iff a \in \Delta$
+            \item $v\models b \iff b \in \Delta$
+        \end{itemize}
+        \subsubsection*{Case $\implies$}
+        Suppose $v\models a\rightarrow b$, $a \rightarrow b \notin \Delta, (a \rightarrow b) \rightarrow \bot \in \Delta$, 
+        $\Delta \vdash (a\rightarrow b)\rightarrow \bot.$\\
+        Now we show that $b \notin \Delta$
+        \begin{itemize}
+            \item Suppose otherwise, $b\in \Delta, \Delta \vdash b$, by ax 1, $\Delta \vdash b \rightarrow (a \rightarrow b) \implies \Delta \vdash a \rightarrow b$ by MP, contradiction.
+        \end{itemize}
+        Now we show that $a \in \Delta$
+        \begin{itemize}
+            \item Suppose otherwise, $a \not \in \Delta \implies a \rightarrow \bot \in \Delta$, from 
+             \[\vdash (\varphi \rightarrow \bot)\rightarrow (\varphi \rightarrow \rho)\]
+            $\Delta \vdash (a \rightarrow \bot) \rightarrow (a \rightarrow b)$. By MP, $\Delta \vdash a \rightarrow b$, contradiction.
+        \end{itemize}
+        Now with $b \notin \Delta$ and $a \in \Delta$, by IH, $v\models a$ and $v\not \models b \implies v\not \models a\rightarrow b$, contradiction.
+        \subsubsection*{Case $\impliedby$}
+        Suppose otherwise, $a\rightarrow b \in \Delta$, $v\models a$ and $v\not \models b$. 
+        By IH, $a \in \Delta$ and $b \notin \Delta$, $b \rightarrow \bot \in \Delta\implies \Delta \vdash a, \Delta \vdash a \rightarrow b,$ by MP,
+        $\Delta \vdash b \implies b \in \Delta$, contradiction.
+    \end{proof}
+    \item (b) Show that $v \models (\varphi \rightarrow \perp)$ and thus $\not\models \varphi$
+    \begin{proof}
+        $\{\varphi \rightarrow \bot\} \in \Delta \implies v \models (\varphi \rightarrow \bot) \implies v \not \models \varphi \implies \not \models \varphi$.
+    \end{proof}
+\end{itemize}
+
+\section*{Question 9}
+Prove Theorem 3 using Theorem 4, the Compactness theorem and the Deduction theorem
+\begin{proof}
+    $\Gamma \models \varphi \implies \Gamma \cup \{\varphi \rightarrow \bot\}$ is unsat, so by Compactness
+    $
+    \exists \Gamma_0 = \{\psi_1,\dots,\psi_n\} \subseteq_{\mathrm{fin}} \Gamma,
+    $ such that
+    $
+    \Gamma_0 \cup \{\varphi \rightarrow \bot\}$
+    is unsat, 
+    \[ \{\psi_1, \dots, \psi_n, (\varphi \rightarrow \perp)\} \text{ is unsat} \implies 
+    (\psi_1 \land \dots \land \psi_n \land (\varphi \rightarrow \perp)) \models \perp
+    \]
+
+    \[
+    \models \psi_1 \rightarrow (\psi_2 \rightarrow \dots (\psi_n \rightarrow ((\varphi \rightarrow \bot)\rightarrow \bot))\dots)
+    \]
+    (https://en.wikipedia.org/wiki/Exportation\_(logic)) by Theorem 4
+    \[
+    \emptyset \vdash \psi_1 \rightarrow (\psi_2 \rightarrow \dots (\psi_n \rightarrow ((\varphi \rightarrow \bot)\rightarrow \bot))\dots)
+    \]
+    Apply deduction thm 
+    \[\{\psi_1\}\vdash (\psi_2 \rightarrow \dots (\psi_n \rightarrow ((\varphi \rightarrow \bot)\rightarrow \bot))\dots)\]
+    until we get
+    \[
+    \Gamma_0 \vdash (\varphi \rightarrow \bot)\rightarrow \bot.
+    \]
+    Using ax 3:
+    \[
+    \vdash ((\varphi \rightarrow \bot)\rightarrow \bot)\rightarrow \varphi,
+    \]
+    By MP
+    \[
+    \Gamma_0 \vdash \varphi.
+    \]
+    Since $\Gamma_0 \subseteq \Gamma$, by monotonicity,
+    \[
+    \Gamma \vdash \varphi.
+    \]
+    \end{proof}
+\section*{Theorem 5 (Soundness of Resolution Proof System)}
+Let $\Gamma$ be a set of clauses (over propositions $P$). If there is a resolution proof of $\Gamma$, then $\Gamma$ is unsatisfiable.
+
+\section*{Question 10}
+Prove Theorem 5, \textit{Hint: Consider a resolution proof $\pi = C_1, C_2, \dots, C_n$ of $\Gamma$. Use induction to establish that for every $1 \le i \le n$ if a valuation $v$ is such that $v \models \Gamma,$ then $v \models C_i$.}
+\begin{proof}
+    Let $\pi = C_1, C_2, \dots, C_n$ be a resolution proof of $\Gamma$, where $C_n = \emptyset$.
+    
+    We prove by induction on $i$ that for every $1 \leq i \leq n$, $v \models \Gamma, v \models C_i$.
+    
+    $i \in \{1,\dots,n\}$ and suppose $v \models \Gamma$.
+    \begin{enumerate}
+        \item $C_i \in \Gamma$, $v \models C_i$.
+    
+        \item $C_i$ is a resolvent of two earlier clauses $C_j$ and $C_k$ wrt some proposition $p$, where
+        \[
+        C_j = C \uplus \{p\}, \qquad C_k = D \uplus \{\neg p\},
+        \]
+        and
+        $
+        C_i = C \cup D.
+        $
+        By the IH, $j,k < i, v \models C_j \quad \text{and} \quad v \models C_k$
+        We show that $v \models C_i$.
+        Suppose, $v \not\models C_i = C \cup D$. Then $v$ satisfies neither any literal in $C$ nor any literal in $D$.
+        Since $v \models C_j = C \uplus \{p\}$ and no literal in $C$ is satisfied by $v$, it must be that $v \models p$, i.e. $v(p)=\mathrm{true}$
+        Since $v \models C_k = D \uplus \{\neg p\}$ and no literal in $D$ is satisfied by $v$, it must be that $v \models \neg p$, i.e. $v(p)=\mathrm{false}$,
+    Contradicton
+    \end{enumerate}
+    \end{proof}
+\section*{Theorem 6 (Completeness of Resolution Proof System)}
+Let $\Gamma$ be a set of clauses (over propositions $P$). If $\Gamma$ is unsatisfiable, then there is a resolution proof of $\Gamma$
+
+\section*{Question 11}
+Let $\Gamma$ be an unsatisfiable set of clauses Show that, if $\Gamma$ is unsatisfiable, then there is a finite set $\Gamma_0 \subseteq_{fin} \Gamma$ such that $\Gamma_0$ is unsatisfiable.
+\begin{proof}
+    Suppose $\Gamma$ is unsat,by Compactness, $\exists \Gamma' \subseteq_{fin}\Gamma, \Gamma' $ is unsat (?)
+    \end{proof}
+\section*{Question 12}
+Let $\Gamma_1, \Gamma_2$ be sets of clauses such that $\Gamma_1 \subseteq \Gamma_2$. Show that, if there is a resolution proof of $\Gamma_1$, then there is also a resolution proof of $\Gamma_2$
+\begin{proof}
+    Let $\pi = C_1, C_2, \dots, C_n$ be a resolution proof of $\Gamma_1$
+    
+    $\forall 1 \leq i \leq n$, $\pi$ is a resolution proof of $\Gamma_1$, either:
+    \begin{enumerate}
+        \item $C_i \in \Gamma_1$, or
+        \item $\exists j, k < i$, $C_i$ is a resolvent of $C_j$ and $C_k$
+    \end{enumerate}
+    If $C_i \in \Gamma_1, C_i \in \Gamma_2$
+    Otherwise, this fact is independent of the choice of the initial clause set, so the same derivation is valid in a proof from $\Gamma_2$.
+    \end{proof}
+\section*{Question 13}
+    Next, we constructed a sequence of sets as follows. Here, we assume that the set of
+    propositions occurring in $\Gamma_0$ can be enumerated as $p_1, p_2, \dots, p_k$.
+    
+    \[
+    \Delta_0 = \Gamma_0
+    \]
+    
+    \[
+    \Delta_{i+1} =
+    \Delta_i^{\emptyset}
+    \;\cup\;
+    \{\, C \cup D \mid
+    C \uplus \{p_{i+1}\} \in \Delta_i^{+},
+    \;
+    D \uplus \{\neg p_{i+1}\} \in \Delta_i^{-}
+    \,\}
+    \]
+    
+    where
+    
+    \begin{itemize}
+    \item $\Delta_i^{\emptyset}$ is the set of clauses in $\Delta_i$ that contain neither the literal $p_{i+1}$ nor $\neg p_{i+1}$,
+    \item $\Delta_i^{+}$ is the set of clauses in $\Delta_i$ that contain the literal $p_{i+1}$ but not $\neg p_{i+1}$,
+    \item $\Delta_i^{-}$ is the set of clauses in $\Delta_i$ that contain the literal $\neg p_{i+1}$ but not $p_{i+1}$.
+    \end{itemize}
+    
+    Inductively show that $\Delta_i$ is unsat for every $0 \le i \le k$.
+    Also show that $\Delta_i \ne \emptyset$ for every $0 \le i \le k$.
+
+
+\begin{proof}
+    \subsubsection*{Base case:} $i=0$.
+    By construction, $\Delta_0 = \Gamma_0$. From 11, $\Gamma_0$ is a finite unsat subset of $\Gamma$
+    \subsubsection*{Inductive step:}
+    Suppose $\Delta_i$ is unsat and $\Delta_i \neq \emptyset$. We show $\Delta_{i+1}$ is unsat and nonempty.
+    Suppose that $\exists v, v \models \Delta_{i+1}$, consider $v(p_{i+1})$
+    \begin{itemize}
+    \item If $v(p_{i+1}) = \text{true}$, then every clause in $\Delta_i^{+}$ is sat by $v$ due to $p_{i+1}$, and $\Delta_i^{\emptyset} \subseteq \Delta_{i+1}$ thus sat by $v$. 
+    
+    For every resolvent $C \cup D \in \Delta_{i+1}$ with
+    \[
+    C \uplus \{p_{i+1}\} \in \Delta_i^{+}, \quad
+    D \uplus \{\neg p_{i+1}\} \in \Delta_i^{-},
+    \]
+    $v \models C \cup D$. Since $v(p_{i+1}) = \text{true}$, the clause $D \uplus \{\neg p_{i+1}\}$ must be satisfied by some literal in $D$, hence $v \models D$. Thus $v$ satisfies every clause in $\Delta_i^{-}$. Contradiction    
+    \item case $v(p_{i+1}) = \text{false}$: similar
+    \end{itemize}
+\end{proof}
+\section*{Question 14}
+Inductively show that $\Delta_i$ does not contain the literals $\{p_1, \neg p_1, \dots, p_i, \neg p_i\}$ for every $1 \le i \le k$
+\begin{proof}
+    We prove by induction on $i$ that $\Delta_i$ does not contain any of the literals
+    \[
+    \{p_1, \neg p_1, \dots, p_i, \neg p_i\}
+    \]
+    for every $1 \leq i \leq k$.
+    
+    \subsubsection*{Base case:} $i=1$.
+    
+    By definition,
+    \[
+    \Delta_1
+    =
+    \Delta_0^{\emptyset}
+    \cup
+    \{\, C \cup D \mid C \uplus \{p_1\} \in \Delta_0^{+},\; D \uplus \{\neg p_1\} \in \Delta_0^{-}\,\}.
+    \]
+    Every clause in $\Delta_0^{\emptyset}$ contains neither $p_1$ nor $\neg p_1$, and every resolvent $C \cup D$ is obtained by removing $p_1$ and $\neg p_1$. Hence no clause in $\Delta_1$ contains $p_1$ or $\neg p_1$.
+    \subsubsection*{Inductive step:}
+
+    \end{proof}
+\section*{Question 15}
+Finish the proof of Theorem 6 by explicitly constructing a resolution proof for $\Gamma$ and establishing its correctness
+\begin{proof}
+Let $\Gamma$ be unsat. By 11, $\exists 
+\Gamma_0 \subseteq_{{fin}} \Gamma
+$
+such that $\Gamma_0$ is unsat. Let $p_1,\dots,p_k$ be all propositions occured in $\Gamma_0$, and
+$
+\Delta_0,\Delta_1,\dots,\Delta_k
+$
+as in the construction. $\Delta_k$ is unsat, and by 14, $\Delta_k$ does not contain 
+$
+p_1,\neg p_1,\dots,p_k,\neg p_k.
+$
+therefore every clause in $\Delta_k$ contains no literal,thus every clause in $\Delta_k$ is $\emptyset$. Since $\Delta_k \neq \emptyset$,
+$
+\emptyset \in \Delta_k
+$
+
+\subsubsection*{Base case:}
+$i=0$, $\Delta_0=\Gamma_0$
+\subsubsection*{Inductive step:}
+Suppose every clause in $\Delta_i$ has a finite resolution proof from $\Gamma_0$. Let $E \in \Delta_{i+1}$. By definition ,
+
+\begin{enumerate}
+    \item $E \in \Delta_i^{\emptyset}$, hence $E \in \Delta_i$, so by IH $E$ has a finite resolution proof from $\Gamma_0$; or
+    \item $E = C \cup D$, where
+    \[
+    C \uplus \{p_{i+1}\} \in \Delta_i^{+}
+    \qquad\text{and}\qquad
+    D \uplus \{\neg p_{i+1}\} \in \Delta_i^{-}.
+    \]
+    Then $E$ is the resolvent of these 2
+    \[
+    C \uplus \{p_{i+1}\}
+    \quad\text{and}\quad
+    D \uplus \{\neg p_{i+1}\}.
+    \]
+    By IH, both clauses have a finite resolution proof from $\Gamma_0$, thus the resolution proof for $E$ is also finite
+\end{enumerate}
+
+$\Gamma_0 \subseteq \Gamma$, by 12 the same proof is also a resolution proof fo $\Gamma$.
+
+Therefore $\Gamma$ is unsat, then there is a resolution proof for $\Gamma$.
+\end{proof}
+We will prove the contrapositive of compactness theorem for the next 2 qn.
+\section*{Question 16}
+Assume that the Hilbert-style Proof System is sound and complete for propositional logic, Use these facts to establish that the Compactness Theorem holds true for propositional logic
+\begin{proof}
+    $\Gamma$ is unsat $\implies\Gamma \models \bot$, so by completeness $\Gamma \vdash \bot$ since proofs are finite, only finitely many assumptions from $\Gamma$ appear in the proof, yielding a finite $\Gamma_0 \subseteq_{\mathrm{fin}} \Gamma$ with $\Gamma_0 \vdash \bot$, 
+    and by soundness $\Gamma_0 \models \bot$, hence $\Gamma_0$ is unsat
+    \end{proof}
+\section*{Question 17}
+Assume that the Resolution Proof System is sound and complete for propositional logic. Use these facts to establish that the Compactness Theorem holds true for propositional logic
+\begin{proof}
+    If $\Gamma$ is an unsatidfiable set of clauses, by completeness there is a finite resolution proof for $\Gamma$, and since this proof uses only finitely many clauses from $\Gamma$, there is a finite subset $\Gamma_0 \subseteq_{\mathrm{fin}} \Gamma$ from which the same proof is a resolution proof. 
+    By soundness, $\Gamma_0$ is unsat
+    \end{proof}
+
+\end{document}

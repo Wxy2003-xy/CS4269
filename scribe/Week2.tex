@@ -2247,6 +2247,140 @@ Since $\textsc{SAT} \in \textsf{NP}$, we conclude:
 \hfill $\square$
 
 
+\section{Syntax of First Order Logics}
+Let consider the limitation of propositional logics. Propositional logics
+intuitively represents choices, and each proposition has no internal structure, it is 
+simply a boolean value to be evaluated. And since formula needs to be finitely long, we cannot 
+express problems of infinite size. Thus we introduce first order logic, which has constant, variables and 
+quantifiers, allowing us to express more nuanced ideas.
+\subsection{Vocabulary of FOL}
+\begin{enumerate}
+    \item Signature: $\Sigma = (\mathcal{C}, \mathcal{F}, \mathcal{R})$
+    \begin{itemize}
+        \item Constant symbols: $\mathcal{C}$
+        \item Function symbols: $\mathcal{F}$
+        \item Relation symbols: $\mathcal{R}$
+    \end{itemize}
+    \item Connector: $C = \{\neg, \lor\}$
+    \item Variables: $V$
+    \item Quantifiers: $\{\forall, \exists\}$
+    \item Equality: $=$ as a special relation
+\end{enumerate}
+\begin{definition}{Term}
+Similar to how we define formula in propositonal logic, a term can also be recursively defined as 
+\[t := c\in \mathcal{C} \mid x \in V \mid f\underbrace{(t, \dots)}_{arity(f)}, f \in \mathcal{F}\]
+Here we use term to represent the idea of an "atom" in FOL.
+\end{definition}
+\begin{definition}{Formula}
+\[\phi := t = t \mid R\underbrace{(t, \dots)}_{arity(R)}, R \in \mathcal{R} \mid \phi \lor \phi \mid \neg \phi \mid \exists x \in V, \phi \mid \forall x\in V, \phi\]
+\end{definition}
+\subsection{Modellng with FOL}
+\begin{example}{Number line}
+    \[\Sigma = (\{0\}, \{succ\}, \{<\})\]
+Under this signature, we can write formula:
+\begin{itemize}
+    \item $\phi_1 = \forall x \exists y,  y = succ(x)$
+    \item $x=0$
+    \item $0=1$
+\end{itemize}
+These are all syntactically valid formula.
+\end{example}
+\section{Sematics of First Order Logics}
+In propositional logics, sematics are conveyed by valuations, which assigns true of false to each proosition.
+In FOL, we need to define the universe and interpret the symbols to unpack the sematics. 
+\begin{definition}{Structure}
+    \[\mathfrak{A} = (U, I)\]
+    A structure is a tuple of $U$, an non-empty universe set, and $I$, the interpretation of symbols.
+\end{definition}
+\begin{definition}{Interpretation}
+    An interpretation is a mapper from symbols to elements in the universe. 
+    \begin{itemize}
+        \item For every constant $c \in \mathcal{C}, I(c) \in U$
+        \item For every function symbol $f \in \mathcal{F}, I(f) \in [U^k \mapsto U], k = arity(f)$
+        \item For every relation symbol $R \in \mathcal{R}, I(R) \subseteq U^k, k = arity(R)$
+    \end{itemize}
+\end{definition}
+\begin{definition}{Assignment}
+    Given a strucutre $\mathfrak{A}=(U,I)$
+    \[\alpha\in[V \mapsto U]\]
+    Is an assignment of each variable to elements in the universe.
+\end{definition}
+\begin{definition}{Valuation of terms}
+    \begin{align*}
+        &Val_{\mathfrak{A}, \alpha}(c) = I(c) \in U\\
+        &Val_{\mathfrak{A}, \alpha}(x) = \alpha(c) \in U\\
+        &Val_{\mathfrak{A}, \alpha}(f(t, \dots)) = I(f)(Val_{\mathfrak{A}, \alpha}(t), \dots) \in U\\
+    \end{align*}
+\end{definition}
+\begin{definition}{Substitution}
+    \[\alpha[x\mapsto u](z) = \begin{cases}
+        u, \text{ if } z = u\\
+        \alpha(z), \text{ otherwise}
+    \end{cases}\]
+\end{definition}
+\begin{definition}{Valuation of Formula}
+    \subsubsection*{Base case: $\phi \equiv t_1=t_2$}
+    \[\mathfrak{A}, \alpha \models \phi \iff Val_{\mathfrak{A}, \alpha}(t_1) = Val_{\mathfrak{A}, \alpha}(t_2)\]
+    \subsubsection*{Inductive cases:}
+    \begin{enumerate}
+        \item $\phi \equiv R\underbrace{(t, \dots)}_{arity(R)}$
+        \[\mathfrak{A}, \alpha \models \phi \iff \underbrace{(Val_{\mathfrak{A}, \alpha}(t), \dots)}_{arity(R)} \in I(R)\]
+        \item $\phi \equiv \neg \varphi$
+        \[\mathfrak{A}, \alpha \models \phi \iff \mathfrak{A}, \alpha \not \models \varphi\]
+        \item $\phi \equiv \phi_1 \lor \phi_2$
+        \[\mathfrak{A}, \alpha \models \phi \iff \mathfrak{A}, \alpha \models \phi_1 \text{ OR } \mathfrak{A}, \alpha \models \phi_2\]
+        \item $\phi \equiv \exists x, \varphi$
+        \[\mathfrak{A}, \alpha \models \phi \iff \text{ there is } u \in U, \mathfrak{A}, \alpha[x\mapsto u] \models \phi\]
+        \item $\phi \equiv \forall x, \varphi$
+        \[\mathfrak{A}, \alpha \models \phi \iff \text{ for all } u \in U, \mathfrak{A}, \alpha[x\mapsto u] \models \phi\]
+    \end{enumerate}
+\end{definition}
+\begin{example}{graphs}
+    Consider signature
+    \[\Sigma = (\{s, t, u\}, \emptyset, \{E\})\]
+    We can come up with a structure
+    \begin{align*}
+        \mathfrak{A} = &(U_G, IG)\\
+        U_G = &\{v_1, v_2, v_3\}\\
+        I_G(s) &= v_1\\
+        I_G(t) &= v_2\\
+        I_G(u) &= v_3\\
+        I_G(E) &= \{(v_1, v_2), (v_2, v_3), (v_3, v_1)\}
+    \end{align*}
+    The graph represented by $\mathfrak{A}$ is:
+    \[
+    \begin{tikzpicture}[every node/.style={circle, draw, minimum size=8mm}]
+        \node (v1) at (90:2) {$v_1$};
+        \node (v2) at (210:2) {$v_2$};
+        \node (v3) at (330:2) {$v_3$};
+
+        \draw (v1) -- (v2);
+        \draw (v2) -- (v3);
+        \draw (v3) -- (v1);
+    \end{tikzpicture}
+    \]
+\end{example}
+\begin{definition}{Variables and Free variables}
+    Variables in a term is defined as:
+    \begin{align*}
+        &Var(x) = x\\
+        &Var(c) = \emptyset\\
+        &Var(f(t_1, \dots, t_k)) = \bigcup_1^k Var(t_i)
+    \end{align*}
+    Free variables in a formula can be defined as:
+    \[FVar(\forall x, \phi) = FVar(\phi) \setminus \{x\}\]
+    \[FVar(\exists x, \phi) = FVar(\phi) \setminus \{x\}\]
+    In words, free variables are variables apppear in a formula that are not bounded by quantifers
+\end{definition}
+
+
+\begin{definition}{Satisfaction of FOL formula} 
+    \[\phi \text{ is satisfiable} \iff \exists (\mathfrak{A}, \alpha),  \mathfrak{A}, \alpha\models \phi\]
+\end{definition}
+
+\begin{definition}{Logical Consequence}
+    \[\Gamma \models \phi \iff \forall (\mathfrak{A}, \alpha), \mathfrak{A}, \alpha \models \Gamma \implies \mathfrak{A}, \alpha \models \phi\]
+\end{definition}
 
 
 
@@ -2256,6 +2390,205 @@ Since $\textsc{SAT} \in \textsf{NP}$, we conclude:
 
 
 
+
+
+\section{Compactness of First Order Logics}
+\begin{definition}{Compactness Theorem for First Order Logics}
+\[\Gamma \text{ is satisfiable } \iff \Gamma \text{ is finitely satisfiable }\]
+\[\Gamma \text{ is satisfiable } \iff \forall \Gamma' \subseteq_{fin} \Gamma, \exists (\mathfrak{A}, \alpha), \mathfrak{A}, \alpha \models \Gamma'\]
+\end{definition}
+\begin{theorem}
+    Structures are not countable, and the uncountability is uncapped, as $U$ and $I$ can be arbitrarily defined
+\end{theorem}
+\begin{definition}{Prenex Normal Form}
+    $\phi$ is in Prenex Normal Form if all quantifiers are in the beginning of the formula. 
+    \[\phi \equiv Q_1x_1Q_2x_2\dots\psi\]
+    Where $\psi$ is the matrix of $\phi$, which is a quantifier-free formula.
+\end{definition}
+\subsection{Prenex Normal Form}
+\begin{enumerate}
+    \item \textbf{Remove implication and biconditional.}
+
+    Replace
+    \[
+    A \rightarrow B \equiv \neg A \lor B
+    \]
+    \[
+    A \leftrightarrow B \equiv (A \rightarrow B) \land (B \rightarrow A)
+    \]
+
+    \item \textbf{Push negations inward (Negation Normal Form).}
+
+    Apply De Morgan's laws and quantifier negation:
+    \[
+    \neg(A \land B) \equiv \neg A \lor \neg B
+    \]
+    \[
+    \neg(A \lor B) \equiv \neg A \land \neg B
+    \]
+    \[
+    \neg \forall x \, \varphi \equiv \exists x \, \neg \varphi
+    \]
+    \[
+    \neg \exists x \, \varphi \equiv \forall x \, \neg \varphi
+    \]
+
+    After this step, negations appear only directly in front of atomic formulas.
+
+    \item \textbf{Standardize variables apart.}
+
+    Rename bound variables so that each quantifier binds a unique variable and no variable is bound by more than one quantifier.
+
+    \item \textbf{Move quantifiers outward.}
+
+    Move quantifiers across logical connectives when the variable does not occur free in the other formula. For example,
+    \[
+    (\forall x \, A) \land B \equiv \forall x (A \land B)
+    \quad \text{if } x \notin \mathrm{FV}(B)
+    \]
+    \[
+    (\exists x \, A) \lor B \equiv \exists x (A \lor B)
+    \quad \text{if } x \notin \mathrm{FV}(B)
+    \]
+
+    Continue moving quantifiers outward until all quantifiers appear at the front of the formula.
+
+    \item \textbf{Obtain Prenex Normal Form.}
+
+    The formula now has the form
+    \[
+    Q_1 x_1 \; Q_2 x_2 \; \dots \; Q_n x_n \; \varphi
+    \]
+    where each \(Q_i \in \{\forall,\exists\}\) and \(\varphi\) is quantifier-free.
+\end{enumerate}
+\begin{lemma}
+    $\psi$, the PNF of $\phi$ is logically equivalent to $\phi$
+    \[\forall (\mathfrak{A}, \alpha), \mathfrak{A}, \alpha \models \psi \iff \mathfrak{A}, \alpha \models \phi\]
+\end{lemma}
+\begin{proof}
+    
+\end{proof}
+\begin{definition}{Universally quantified formula}
+$\phi$ is universally wuantified if all quantifiers in $\phi$ are $\forall$. Analogous to Existantial quantified formula    
+\end{definition}
+\begin{definition}{Sentence}
+    $\phi$ is a sentence if there is no free variables. 
+    \[FVar(\phi) = \emptyset\]
+\end{definition}
+
+\begin{definition}{Skolemization}
+    Transform PNF into universally quantified PNF. \\
+    $\forall \phi, \exists \phi'$, such that
+    \begin{enumerate}
+        \item $\phi$ and $\phi'$ are equisatisfiable. 
+        \item $\phi'$ is universally quantified PNF
+    \end{enumerate}
+\end{definition}
+\subsection{Skolemization}
+\begin{enumerate}
+    \item \textbf{Convert the formula to prenex normal form.}
+
+    Transform the formula so that all quantifiers appear at the front:
+    \[
+    Q_1 x_1 \; Q_2 x_2 \; \dots \; Q_n x_n \; \varphi
+    \]
+    where \(\varphi\) is quantifier-free.
+
+    \item \textbf{Process quantifiers from left to right.}
+
+    For each existential quantifier \(\exists x\), determine the universal
+    variables that precede it in the prefix.
+
+    \item \textbf{Replace existential variables with Skolem terms.}
+
+    \begin{itemize}
+        \item If \(\exists x\) has no preceding universal quantifiers,
+        replace \(x\) with a new Skolem constant \(c\).
+        \[
+        \exists x \, P(x) \;\;\Rightarrow\;\; P(c)
+        \]
+
+        \item If \(\exists x\) is preceded by universal variables
+        \(u_1,\dots,u_k\), replace \(x\) with a new Skolem function
+        \(f(u_1,\dots,u_k)\).
+        \[
+        \forall u_1 \dots \forall u_k \exists x \, P(x,u_1,\dots,u_k)
+        \;\Rightarrow\;
+        P(f(u_1,\dots,u_k),u_1,\dots,u_k)
+        \]
+    \end{itemize}
+
+    \item \textbf{Remove the existential quantifier.}
+
+    After substitution with the Skolem term, delete the corresponding
+    existential quantifier from the prefix.
+
+    \item \textbf{Repeat until no existential quantifiers remain.}
+
+    The resulting formula contains only universal quantifiers.
+
+    \item \textbf{Optionally drop universal quantifiers.}
+
+    In many applications (e.g., resolution), the remaining universal
+    quantifiers are omitted, since variables are implicitly assumed to
+    be universally quantified.
+\end{enumerate}
+
+\begin{theorem}[Herbrand's Theorem]
+    Informally, if a first-order formula $\phi$ is satisfiable, then its
+    satisfiability is witnessed by a special kind of structure called a
+    \emph{Herbrand structure}.
+    \end{theorem}
+    
+    \begin{definition}[Herbrand structure]
+    Let $\Sigma = (\mathcal{C}, \mathcal{F}, \mathcal{P})$ be a signature.
+    A structure
+    \[
+    \mathfrak{A} = (U, I)
+    \]
+    is a \emph{Herbrand structure} if
+    
+    \begin{enumerate}
+        \item The universe is the \emph{Herbrand universe}
+        \[
+        U = T_{\mathcal{C} \cup \mathcal{F}},
+        \]
+        the set of all ground terms constructed from the constant symbols
+        $\mathcal{C}$ and function symbols $\mathcal{F}$.
+    
+        \item The interpretation $I$ is fixed syntactically:
+        \begin{itemize}
+            \item For every constant symbol $c \in \mathcal{C}$,
+            \[
+            I(c) = c
+            \]
+    
+            \item For every function symbol $f \in \mathcal{F}$ of arity $n$,
+            \[
+            I(f)(t_1,\dots,t_n) = f(t_1,\dots,t_n)
+            \]
+        \end{itemize}
+    \end{enumerate}
+    \end{definition}
+
+
+\begin{definition}{Ground term}
+    \[gt := c \mid f(gt, \dots)\]
+    Basically terms without variables
+\end{definition}
+\begin{definition}{Ground Atom (Let's ignore = first)}
+    \[ga := R(gt, \dots)\]
+\end{definition}
+\begin{definition}[Ground Formula]
+    \[gf := gt = gt \mid R(gt, \dots) \mid \neg gf \mid gf \lor gf\]
+    No variables, no quantifiers
+\end{definition}
+
+Now we have defined machineries needed to prove Compactness for FOL, let's outline the overall proof structure. 
+From our definition of grounded terms, it obvious that we are trying to remove the elements that give FOL more expressiveness
+over propositional logics, such as variables and quantifiers, and we are encapsulating relation into the concept of ground atom,
+It becomes clear that the goal is to build some connection between FOL and PL, and use certain proven properties of PL to establish 
+properties we want to prove for FOL. 
 
 
 
@@ -3714,49 +4047,300 @@ Let $\Gamma$ be a set of formulae. If $\Gamma$ is inconsistent, then there is a 
 
     \item (b) Prove that $\Delta$ is consistent
     \begin{proof}
-        Suppose otherwise, $\Delta$ is inconsistent, by Lemma 3, $\exists \Delta' \subseteq_{fin} \Delta, \Delta'$ is inconsistent.
+        Suppose otherwise, $\Delta$ is inconsistent, by Lemma 3, $\exists \Delta' \subseteq_{fin} \Delta, \Delta'$ is inconsistent. Since $\Delta'$ is finite, let the highest ranked formula in $\Delta'$
+        be $n, \forall \varphi \in \Delta', \varphi \in \Delta_n$. From b), $\Delta_n$ is consistent, by 6d), $\Delta'$ is consistent, contradiction.
     \end{proof}
     \item (c) Prove that $\Delta$ is negation-complete, i.e., for every formula $\psi$, we have $(\psi \rightarrow \perp) \in \Delta$ iff $(\psi \notin \Delta)$
+    \begin{proof}
+        \subsubsection*{$\implies$}
+        Let $\psi = \varphi_{n+1}, \Delta_{n}$ is consistent. $\Delta_{n+1} = \Delta_n \cup \{\psi\}$ if $\Delta_n \cup \{\psi\}$ is consistnet. Suppose $\psi \rightarrow \bot\in \Delta$, 
+        $\Delta \vdash \psi, \Delta \vdash \psi \rightarrow \bot \implies \Delta$ is inconsitent, contradiction. Therefore $\psi \in \Delta \implies \psi \rightarrow \bot \notin \Delta$ 
+        \subsubsection*{$\impliedby$}
+        Suppose otherwise, $\psi \rightarrow \bot \in \Delta, \psi \in \Delta, \Delta \vdash \psi, \Delta \vdash \psi \rightarrow \bot \implies \Delta$ is inconsistent, contradiction.
+    \end{proof}
     \item (d) Use the fact that $\Delta$ is negation-complete to show that for every formula $\psi$, $\psi \in \Delta$ iff $\Delta \vdash \psi$
+    \begin{proof}
+        \subsubsection*{$\implies$}
+        trivial by definition
+        \subsubsection*{$\impliedby$}
+        Consider $\Delta \vdash \psi$. Suppose $\psi \notin \Delta, \psi \rightarrow \bot \in \Delta, 
+        \Delta \vdash \psi \rightarrow \bot$. 
+        Since $\Delta \vdash \psi$, by MP, $\Delta \vdash \bot$, 
+        $\Delta$ is inconsistent, contradiction. Therefore $\psi \in \Delta$.
+        \end{proof}
 \end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
 
 \section*{Question 8}
 \begin{itemize}
     \item (a) Show that for any formula $\psi$, $v \models \psi$ iff $\psi \in \Delta$
+    \begin{proof}
+        \subsubsection*{Base case:}
+        \begin{enumerate}
+            \item $\psi \in P$: by definition, $v(p) = true \iff p \in \Delta$
+            \item $\psi = \bot$: always $v(\bot) = false, \bot \notin \Delta \implies v\models \bot \iff \bot \in \Delta$ vacuously
+        \end{enumerate}
+        \subsubsection*{Inductive case: $\psi = a \rightarrow b$}
+        Suppose 
+        \begin{itemize}
+            \item $v\models a \iff a \in \Delta$
+            \item $v\models b \iff b \in \Delta$
+        \end{itemize}
+        \subsubsection*{Case $\implies$}
+        Suppose $v\models a\rightarrow b$, $a \rightarrow b \notin \Delta, (a \rightarrow b) \rightarrow \bot \in \Delta$, 
+        $\Delta \vdash (a\rightarrow b)\rightarrow \bot.$\\
+        Now we show that $b \notin \Delta$
+        \begin{itemize}
+            \item Suppose otherwise, $b\in \Delta, \Delta \vdash b$, by ax 1, $\Delta \vdash b \rightarrow (a \rightarrow b) \implies \Delta \vdash a \rightarrow b$ by MP, contradiction.
+        \end{itemize}
+        Now we show that $a \in \Delta$
+        \begin{itemize}
+            \item Suppose otherwise, $a \not \in \Delta \implies a \rightarrow \bot \in \Delta$, from 
+             \[\vdash (\varphi \rightarrow \bot)\rightarrow (\varphi \rightarrow \rho)\]
+            $\Delta \vdash (a \rightarrow \bot) \rightarrow (a \rightarrow b)$. By MP, $\Delta \vdash a \rightarrow b$, contradiction.
+        \end{itemize}
+        Now with $b \notin \Delta$ and $a \in \Delta$, by IH, $v\models a$ and $v\not \models b \implies v\not \models a\rightarrow b$, contradiction.
+        \subsubsection*{Case $\impliedby$}
+        Suppose otherwise, $a\rightarrow b \in \Delta$, $v\models a$ and $v\not \models b$. 
+        By IH, $a \in \Delta$ and $b \notin \Delta$, $b \rightarrow \bot \in \Delta\implies \Delta \vdash a, \Delta \vdash a \rightarrow b,$ by MP,
+        $\Delta \vdash b \implies b \in \Delta$, contradiction.
+    \end{proof}
     \item (b) Show that $v \models (\varphi \rightarrow \perp)$ and thus $\not\models \varphi$
+    \begin{proof}
+        $\{\varphi \rightarrow \bot\} \in \Delta \implies v \models (\varphi \rightarrow \bot) \implies v \not \models \varphi \implies \not \models \varphi$.
+    \end{proof}
 \end{itemize}
 
 \section*{Question 9}
 Prove Theorem 3 using Theorem 4, the Compactness theorem and the Deduction theorem
+\begin{proof}
+    $\Gamma \models \varphi \implies \Gamma \cup \{\varphi \rightarrow \bot\}$ is unsat, so by Compactness
+    $
+    \exists \Gamma_0 = \{\psi_1,\dots,\psi_n\} \subseteq_{\mathrm{fin}} \Gamma,
+    $ such that
+    $
+    \Gamma_0 \cup \{\varphi \rightarrow \bot\}$
+    is unsat, 
+    \[ \{\psi_1, \dots, \psi_n, (\varphi \rightarrow \perp)\} \text{ is unsat} \implies 
+    (\psi_1 \land \dots \land \psi_n \land (\varphi \rightarrow \perp)) \models \perp
+    \]
 
+    \[
+    \models \psi_1 \rightarrow (\psi_2 \rightarrow \dots (\psi_n \rightarrow ((\varphi \rightarrow \bot)\rightarrow \bot))\dots)
+    \]
+    (https://en.wikipedia.org/wiki/Exportation\_(logic)) by Theorem 4
+    \[
+    \emptyset \vdash \psi_1 \rightarrow (\psi_2 \rightarrow \dots (\psi_n \rightarrow ((\varphi \rightarrow \bot)\rightarrow \bot))\dots)
+    \]
+    Apply deduction thm 
+    \[\{\psi_1\}\vdash (\psi_2 \rightarrow \dots (\psi_n \rightarrow ((\varphi \rightarrow \bot)\rightarrow \bot))\dots)\]
+    until we get
+    \[
+    \Gamma_0 \vdash (\varphi \rightarrow \bot)\rightarrow \bot.
+    \]
+    Using ax 3:
+    \[
+    \vdash ((\varphi \rightarrow \bot)\rightarrow \bot)\rightarrow \varphi,
+    \]
+    By MP
+    \[
+    \Gamma_0 \vdash \varphi.
+    \]
+    Since $\Gamma_0 \subseteq \Gamma$, by monotonicity,
+    \[
+    \Gamma \vdash \varphi.
+    \]
+    \end{proof}
 \section*{Theorem 5 (Soundness of Resolution Proof System)}
 Let $\Gamma$ be a set of clauses (over propositions $P$). If there is a resolution proof of $\Gamma$, then $\Gamma$ is unsatisfiable.
 
 \section*{Question 10}
 Prove Theorem 5, \textit{Hint: Consider a resolution proof $\pi = C_1, C_2, \dots, C_n$ of $\Gamma$. Use induction to establish that for every $1 \le i \le n$ if a valuation $v$ is such that $v \models \Gamma,$ then $v \models C_i$.}
-
+\begin{proof}
+    Let $\pi = C_1, C_2, \dots, C_n$ be a resolution proof of $\Gamma$, where $C_n = \emptyset$.
+    
+    We prove by induction on $i$ that for every $1 \leq i \leq n$, $v \models \Gamma, v \models C_i$.
+    
+    $i \in \{1,\dots,n\}$ and suppose $v \models \Gamma$.
+    \begin{enumerate}
+        \item $C_i \in \Gamma$, $v \models C_i$.
+    
+        \item $C_i$ is a resolvent of two earlier clauses $C_j$ and $C_k$ wrt some proposition $p$, where
+        \[
+        C_j = C \uplus \{p\}, \qquad C_k = D \uplus \{\neg p\},
+        \]
+        and
+        $
+        C_i = C \cup D.
+        $
+        By the IH, $j,k < i, v \models C_j \quad \text{and} \quad v \models C_k$
+        We show that $v \models C_i$.
+        Suppose, $v \not\models C_i = C \cup D$. Then $v$ satisfies neither any literal in $C$ nor any literal in $D$.
+        Since $v \models C_j = C \uplus \{p\}$ and no literal in $C$ is satisfied by $v$, it must be that $v \models p$, i.e. $v(p)=\mathrm{true}$
+        Since $v \models C_k = D \uplus \{\neg p\}$ and no literal in $D$ is satisfied by $v$, it must be that $v \models \neg p$, i.e. $v(p)=\mathrm{false}$,
+    Contradicton
+    \end{enumerate}
+    \end{proof}
 \section*{Theorem 6 (Completeness of Resolution Proof System)}
 Let $\Gamma$ be a set of clauses (over propositions $P$). If $\Gamma$ is unsatisfiable, then there is a resolution proof of $\Gamma$
 
 \section*{Question 11}
 Let $\Gamma$ be an unsatisfiable set of clauses Show that, if $\Gamma$ is unsatisfiable, then there is a finite set $\Gamma_0 \subseteq_{fin} \Gamma$ such that $\Gamma_0$ is unsatisfiable.
-
+\begin{proof}
+    Suppose $\Gamma$ is unsat,by Compactness, $\exists \Gamma' \subseteq_{fin}\Gamma, \Gamma' $ is unsat (?)
+    \end{proof}
 \section*{Question 12}
 Let $\Gamma_1, \Gamma_2$ be sets of clauses such that $\Gamma_1 \subseteq \Gamma_2$. Show that, if there is a resolution proof of $\Gamma_1$, then there is also a resolution proof of $\Gamma_2$
-
+\begin{proof}
+    Let $\pi = C_1, C_2, \dots, C_n$ be a resolution proof of $\Gamma_1$
+    
+    $\forall 1 \leq i \leq n$, $\pi$ is a resolution proof of $\Gamma_1$, either:
+    \begin{enumerate}
+        \item $C_i \in \Gamma_1$, or
+        \item $\exists j, k < i$, $C_i$ is a resolvent of $C_j$ and $C_k$
+    \end{enumerate}
+    If $C_i \in \Gamma_1, C_i \in \Gamma_2$
+    Otherwise, this fact is independent of the choice of the initial clause set, so the same derivation is valid in a proof from $\Gamma_2$.
+    \end{proof}
 \section*{Question 13}
-Inductively show that $\Delta_i$ is unsatisfiable, for every $0 \le i \le k$. Also show that $\Delta_i \neq \emptyset$ for every $0 \le i \le k$
+    Next, we constructed a sequence of sets as follows. Here, we assume that the set of
+    propositions occurring in $\Gamma_0$ can be enumerated as $p_1, p_2, \dots, p_k$.
+    
+    \[
+    \Delta_0 = \Gamma_0
+    \]
+    
+    \[
+    \Delta_{i+1} =
+    \Delta_i^{\emptyset}
+    \;\cup\;
+    \{\, C \cup D \mid
+    C \uplus \{p_{i+1}\} \in \Delta_i^{+},
+    \;
+    D \uplus \{\neg p_{i+1}\} \in \Delta_i^{-}
+    \,\}
+    \]
+    
+    where
+    
+    \begin{itemize}
+    \item $\Delta_i^{\emptyset}$ is the set of clauses in $\Delta_i$ that contain neither the literal $p_{i+1}$ nor $\neg p_{i+1}$,
+    \item $\Delta_i^{+}$ is the set of clauses in $\Delta_i$ that contain the literal $p_{i+1}$ but not $\neg p_{i+1}$,
+    \item $\Delta_i^{-}$ is the set of clauses in $\Delta_i$ that contain the literal $\neg p_{i+1}$ but not $p_{i+1}$.
+    \end{itemize}
+    
+    Inductively show that $\Delta_i$ is unsat for every $0 \le i \le k$.
+    Also show that $\Delta_i \ne \emptyset$ for every $0 \le i \le k$.
 
+
+\begin{proof}
+    \subsubsection*{Base case:} $i=0$.
+    By construction, $\Delta_0 = \Gamma_0$. From 11, $\Gamma_0$ is a finite unsat subset of $\Gamma$
+    \subsubsection*{Inductive step:}
+    Suppose $\Delta_i$ is unsat and $\Delta_i \neq \emptyset$. We show $\Delta_{i+1}$ is unsat and nonempty.
+    Suppose that $\exists v, v \models \Delta_{i+1}$, consider $v(p_{i+1})$
+    \begin{itemize}
+    \item If $v(p_{i+1}) = \text{true}$, then every clause in $\Delta_i^{+}$ is sat by $v$ due to $p_{i+1}$, and $\Delta_i^{\emptyset} \subseteq \Delta_{i+1}$ thus sat by $v$. 
+    
+    For every resolvent $C \cup D \in \Delta_{i+1}$ with
+    \[
+    C \uplus \{p_{i+1}\} \in \Delta_i^{+}, \quad
+    D \uplus \{\neg p_{i+1}\} \in \Delta_i^{-},
+    \]
+    $v \models C \cup D$. Since $v(p_{i+1}) = \text{true}$, the clause $D \uplus \{\neg p_{i+1}\}$ must be satisfied by some literal in $D$, hence $v \models D$. Thus $v$ satisfies every clause in $\Delta_i^{-}$. Contradiction    
+    \item case $v(p_{i+1}) = \text{false}$: similar
+    \end{itemize}
+\end{proof}
 \section*{Question 14}
 Inductively show that $\Delta_i$ does not contain the literals $\{p_1, \neg p_1, \dots, p_i, \neg p_i\}$ for every $1 \le i \le k$
+\begin{proof}
+    We prove by induction on $i$ that $\Delta_i$ does not contain any of the literals
+    \[
+    \{p_1, \neg p_1, \dots, p_i, \neg p_i\}
+    \]
+    for every $1 \leq i \leq k$.
+    
+    \subsubsection*{Base case:} $i=1$.
+    
+    By definition,
+    \[
+    \Delta_1
+    =
+    \Delta_0^{\emptyset}
+    \cup
+    \{\, C \cup D \mid C \uplus \{p_1\} \in \Delta_0^{+},\; D \uplus \{\neg p_1\} \in \Delta_0^{-}\,\}.
+    \]
+    Every clause in $\Delta_0^{\emptyset}$ contains neither $p_1$ nor $\neg p_1$, and every resolvent $C \cup D$ is obtained by removing $p_1$ and $\neg p_1$. Hence no clause in $\Delta_1$ contains $p_1$ or $\neg p_1$.
+    \subsubsection*{Inductive step:}
 
+    \end{proof}
 \section*{Question 15}
 Finish the proof of Theorem 6 by explicitly constructing a resolution proof for $\Gamma$ and establishing its correctness
+\begin{proof}
+Let $\Gamma$ be unsat. By 11, $\exists 
+\Gamma_0 \subseteq_{{fin}} \Gamma
+$
+such that $\Gamma_0$ is unsat. Let $p_1,\dots,p_k$ be all propositions occured in $\Gamma_0$, and
+$
+\Delta_0,\Delta_1,\dots,\Delta_k
+$
+as in the construction. $\Delta_k$ is unsat, and by 14, $\Delta_k$ does not contain 
+$
+p_1,\neg p_1,\dots,p_k,\neg p_k.
+$
+therefore every clause in $\Delta_k$ contains no literal,thus every clause in $\Delta_k$ is $\emptyset$. Since $\Delta_k \neq \emptyset$,
+$
+\emptyset \in \Delta_k
+$
 
+\subsubsection*{Base case:}
+$i=0$, $\Delta_0=\Gamma_0$
+\subsubsection*{Inductive step:}
+Suppose every clause in $\Delta_i$ has a finite resolution proof from $\Gamma_0$. Let $E \in \Delta_{i+1}$. By definition ,
+
+\begin{enumerate}
+    \item $E \in \Delta_i^{\emptyset}$, hence $E \in \Delta_i$, so by IH $E$ has a finite resolution proof from $\Gamma_0$; or
+    \item $E = C \cup D$, where
+    \[
+    C \uplus \{p_{i+1}\} \in \Delta_i^{+}
+    \qquad\text{and}\qquad
+    D \uplus \{\neg p_{i+1}\} \in \Delta_i^{-}.
+    \]
+    Then $E$ is the resolvent of these 2
+    \[
+    C \uplus \{p_{i+1}\}
+    \quad\text{and}\quad
+    D \uplus \{\neg p_{i+1}\}.
+    \]
+    By IH, both clauses have a finite resolution proof from $\Gamma_0$, thus the resolution proof for $E$ is also finite
+\end{enumerate}
+
+$\Gamma_0 \subseteq \Gamma$, by 12 the same proof is also a resolution proof fo $\Gamma$.
+
+Therefore $\Gamma$ is unsat, then there is a resolution proof for $\Gamma$.
+\end{proof}
+We will prove the contrapositive of compactness theorem for the next 2 qn.
 \section*{Question 16}
 Assume that the Hilbert-style Proof System is sound and complete for propositional logic, Use these facts to establish that the Compactness Theorem holds true for propositional logic
-
+\begin{proof}
+    $\Gamma$ is unsat $\implies\Gamma \models \bot$, so by completeness $\Gamma \vdash \bot$ since proofs are finite, only finitely many assumptions from $\Gamma$ appear in the proof, yielding a finite $\Gamma_0 \subseteq_{\mathrm{fin}} \Gamma$ with $\Gamma_0 \vdash \bot$, 
+    and by soundness $\Gamma_0 \models \bot$, hence $\Gamma_0$ is unsat
+    \end{proof}
 \section*{Question 17}
 Assume that the Resolution Proof System is sound and complete for propositional logic. Use these facts to establish that the Compactness Theorem holds true for propositional logic
-
+\begin{proof}
+    If $\Gamma$ is an unsatidfiable set of clauses, by completeness there is a finite resolution proof for $\Gamma$, and since this proof uses only finitely many clauses from $\Gamma$, there is a finite subset $\Gamma_0 \subseteq_{\mathrm{fin}} \Gamma$ from which the same proof is a resolution proof. 
+    By soundness, $\Gamma_0$ is unsat
+    \end{proof}
 \end{document}

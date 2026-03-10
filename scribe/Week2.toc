@@ -72,7 +72,14 @@
 \contentsline {paragraph}{(D) Acceptance}{33}{section*.90}%
 \contentsline {paragraph}{Soundness}{33}{section*.92}%
 \contentsline {paragraph}{Completeness}{33}{section*.93}%
-\contentsline {paragraph}{Structural Induction Principle.}{47}{section*.139}%
-\contentsline {paragraph}{Case 1: $\psi _i \in \Gamma $ or $\psi _i$ is an Axiom}{59}{section*.200}%
-\contentsline {paragraph}{Case 2: $\psi _i = \varphi $}{59}{section*.201}%
-\contentsline {paragraph}{Case 3: $\psi _i$ via MP from $\psi _j, \psi _k$ where $\psi _j = \psi _k \rightarrow \psi _i$}{59}{section*.202}%
+\contentsline {section}{\numberline {6}Syntax of First Order Logics}{34}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Vocabulary of FOL}{34}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Modellng with FOL}{34}{subsection.6.2}%
+\contentsline {section}{\numberline {7}Sematics of First Order Logics}{34}{section.7}%
+\contentsline {section}{\numberline {8}Compactness of First Order Logics}{36}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Prenex Normal Form}{37}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}Skolemization}{38}{subsection.8.2}%
+\contentsline {paragraph}{Structural Induction Principle.}{53}{section*.141}%
+\contentsline {paragraph}{Case 1: $\psi _i \in \Gamma $ or $\psi _i$ is an Axiom}{65}{section*.202}%
+\contentsline {paragraph}{Case 2: $\psi _i = \varphi $}{65}{section*.203}%
+\contentsline {paragraph}{Case 3: $\psi _i$ via MP from $\psi _j, \psi _k$ where $\psi _j = \psi _k \rightarrow \psi _i$}{65}{section*.204}%
