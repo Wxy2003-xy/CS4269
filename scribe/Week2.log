@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.11.22)  11 MAR 2026 17:28
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.11.22)  11 MAR 2026 18:29
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -981,84 +981,84 @@ LaTeX Font Info:    Trying to load font information for U+euf on input line 2292
  (/usr/local/texlive/2023/texmf-dist/tex/latex/amsfonts/ueuf.fd
 File: ueuf.fd 2013/01/14 v3.01 Euler Fraktur
 ) [35] [36] [37] [38]
-Overfull \hbox (11.85806pt too wide) in paragraph at lines 2511--2514
+Overfull \hbox (11.85806pt too wide) in paragraph at lines 2512--2515
 []\T1/lmr/m/n/10 If $\OMS/lmsy/m/n/10 9\OML/lmm/m/it/10 x$ \T1/lmr/m/n/10 is pre-ceded by uni-ver-sal vari-ables $\OML/lmm/m/it/10 u[]; [] ; u[]$\T1/lmr/m/n/10 , re-place $\OML/lmm/m/it/10 x$ \T1/lmr/m/n/10 with a new Skolem func-tion $\OML/lmm/m/it/10 f\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 u[]; [] ; u[]\OT1/lmr/m/n/10 )$\T1/lmr/m/n/10 . 
  []
 
 [39] [40]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 2640.
+(hyperref)                removing `math shift' on input line 2641.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\Gamma' on input line 2640.
+(hyperref)                removing `\Gamma' on input line 2641.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 2640.
+(hyperref)                removing `math shift' on input line 2641.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 2640.
+(hyperref)                removing `math shift' on input line 2641.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\leavevmode@ifvmode' on input line 2640.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                \kern 2.77695pt
-(hyperref)                removed on input line 2640.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\mathrel' on input line 2640.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\std@equal' on input line 2640.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\mathrel' on input line 2640.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\mkern' on input line 2640.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\Rightarrow' on input line 2640.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\leavevmode@ifvmode' on input line 2640.
+(hyperref)                removing `\leavevmode@ifvmode' on input line 2641.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                \kern 2.77695pt
-(hyperref)                removed on input line 2640.
+(hyperref)                removed on input line 2641.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\Gamma' on input line 2640.
+(hyperref)                removing `\mathrel' on input line 2641.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 2640.
+(hyperref)                removing `\std@equal' on input line 2641.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\mathrel' on input line 2641.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\mkern' on input line 2641.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\Rightarrow' on input line 2641.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\leavevmode@ifvmode' on input line 2641.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                \kern 2.77695pt
+(hyperref)                removed on input line 2641.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\Gamma' on input line 2641.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 2641.
 
 [41] [42] [43] [44] [45] [46] [47]
-Overfull \hbox (22.87933pt too wide) detected at line 2996
+Overfull \hbox (22.87933pt too wide) detected at line 2997
 \OMS/lmsy/m/n/10 8\OML/lmm/m/it/10 ^^^ \OMS/lmsy/m/n/10 2 \OML/lmm/m/it/10 FORM[]; ^^^ \OMS/lmsy/m/n/10 2 [] \OML/lmm/m/it/10 AltFORM[][]^^^ \OT1/lmr/m/n/10 = (\OMS/lmsy/m/n/10 :\OML/lmm/m/it/10  \OT1/lmr/m/n/10 )\OML/lmm/m/it/10 ;   \OMS/lmsy/m/n/10 2 [] \OML/lmm/m/it/10 AltFORM[][]^^^ \OT1/lmr/m/n/10 = (\OML/lmm/m/it/10  [] \OMS/lmsy/m/n/10 _ \OML/lmm/m/it/10  []\OT1/lmr/m/n/10 )\OML/lmm/m/it/10 ;  [];  [] \OMS/lmsy/m/n/10 2 [] \OML/lmm/m/it/10 AltFORM[]
  []
 
 [48]
 
-Package tcolorbox Warning: Using nobreak failed. Try to enlarge `lines before break' or set page breaks manually on input line 3027.
+Package tcolorbox Warning: Using nobreak failed. Try to enlarge `lines before break' or set page breaks manually on input line 3028.
 
 [49] [50] [51] [52] [53] [54] [55] [56]
-Overfull \hbox (68.80685pt too wide) in paragraph at lines 3432--3434
+Overfull \hbox (68.80685pt too wide) in paragraph at lines 3433--3435
 \T1/lmr/m/n/10 Assume $\OML/lmm/m/it/10 P\OT1/lmr/m/n/10 (\OML/lmm/m/it/10 ^^^\OT1/lmr/m/n/10 )$ \T1/lmr/m/n/10 holds. If $\OML/lmm/m/it/10 ^^^$ \T1/lmr/m/n/10 has a CNF, we can first con-vert $\OMS/lmsy/m/n/10 :\OML/lmm/m/it/10 ^^^$ \T1/lmr/m/n/10 into NNF [][]https://en.wikipedia.org/wiki/Negation_normal_form[][] 
  []
 
@@ -1066,28 +1066,22 @@ Overfull \hbox (68.80685pt too wide) in paragraph at lines 3432--3434
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-
-Package rerunfilecheck Warning: File `Week2.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `Week2.out':
-(rerunfilecheck)             Before: 677E74548E35C492DA932F8641FD38A5;8218
-(rerunfilecheck)             After:  A9613729F249C09D7820BBCEA9BD191B;8299.
+Package rerunfilecheck Info: File `Week2.out' has not changed.
+(rerunfilecheck)             Checksum: A9613729F249C09D7820BBCEA9BD191B;8299.
  ) 
 Here is how much of TeX's memory you used:
- 38696 strings out of 476025
- 852338 string characters out of 5790016
+ 38698 strings out of 476025
+ 852367 string characters out of 5790016
  1895388 words of memory out of 5000000
- 57826 multiletter control sequences out of 15000+600000
+ 57827 multiletter control sequences out of 15000+600000
  625148 words of font info for 109 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  98i,16n,94p,1629b,975s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/euler/eufm10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/euler/eufm7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmbxi10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmcsc10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmcsco10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmmi12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmmi5.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmmi9.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmr12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmr17.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmr5.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmr7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmr9.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmss10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmssbx10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmsy5.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmsy7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/rsfs/rsfs10.pfb>
-Output written on Week2.pdf (75 pages, 675088 bytes).
+Output written on Week2.pdf (75 pages, 675370 bytes).
 PDF statistics:
- 1529 PDF objects out of 1728 (max. 8388607)
- 1378 compressed objects within 14 object streams
- 723 named destinations out of 1000 (max. 500000)
+ 1530 PDF objects out of 1728 (max. 8388607)
+ 1379 compressed objects within 14 object streams
+ 724 named destinations out of 1000 (max. 500000)
  373 words of extra memory for PDF output out of 10000 (max. 10000000)
 
