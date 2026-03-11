@@ -2583,12 +2583,79 @@ $\phi$ is universally wuantified if all quantifiers in $\phi$ are $\forall$. Ana
     \[gf := gt = gt \mid R(gt, \dots) \mid \neg gf \mid gf \lor gf\]
     No variables, no quantifiers
 \end{definition}
+Now that we have developed the machinery needed to prove Compactness for first-order logic, we outline the overall proof strategy.
+From the definition of grounding, it is clear that the goal is to connect first-order logic with propositional logic. 
+By grounding, we eliminate variables and quantifiers, and treat each ground atom as a propositional atom. In this way, we translate the satisfiability problem for a first-order theory into a corresponding satisfiability problem in propositional logic.
+This suggests the following proof plan: establish a correspondence between satisfiability and finite satisfiability for $\Gamma$ and for its grounding $\mathrm{Gr}(\Gamma)$, then apply Compactness of propositional logic to $\mathrm{Gr}(\Gamma)$ in order to deduce Compactness for first-order logic.
+\[
+\begin{tikzcd}[column sep=8em, row sep=4em]
+\Gamma \text{ is satisfiable}
+    \arrow[r, dashed, shift left=0.6ex]
+    \arrow[d, shift left=0.6ex, "\text{(1)}"]
+&
+\Gamma \text{ is finitely satisfiable}
+    \arrow[l, dashed, shift left=0.6ex]
+    \arrow[d, shift left=0.6ex, "\text{(3)}"]
+\\
+\mathrm{Gr}(\Gamma) \text{ is satisfiable}
+    \arrow[u, shift left=0.6ex, "\text{(2)}"]
+    \arrow[r, leftrightarrow, left=0.6ex, "\text{Compactness of PL}"]
+&
+\mathrm{Gr}(\Gamma) \text{ is finitely satisfiable}
+    \arrow[u, shift left=0.6ex, "\text{(4)}"]
+\end{tikzcd}
+\]
 
-Now we have defined machineries needed to prove Compactness for FOL, let's outline the overall proof structure. 
-From our definition of grounded terms, it obvious that we are trying to remove the elements that give FOL more expressiveness
-over propositional logics, such as variables and quantifiers, and we are encapsulating relation into the concept of ground atom,
-It becomes clear that the goal is to build some connection between FOL and PL, and use certain proven properties of PL to establish 
-properties we want to prove for FOL. 
+\begin{definition}[Ground instantiation]
+    $\phi$ is a universally quantified sentence in PNF, let $\psi$ be a ground formula, with the same signature. $\psi$ is a ground instantiation of $\phi$, or $Gr(\phi) = \psi$ if:
+    \[\phi = \forall x_1\forall x_2, \dots, \forall x_n \cdot \gamma\]
+    There are n ground terms $gt_1, gt_2, \dots, gt_n$, such that 
+    \[\psi = \gamma[x_1 \mapsto gt_1][x_2 \mapsto gt_2]\dots[x_n \mapsto gt_n]\]
+\end{definition}
+\begin{definition}[Ground instantiation of a set]
+    \[Gr(\Gamma) = \{\psi \mid \forall \phi \in \Gamma, \psi = Gr(\phi)\}\]
+\end{definition}
+\begin{lemma}[Ground instantiation of a formula is countable]
+\end{lemma}
+\begin{corollary}[Ground instantiation of a set is countable]
+\end{corollary}
+\begin{definition}[Ground valuation]
+    \[gv: gt_\Sigma \mapsto \{true, false\}\]
+    \begin{align*}
+        &gv \models_{gr} R(t, \dots) \iff gv(R(t, \dots)) = true\\
+        &gv \models_{gr} \neg gf \iff gv \not\models_{gr} gf\\
+        &gv \models_{gr} gf_1 \lor gf_2 \iff gv \models_{gr} gf_1 \text{ OR } gv \models_{gr} gf_2\\
+    \end{align*}
+\end{definition}
+
+
+
+
+\begin{definition}[Propositional satisfiable]
+    A ground formula $gf$ is propositionally satisfiable if 
+    \[\exists gv \models_{gr} gf\]
+\end{definition}
+
+\subsection{Proof of the compactness theorem for FOL}
+\subsubsection{$\Gamma$ is satisfiable $\implies Gr(\Gamma)$ is satisfiable}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
