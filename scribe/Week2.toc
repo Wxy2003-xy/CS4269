@@ -81,6 +81,8 @@
 \contentsline {subsection}{\numberline {8.2}Skolemization}{39}{subsection.8.2}%
 \contentsline {subsection}{\numberline {8.3}Proof of the compactness theorem for FOL}{41}{subsection.8.3}%
 \contentsline {subsubsection}{\numberline {8.3.1}$\Gamma $ is satisfiable $\DOTSB \tmspace +\thickmuskip {.2777em}\DOTSB \Relbar \joinrel \Rightarrow \tmspace +\thickmuskip {.2777em}Gr(\Gamma )$ is satisfiable}{41}{subsubsection.8.3.1}%
+\contentsline {section}{\numberline {9}Computability}{41}{section.9}%
+\contentsline {subsection}{\numberline {9.1}Halting problem}{41}{subsection.9.1}%
 \contentsline {paragraph}{Structural Induction Principle.}{55}{section*.141}%
 \contentsline {paragraph}{Case 1: $\psi _i \in \Gamma $ or $\psi _i$ is an Axiom}{67}{section*.202}%
 \contentsline {paragraph}{Case 2: $\psi _i = \varphi $}{67}{section*.203}%
