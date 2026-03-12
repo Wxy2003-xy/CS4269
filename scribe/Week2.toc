@@ -49,13 +49,13 @@
 \contentsline {subsubsection}{\numberline {4.2.1}Monotonicity theorem}{20}{subsubsection.4.2.1}%
 \contentsline {subsubsection}{\numberline {4.2.2}Deduction}{21}{subsubsection.4.2.2}%
 \contentsline {subsection}{\numberline {4.3}Weak Completeness and Completeness of HSPS}{22}{subsection.4.3}%
-\contentsline {paragraph}{Idea.}{22}{section*.56}%
-\contentsline {paragraph}{Step 1: Consistency and Maximal Consistency.}{22}{section*.57}%
+\contentsline {paragraph}{Idea.}{23}{section*.56}%
+\contentsline {paragraph}{Step 1: Consistency and Maximal Consistency.}{23}{section*.57}%
 \contentsline {paragraph}{Step 2: Canonical Valuation.}{23}{section*.58}%
 \contentsline {paragraph}{Step 3: Falsifying $\varphi $.}{23}{section*.59}%
 \contentsline {paragraph}{Conclusion.}{23}{section*.60}%
 \contentsline {paragraph}{Reduction to Weak Completeness.}{23}{section*.62}%
-\contentsline {paragraph}{Infinite Case.}{23}{section*.63}%
+\contentsline {paragraph}{Infinite Case.}{24}{section*.63}%
 \contentsline {subsection}{\numberline {4.4}Resolution Proof System}{24}{subsection.4.4}%
 \contentsline {section}{\numberline {5}Complexity}{27}{section.5}%
 \contentsline {subsection}{\numberline {5.1}Turing Machine}{27}{subsection.5.1}%
