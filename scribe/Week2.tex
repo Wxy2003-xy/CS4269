@@ -24,6 +24,7 @@
 \newtheorem{example}[theorem]{Example}
 \usepackage{listings}  
 \usepackage{tikz-cd}
+\usetikzlibrary{positioning}
 \usepackage{forest}     
 \usepackage{xcolor}
 \usepackage{tcolorbox}
@@ -2648,8 +2649,59 @@ This suggests the following proof plan: establish a correspondence between satis
     The halting problem is undecidable
 \end{theorem}
 
+\begin{proof}
+\[
+\begin{tikzpicture}[
+    box/.style={draw, rectangle, minimum width=7.5cm, minimum height=4.5cm},
+    inner/.style={draw, rectangle, minimum width=5cm, minimum height=2.7cm},
+    core/.style={draw, rectangle, minimum width=2.8cm, minimum height=1.3cm},
+    >=stealth
+]
 
+% outer machine
+\node[box] (Mpp) {};
+\node at (Mpp.north) [above=2pt] {$M''$};
 
+% middle machine
+\node[inner] (Mp) at (Mpp.center) {};
+\node at (Mp.north) [above=2pt] {$M'$};
+
+% inner machine
+\node[core] (M) at (Mp.center) {$M$};
+
+% input arrow
+\node[left=1.3cm of Mpp] (input) {$x$};
+\draw[->] (input) -- node[above] {$x$} (Mpp.west);
+
+\node[below=8pt of Mpp.south] (step1)
+{\small $M''$ sends $x$ to both inputs of $M'$: $(m,w)=(x,x)$};
+
+\node[below=6pt of Mp.south] (step2)
+{\small $M'$ forwards $(x,x)$ to $M$};
+
+\node[below=6pt of M.south] (step3)
+{\small $M$ decides if $x$ halts on $x$};
+
+% output logic
+\node[right=3cm of Mp] (logic)
+{\small
+\begin{tabular}{l}
+$M$ outputs YES $\Rightarrow M'$ outputs NO \\
+$M$ outputs NO $\Rightarrow M'$ outputs YES \\
+$M'$ outputs YES $\Rightarrow M''$ outputs YES \\
+$M'$ outputs NO $\Rightarrow M''$ outputs NO
+\end{tabular}
+};
+
+\draw[->] (Mp.east) -- (logic.west);
+
+\end{tikzpicture}
+\]
+
+Now consider $M''(M'')$. 
+\subsubsection*{Case 1: $M''(M'') = NO$}
+
+\end{proof}
 
 
 
