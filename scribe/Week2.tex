@@ -2712,7 +2712,135 @@ Now consider $M''(M'')$.
 \end{definition}
 
 
+\begin{definition}[Recursive]
+    $L \subseteq \Sigma^*$ is a recursive(REC) language if there is a Turing machine $\mathcal{M}$, 
+    such that $L = L(\mathcal{M})$, and $\mathcal{M}$ is terminating. Recursive languages are also called decidable
+\end{definition}
 
+\begin{theorem}
+    \[L_H = \{\langle \mathcal{M}, w \rangle \mid w \text{ terminates on } \mathcal M\} \in RE\]
+\end{theorem}
+\begin{proof}
+    We can construct a TM $\mathcal{M}_{Halt}$ which is the turing machine that returns YES if its input machine terminates on input string. 
+    \begin{lstlisting}[mathescape=true]
+$\mathcal{M}_{Halt}(\mathcal{M}, w)$:
+    $\mathcal{M}(w)$
+    return YES
+    \end{lstlisting}
+    This surffice to show that $L_{H} \in RE$
+    \subsubsection*{$L_H \notin REC$}
+    Similar to how we prove undecidability of the Halting problem
+\end{proof}
+\begin{theorem}[Membership]
+    \[MP = \{\langle \mathcal{M}, w \rangle \mid w \text{ is accepted by } \mathcal{M}\} \in RE\]
+\end{theorem}
+\begin{proof}
+    We can construct TM
+    \begin{lstlisting}[mathescape=true]
+$\mathcal{M}_{UTM}(\mathcal{M}, w)$:
+    $b = \mathcal{M}(w)$
+    return $b$
+    \end{lstlisting}
+\end{proof}
+
+\begin{theorem}
+    \[L \in REC \iff \bar{L} \in REC\]
+\end{theorem}
+\begin{proof}
+    $L \in REC \implies \exists \mathcal{M}, L = L(\mathcal{M}), \mathcal{M}$ is terminating, we can construct another TM
+    \begin{lstlisting}[mathescape=true]
+$\mathcal{M'}(w)$:
+    $b = \mathcal{M}(w)$
+    return $\neg b$
+    \end{lstlisting}
+    It is easy to show that $L(\mathcal{M'}) = \bar{L}$, and $\mathcal{M'}$ is terminating.
+\end{proof}
+\begin{theorem}
+    \[L \in RE \land \bar{L} \in RE \implies L \in REC\]
+\end{theorem}
+\begin{proof}
+    Consider then TM for $L$ and $\bar{L}$, $\mathcal{M}_1$ and $\mathcal{M}_2$, we can construct a new TM
+    \begin{lstlisting}[mathescape=true]
+$\mathcal{M}(w)$:
+    for $i > 0$:
+        run the $i^{th}$ step of $\mathcal{M}_1$
+        if $\mathcal{M}_1$ reaches $q_{\mathcal{M}_1, Acc}$
+            return YES
+        run the $i^{th}$ step of $\mathcal{M}_2$
+        if $\mathcal{M}_2$ reaches $q_{\mathcal{M}_2, Acc}$
+            return NO
+    \end{lstlisting}
+    Since $\forall w, \forall L\subseteq \Sigma^*, w \in L \lor w \in \bar{L}, w$ must be accepted by either $\mathcal{M}_1$ or $\mathcal{M}_2$, 
+    therefore $\mathcal{M}$ is terminating.
+\end{proof}
+
+\subsection{Reduction}
+\begin{definition}
+    $L_1 \leq_m L_2$ if there is a computable function $f$, such that 
+    \begin{align*}
+        w \in L_1 \implies f(w) \in L_2\\
+        w \notin L_1 \implies f(w) \notin L_2
+    \end{align*}
+\end{definition}
+\begin{theorem}
+    \[L_1 \leq_m L_2, L_2 \in REC \implies L_1 \in REC\]
+\end{theorem}
+\begin{theorem}
+    \[L_1 \leq_m L_2, L_2 \in RE \implies L_1 \in RE\]
+\end{theorem}
+\begin{proof}
+    
+\end{proof}
+\begin{theorem}
+    \[L_1 \leq_m L_2, L_1 \in REC \not\implies L_2 \in REC\]
+\end{theorem}
+\begin{proof}
+    Consider the following recursive language:
+    \[L_1 = \{\langle \mathcal{M}, w\rangle \mid w \text{ termintes on } \mathcal{M} \text{ in 10 steps}\}\]
+    and 
+    \[L_H = \{\langle \mathcal{M}, w\rangle \mid w \text{ termintes on } \mathcal{M}\}\]
+    We have shown that $L_H\in RE \setminus REC$. 
+    We can construct the following terminating TM to define a computable function $f$
+    \begin{lstlisting}[mathescape=true]
+$\mathcal{M}_f(\langle \mathcal{M}, w\rangle)$:
+    run $\mathcal{M}_1$ on $w$ for 10 steps
+    if output is YES:
+        return $\langle \mathcal{M}, w\rangle$
+    else:
+        return $\langle NH, w\rangle$
+    \end{lstlisting}
+    Where $NH$ is the encoding of a TM that loops forever on all input.\\
+    It is easy to show that 
+    \[\langle \mathcal{M}, w\rangle \in L_1 \implies f(\langle \mathcal{M}, w\rangle) \in L_H\]
+    \[\langle \mathcal{M}, w\rangle \notin L_1 \implies f(\langle \mathcal{M}, w\rangle) \notin L_H\]
+    But $L_H \notin REC$ as we have previously shown. Contradiction
+\end{proof}
+
+
+\subsection{RE-hardness}
+There are languages beyond the RE class. For example 
+\begin{theorem}
+    \[\bar{L}_H \notin RE\]
+\end{theorem}
+\begin{proof}
+    Suppose otherwise, $\bar{L}_H \in RE, L_H \in RE \implies L_H \in REC$, contradiction
+\end{proof}
+\begin{definition}[RE-hard]
+    $L$ is RE-hard, if 
+    \[\forall L' \in RE, L' \leq_m L\]
+\end{definition}
+
+
+\subsection{Validity of FOL}
+\begin{definition}
+    \[VALID: \{\varphi \mid \varphi \text{ is valid }\}\]
+\end{definition}
+\begin{theorem}
+    $VALID \in RE$
+\end{theorem}
+\begin{theorem}[Church-Turing Theorem]
+    $VALID$ is RE-hard
+\end{theorem}
 
 
 

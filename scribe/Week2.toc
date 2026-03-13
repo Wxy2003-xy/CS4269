@@ -83,7 +83,10 @@
 \contentsline {subsubsection}{\numberline {8.3.1}$\Gamma $ is satisfiable $\DOTSB \tmspace +\thickmuskip {.2777em}\DOTSB \Relbar \joinrel \Rightarrow \tmspace +\thickmuskip {.2777em}Gr(\Gamma )$ is satisfiable}{41}{subsubsection.8.3.1}%
 \contentsline {section}{\numberline {9}Computability}{41}{section.9}%
 \contentsline {subsection}{\numberline {9.1}Halting problem}{41}{subsection.9.1}%
-\contentsline {paragraph}{Structural Induction Principle.}{55}{section*.142}%
-\contentsline {paragraph}{Case 1: $\psi _i \in \Gamma $ or $\psi _i$ is an Axiom}{67}{section*.203}%
-\contentsline {paragraph}{Case 2: $\psi _i = \varphi $}{67}{section*.204}%
-\contentsline {paragraph}{Case 3: $\psi _i$ via MP from $\psi _j, \psi _k$ where $\psi _j = \psi _k \rightarrow \psi _i$}{67}{section*.205}%
+\contentsline {subsection}{\numberline {9.2}Reduction}{42}{subsection.9.2}%
+\contentsline {subsection}{\numberline {9.3}RE-hardness}{43}{subsection.9.3}%
+\contentsline {subsection}{\numberline {9.4}Validity of FOL}{43}{subsection.9.4}%
+\contentsline {paragraph}{Structural Induction Principle.}{57}{section*.143}%
+\contentsline {paragraph}{Case 1: $\psi _i \in \Gamma $ or $\psi _i$ is an Axiom}{69}{section*.204}%
+\contentsline {paragraph}{Case 2: $\psi _i = \varphi $}{69}{section*.205}%
+\contentsline {paragraph}{Case 3: $\psi _i$ via MP from $\psi _j, \psi _k$ where $\psi _j = \psi _k \rightarrow \psi _i$}{69}{section*.206}%
