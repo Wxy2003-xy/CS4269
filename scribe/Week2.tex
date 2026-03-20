@@ -2270,7 +2270,7 @@ quantifiers, allowing us to express more nuanced ideas.
 \begin{definition}{Term}
 Similar to how we define formula in propositonal logic, a term can also be recursively defined as 
 \[t := c\in \mathcal{C} \mid x \in V \mid f\underbrace{(t, \dots)}_{arity(f)}, f \in \mathcal{F}\]
-Here we use term to represent the idea of an "atom" in FOL.
+Here we use term to represent the idea of an "object" in FOL.
 \end{definition}
 \begin{definition}{Formula}
 \[\phi := t = t \mid R\underbrace{(t, \dots)}_{arity(R)}, R \in \mathcal{R} \mid \phi \lor \phi \mid \neg \phi \mid \exists x \in V, \phi \mid \forall x\in V, \phi\]
@@ -2309,13 +2309,13 @@ In FOL, we need to define the universe and interpret the symbols to unpack the s
 \begin{definition}{Valuation of terms}
     \begin{align*}
         &Val_{\mathfrak{A}, \alpha}(c) = I(c) \in U\\
-        &Val_{\mathfrak{A}, \alpha}(x) = \alpha(c) \in U\\
+        &Val_{\mathfrak{A}, \alpha}(x) = \alpha(x) \in U\\
         &Val_{\mathfrak{A}, \alpha}(f(t, \dots)) = I(f)(Val_{\mathfrak{A}, \alpha}(t), \dots) \in U\\
     \end{align*}
 \end{definition}
 \begin{definition}{Substitution}
     \[\alpha[x\mapsto u](z) = \begin{cases}
-        u, \text{ if } z = u\\
+        u, \text{ if } z = x\\
         \alpha(z), \text{ otherwise}
     \end{cases}\]
 \end{definition}
@@ -2331,9 +2331,9 @@ In FOL, we need to define the universe and interpret the symbols to unpack the s
         \item $\phi \equiv \phi_1 \lor \phi_2$
         \[\mathfrak{A}, \alpha \models \phi \iff \mathfrak{A}, \alpha \models \phi_1 \text{ OR } \mathfrak{A}, \alpha \models \phi_2\]
         \item $\phi \equiv \exists x, \varphi$
-        \[\mathfrak{A}, \alpha \models \phi \iff \text{ there is } u \in U, \mathfrak{A}, \alpha[x\mapsto u] \models \phi\]
+        \[\mathfrak{A}, \alpha \models \phi \iff \text{ there is } u \in U, \mathfrak{A}, \alpha[x\mapsto u] \models \varphi\]
         \item $\phi \equiv \forall x, \varphi$
-        \[\mathfrak{A}, \alpha \models \phi \iff \text{ for all } u \in U, \mathfrak{A}, \alpha[x\mapsto u] \models \phi\]
+        \[\mathfrak{A}, \alpha \models \phi \iff \text{ for all } u \in U, \mathfrak{A}, \alpha[x\mapsto u] \models \varphi\]
     \end{enumerate}
 \end{definition}
 \begin{example}{graphs}
@@ -2384,9 +2384,12 @@ In FOL, we need to define the universe and interpret the symbols to unpack the s
 \end{definition}
 
 \begin{lemma}[Relevance Lemma for FOL]
+    Let $\varphi$ be a FOL formula, 
+    \[(\forall x \in FVar(\varphi), \alpha_1(x) = \alpha_2(a)) \implies (\mathfrak{A}, \alpha_1 \models \varphi \iff \mathfrak{A}, \alpha_2 \models \varphi)\]
+\end{lemma}
+\begin{lemma}
     
 \end{lemma}
-
 
 
 
@@ -2615,7 +2618,7 @@ This suggests the following proof plan: establish a correspondence between satis
     \[\psi = \gamma[x_1 \mapsto gt_1][x_2 \mapsto gt_2]\dots[x_n \mapsto gt_n]\]
 \end{definition}
 \begin{definition}[Ground instantiation of a set]
-    \[Gr(\Gamma) = \{\psi \mid \forall \phi \in \Gamma, \psi = Gr(\phi)\}\]
+    \[Gr(\Gamma) = \bigcup_{\phi\in \Gamma} Gr(\phi)\]
 \end{definition}
 \begin{lemma}[Ground instantiation of a formula is countable]
 \end{lemma}
@@ -2841,6 +2844,132 @@ There are languages beyond the RE class. For example
 \begin{theorem}[Church-Turing Theorem]
     $VALID$ is RE-hard
 \end{theorem}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4602,4 +4731,1105 @@ Assume that the Resolution Proof System is sound and complete for propositional 
     If $\Gamma$ is an unsatidfiable set of clauses, by completeness there is a finite resolution proof for $\Gamma$, and since this proof uses only finitely many clauses from $\Gamma$, there is a finite subset $\Gamma_0 \subseteq_{\mathrm{fin}} \Gamma$ from which the same proof is a resolution proof. 
     By soundness, $\Gamma_0$ is unsat
     \end{proof}
+
+\newpage
+
+\section*{Question 1}
+
+\begin{lemma}[Relevance Lemma for FOL]
+Let $\phi$ be a FOL formula, let $\mathfrak{A}$ be a structure and let $\alpha_1,\alpha_2$ be
+variable assignments such that for all $x \in FVar(\phi)$,
+\[
+\alpha_1(x) = \alpha_2(x).
+\]
+Then
+\[
+\mathfrak{A},\alpha_1 \models \phi \iff \mathfrak{A},\alpha_2 \models \phi.
+\]
+\end{lemma}
+
+\textbf{Question.} Prove Lemma 1.
+\begin{proof}
+    By symmetry, we only need to prove if for all $x\in FVar(\phi), \alpha_1(x) = \alpha_2(x)$
+    then
+    \[
+\mathfrak{A},\alpha_1 \models \phi \implies \mathfrak{A},\alpha_2 \models \phi.
+\]
+\begin{lemma} If
+    \[\forall x \in Var(t), \alpha_1(x) = \alpha_2(x)\]
+    then $Val_{\mathfrak{A}, \alpha_1}(t) = Val_{\mathfrak{A}, \alpha_2}(t)$
+\end{lemma}
+\subsubsection*{Base case: }
+\begin{enumerate}
+    \item $t \equiv c$: $I(c) = I(c) \implies Val_{\mathfrak{A}, \alpha_1}(c) = Val_{\mathfrak{A}, \alpha_2}(c)$
+    \item $t \equiv x$: By definition, $Val_{\mathfrak{A}, \alpha_1}(x) = \alpha_1(x) = \alpha_2(x) = Val_{\mathfrak{A}, \alpha_2}(x)$
+\end{enumerate}
+\subsubsection*{Inductive steps: Suppose this holds for $t_1, t_2, \dots$}
+$t' \equiv f(t_1, t_2, \dots)$: from definition, $Val_{\mathfrak{A}, \alpha_1}(f(t_1, t_2, \dots)) = I(f)(Val_{\mathfrak{A}, \alpha_1}(t_1), Val_{\mathfrak{A}, \alpha_1}(t_2)\dots)$. By IH, 
+tuple $(Val_{\mathfrak{A}, \alpha_1}(t_1), Val_{\mathfrak{A}, \alpha_1}(t_2), \dots) = (Val_{\mathfrak{A}, \alpha_2}(t_1), Val_{\mathfrak{A}, \alpha_2}(t_2), \dots) \implies I_{\mathfrak{A}}(f)(Val_{\mathfrak{A}, \alpha_1}(t_1), Val_{\mathfrak{A}, \alpha_1}(t_2), \dots)
+ = I_{\mathfrak{A}}(f)(Val_{\mathfrak{A}, \alpha_2}(t_1), Val_{\mathfrak{A}, \alpha_2}(t_2), \dots) \implies Val_{\mathfrak{A}, \alpha_1}(t) = Val_{\mathfrak{A}, \alpha_2}(t)$
+Now we can use the lemma to prove the previosu lemma: 
+\subsubsection*{Base cases}
+
+\begin{enumerate}
+    \item $\phi \equiv t_1 = t_2$.
+    Suppose
+    \[
+    \mathfrak{A},\alpha_1 \models t_1=t_2.
+    \]
+    Then we have
+    \[
+    Val_{\mathfrak{A},\alpha_1}(t_1)=Val_{\mathfrak{A},\alpha_1}(t_2).
+    \]
+    \[
+    FVar(t_1=t_2)=Var(t_1)\cup Var(t_2),
+    \]
+    \[
+    Val_{\mathfrak{A},\alpha_1}(t_1)=Val_{\mathfrak{A},\alpha_2}(t_1)
+    \quad\text{and}\quad
+    Val_{\mathfrak{A},\alpha_1}(t_2)=Val_{\mathfrak{A},\alpha_2}(t_2).
+    \]
+    \[
+    Val_{\mathfrak{A},\alpha_2}(t_1)=Val_{\mathfrak{A},\alpha_2}(t_2) \implies 
+    \mathfrak{A},\alpha_2 \models t_1=t_2.
+    \]
+
+    \item $\phi \equiv R(t_1,\dots,t_k)$.
+
+    Suppose
+    \[
+    \mathfrak{A},\alpha_1 \models R(t_1,\dots,t_k).
+    \]
+    Then
+    \[
+    \bigl(Val_{\mathfrak{A},\alpha_1}(t_1),\dots,Val_{\mathfrak{A},\alpha_1}(t_k)\bigr)\in I(R).
+    \]
+    \[
+    FVar(R(t_1,\dots,t_k))=Var(t_1)\cup \cdots \cup Var(t_k),
+    \]
+    by the term lemma, 
+    \[
+    \forall i, Val_{\mathfrak{A},\alpha_1}(t_i)=Val_{\mathfrak{A},\alpha_2}(t_i).
+    \]
+    \[
+    \bigl(Val_{\mathfrak{A},\alpha_1}(t_1),\dots,Val_{\mathfrak{A},\alpha_1}(t_k)\bigr) = \bigl(Val_{\mathfrak{A},\alpha_2}(t_1),\dots,Val_{\mathfrak{A},\alpha_2}(t_k)\bigr) \in I(R)
+    \]
+    \[
+    \mathfrak{A},\alpha_2 \models R(t_1,\dots,t_k).
+    \]
+\end{enumerate}
+
+\subsubsection*{Inductive cases}
+
+\begin{enumerate}
+    \item $\phi \equiv \neg \psi$.
+
+    Suppose
+    \[
+    \mathfrak{A},\alpha_1 \models \neg \psi.
+    \]
+    Then
+    \[
+    \mathfrak{A},\alpha_1 \not\models \psi.
+    \]
+    \[
+    FVar(\neg\psi)=FVar(\psi),
+    \]
+    \[
+    \mathfrak{A},\alpha_2 \models \psi \implies \mathfrak{A},\alpha_1 \models \psi.
+    \]
+    \[
+    \mathfrak{A},\alpha_2 \not\models \psi,
+    \]
+    \[
+    \mathfrak{A},\alpha_2 \models \neg \psi.
+    \]
+
+    \item $\phi \equiv \psi_1 \lor \psi_2$.
+
+    \[
+    \mathfrak{A},\alpha_1 \models \psi_1 \lor \psi_2.
+    \]
+    then either
+    \[
+    \mathfrak{A},\alpha_1 \models \psi_1
+    \quad\text{or}\quad
+    \mathfrak{A},\alpha_1 \models \psi_2.
+    \]
+    Also,
+    \[
+    FVar(\psi_1\lor\psi_2)=FVar(\psi_1)\cup FVar(\psi_2).
+    \]
+    by IH
+    \[
+    \mathfrak{A},\alpha_2 \models \psi_1
+    \quad\text{or}\quad
+    \mathfrak{A},\alpha_2 \models \psi_2.
+    \]
+    Therefore,
+    \[
+    \mathfrak{A},\alpha_2 \models \psi_1 \lor \psi_2.
+    \]
+
+    \item $\phi \equiv \exists x\,\psi$.
+
+    Suppose
+    \[
+    \mathfrak{A},\alpha_1 \models \exists x\,\psi.
+    \]
+    Then there exists some $u\in U$ such that
+    \[
+    \mathfrak{A},\alpha_1[x\mapsto u]\models \psi.
+    \]
+    w can show that $\alpha_1[x\mapsto u]$ and $\alpha_2[x\mapsto u]$ agree on all variables in $FVar(\psi)$.
+
+    fix a $y\in FVar(\psi)$,
+
+    \begin{itemize}
+        \item If $y=x$, then
+        \[
+        \alpha_1[x\mapsto u](y)=u=\alpha_2[x\mapsto u](y).
+        \]
+
+        \item If $y\neq x$, then $y \in FVar(\psi)\setminus\{x\} = FVar(\exists x, \psi)$
+        \[
+        \alpha_1[x\mapsto u](y)=\alpha_1(y) = \alpha_2(y)=\alpha_2[x\mapsto u](y).
+        \]
+    \end{itemize}
+
+    Thus, $\forall y\in FVar(\psi)$,
+    \[
+    \alpha_1[x\mapsto u](y)=\alpha_2[x\mapsto u](y).
+    \]
+    By IH
+    \[
+    \mathfrak{A},\alpha_2[x\mapsto u]\models \psi.
+    \]
+    Hence
+    \[
+    \mathfrak{A},\alpha_2 \models \exists x\,\psi.
+    \]
+
+    \item $\phi \equiv \forall x\,\psi$.
+
+    Suppose
+    \[
+    \mathfrak{A},\alpha_1 \models \forall x\,\psi.
+    \]
+    then for every $u\in U$,
+    \[
+    \mathfrak{A},\alpha_1[x\mapsto u]\models \psi.
+    \]
+    Fix a $u\in U$. We can show that $\alpha_1[x\mapsto u]$ and $\alpha_2[x\mapsto u]$ agree on all variables in $FVar(\psi)$.
+
+    fix a $y\in FVar(\psi)$.
+
+    \begin{itemize}
+        \item If $y=x$, then
+        \[
+        \alpha_1[x\mapsto u](y)=u=\alpha_2[x\mapsto u](y).
+        \]
+
+        \item If $y\neq x$, then $y \in FVar(\psi)\setminus\{x\} = FVar(\exists x, \psi)$
+        \[
+        \alpha_1[x\mapsto u](y)=\alpha_1(y) = \alpha_2(y)=\alpha_2[x\mapsto u](y).
+        \]
+    \end{itemize}
+    by IH,
+    \[
+    \mathfrak{A},\alpha_2[x\mapsto u]\models \psi.
+    \]
+    Since $u\in U$ is arbitrary,
+    \[
+    \mathfrak{A},\alpha_2 \models \forall x\,\psi.
+    \]
+\end{enumerate}
+\end{proof}
+
+\section*{Question 2}
+
+\begin{definition}[Ground Terms, Atoms and Formulae]
+A term over a signature $\Sigma$ is said to be a \emph{ground term} if it does not contain any
+occurrence of a variable. The set of all ground terms over $\Sigma$ is denoted by
+\[
+\mathrm{Terms}_\Sigma .
+\]
+
+A formula is said to be \emph{ground} if it contains no variables (and therefore no quantifiers).
+
+A formula is said to be a \emph{ground atom} if it is both ground and atomic.
+
+We denote by
+\[
+\mathrm{Atoms}_\Sigma
+\]
+the set of all ground atoms, and by
+\[
+\mathrm{FORM}_\Sigma
+\]
+the set of all ground formulae over $\Sigma$.
+\end{definition}
+
+\begin{definition}[Ground Instantiation]
+Let
+\[
+\phi \equiv \forall x_1 \forall x_2 \cdots \forall x_n \psi
+\]
+be a universally quantified FOL sentence in prenex normal form.
+
+A \emph{ground instantiation} of $\phi$ is obtained by replacing each occurrence of $x_i$
+in $\psi$ by a ground term $t_i$.
+
+Formally, there exists a mapping
+\[
+T : V \rightarrow \mathrm{Terms}_\Sigma
+\]
+such that
+\[
+\varphi \equiv \psi[x_1 \rightarrow T(x_1)]\cdots[x_n \rightarrow T(x_n)].
+\]
+
+The set of all ground instantiations of $\phi$ is denoted
+\[
+\mathrm{Ground}(\phi).
+\]
+
+For a set $\Gamma$ of universally quantified sentences,
+\[
+\mathrm{Ground}(\Gamma) =
+\bigcup_{\phi \in \Gamma} \mathrm{Ground}(\phi).
+\]
+\end{definition}
+
+\begin{definition}[Propositional Satisfiability]
+A \emph{ground atomic valuation} over $\Sigma$ is a mapping
+\[
+\tau : \mathrm{Atoms}_\Sigma \rightarrow \{\mathrm{true},\mathrm{false}\}.
+\]
+
+This valuation is extended to ground formulae using the relation $\models_{Gr}$ defined by:
+
+\[
+\tau \models_{Gr} \psi
+\quad \text{iff} \quad
+\tau(\psi) = \mathrm{true}
+\qquad \text{if } \psi \in \mathrm{Atoms}_\Sigma
+\]
+
+\[
+\tau \models_{Gr} \neg \phi
+\quad \text{iff} \quad
+\tau \not\models_{Gr} \phi
+\]
+
+\[
+\tau \models_{Gr} (\phi_1 \vee \phi_2)
+\quad \text{iff} \quad
+\tau \models_{Gr} \phi_1
+\text{ or }
+\tau \models_{Gr} \phi_2 .
+\]
+
+A set of ground FOL formulae $\Gamma$ is \emph{propositionally satisfiable} if there exists
+a ground atomic valuation $\tau$ such that
+\[
+\tau \models_{Gr} \phi
+\quad \text{for every } \phi \in \Gamma .
+\]
+\end{definition}
+
+\begin{lemma}
+If $\Gamma$ is satisfiable then $\mathrm{Ground}(\Gamma)$ is propositionally satisfiable.
+\end{lemma}
+
+\textbf{Question.} Prove Lemma 2.
+\begin{proof}
+    $\Gamma$ is satisfiable, there exists a structure $\mathfrak A$ such that
+    \[
+    \mathfrak A \models \Gamma.
+    \]
+    Define ground atom valuation
+    \[
+    \tau_{\mathfrak A} : Atoms_\Sigma \to \{\mathrm{true},\mathrm{false}\}
+    \]
+    \[
+    \tau_{\mathfrak A}(a)=\mathrm{true}
+    \iff
+    \mathfrak A \models a
+    \]
+    for every ground atom $a$ over $\Sigma$.
+    Now we show that for every ground formula $\phi$,
+    \[
+    \mathfrak A \models \phi \implies \tau_{\mathfrak A}\models_{Gr}\phi.
+    \]
+    Induction on the structure of $\phi$    
+    \subsubsection*{Base case: $\chi$ is a ground atom}
+    trivial    
+    \subsubsection*{Inductive cases}
+    \begin{enumerate}
+        \item $\psi \equiv \neg \phi$.
+        Suppose
+        \[
+        \mathfrak A \models \neg \phi \implies
+        \mathfrak A \not\models \phi
+        \]
+        By IH,
+        \[
+        \mathfrak A \models \phi \implies \tau_{\mathfrak A}\models_{Gr}\phi
+        \]
+        \[
+        \tau_{\mathfrak A}\not\models_{Gr}\phi
+        \]
+        \[
+        \tau_{\mathfrak A}\models_{Gr}\neg\phi
+        \]
+    
+        \item $\chi \equiv \phi_1 \lor \phi_2$.
+    
+        Suppose
+        \[
+        \mathfrak A \models \phi_1 \lor \phi_2
+        \]
+        Then 
+        \[
+        \mathfrak A \models \phi_1
+        \quad\text{or}\quad
+        \mathfrak A \models \phi_2
+        \]
+        by IH
+        \[
+        \tau_{\mathfrak A}\models_{Gr}\phi_1
+        \quad\text{or}\quad
+        \tau_{\mathfrak A}\models_{Gr}\phi_2
+        \]
+        \[
+        \tau_{\mathfrak A}\models_{Gr}\phi_1 \lor \phi_2
+        \]
+    \end{enumerate}
+    Fix any $\chi \in Ground(\Gamma)$. Then there exists
+    \[
+    \varphi=\forall x_1\cdots\forall x_n\,\psi \in \Gamma
+    \]
+    such that
+    \[
+    \chi=\psi[x_1\mapsto t_1]\cdots[x_n\mapsto t_n]
+    \]
+    for ground terms $t_1,\dots,t_n$\\
+    $\mathfrak A \models \Gamma \implies \mathfrak A \models \varphi$\\
+    For $1 \leq i \leq n$
+    \[
+    u_i = Val_{\mathfrak A}(t_i)
+    \]
+    \[
+    \mathfrak A,\alpha[x_1\mapsto u_1]\cdots[x_n\mapsto u_n]\models \psi.
+    \]
+    By substitution lemma, which we will prove later
+    \[
+    \mathfrak A \models \psi[x_1\mapsto t_1]\cdots[x_n\mapsto t_n].
+    \]
+    \[
+    \mathfrak A \models \chi.
+    \]
+    \[
+    \tau_{\mathfrak A}\models_{Gr}\chi.
+    \]
+    
+    Since $\chi\in Ground(\Gamma)$ is arbitrarily chosen, we have
+    \[
+    \forall \chi \in Ground(\Gamma), \tau_{\mathfrak{A}} \models_{Gr} \chi
+    \]
+    \[
+    \tau_{\mathfrak A}\models_{Gr} Ground(\Gamma).
+    \]
+    Therefore $Ground(\Gamma)$ is propositionally sat.
+    \end{proof}
+\begin{lemma}[Substitution lemma]
+    \[\mathfrak{A}\models \psi[x \mapsto t] \iff \mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A}(t)}] \models \psi\]
+\end{lemma}
+\begin{lemma}
+    \[Val_{\mathfrak{A}, \alpha}(t[x\mapsto t']) = Val_{\mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A}, \alpha}(t')]}(t)\]
+\end{lemma}
+\begin{proof}
+\subsubsection*{Base case: }
+\begin{enumerate}
+    \item $t = c \in C$: 
+    \[Val_{\mathfrak{A}, \alpha}(t[x \mapsto t']) = Val_{\mathfrak{A}, \alpha}(c) = I(c)\]
+    \[Val_{\mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A}, \alpha}(t')]}(t) = Val_{\mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A}, \alpha}(t')]}(c) = I(c)\]
+    \item $t = y \in V$:\\
+    Case 1: $x = y$
+    \[
+    \implies y[x \mapsto t'] = t'
+    \]
+    \[
+    Val_{\mathfrak{A}, \alpha}(y[x \mapsto t']) = Val_{\mathfrak{A}, \alpha}(t')
+    \]
+    \[
+    Val_{\mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A},\alpha}(t')]}(y)
+    = \alpha[x \mapsto Val_{\mathfrak{A},\alpha}(t')](y)
+    = Val_{\mathfrak{A},\alpha}(t')
+    \]
+    Case 2: $x \neq y$
+    \[
+    \implies y[x \mapsto t'] = y
+    \]
+    \[
+    Val_{\mathfrak{A}, \alpha}(y[x \mapsto t']) = Val_{\mathfrak{A}, \alpha}(y) = \alpha(y)
+    \]
+    \[
+    Val_{\mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A},\alpha}(t')]}(y)
+    = \alpha[x \mapsto Val_{\mathfrak{A},\alpha}(t')](y)
+    = \alpha(y)
+    \]
+\end{enumerate}
+\subsubsection*{Inductive step: $t = f(t_1, \dots)$}
+\[
+    t[x \mapsto t'] = 
+    f(t_1[x \mapsto t'], t_2[x \mapsto t'], \dots)
+\]
+\[
+    Val_{\mathfrak{A}, \alpha}(t[x \mapsto t']) = 
+    Val_{\mathfrak{A}, \alpha}(f(t_1[x \mapsto t'], t_2[x \mapsto t'], \dots)) =
+\]
+\[
+    I(f)(Val_{\mathfrak{A}, \alpha}(t_1[x \mapsto t']), Val_{\mathfrak{A}, \alpha}(t_2[x \mapsto t']), \dots)
+\]
+The other side
+\[
+    Val_{\mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A},\alpha}(t')]}(f(t_1, t_2, \dots)) = 
+    I(f)(Val_{\mathfrak{A}, \alpha}(t_1[x \mapsto t']), Val_{\mathfrak{A}, \alpha}(t_2[x \mapsto t']), \dots)
+\]
+\end{proof}
+\begin{proof}
+    We prove the substitution lemma for formulae by structural induction on $\psi$.
+    
+    \subsubsection*{Base case: $\psi \equiv t_1 = t_2$}
+    \[
+    \psi[x \mapsto t] \equiv t_1[x \mapsto t] = t_2[x \mapsto t]
+    \]
+    Thus
+    \[
+    \mathfrak{A}, \alpha \models \psi[x \mapsto t]
+    \iff
+    Val_{\mathfrak{A}, \alpha}(t_1[x \mapsto t])
+    =
+    Val_{\mathfrak{A}, \alpha}(t_2[x \mapsto t]).
+    \]
+    By the substitution lemma for terms,
+    \[
+    Val_{\mathfrak{A}, \alpha}(t_1[x \mapsto t])
+    =
+    Val_{\mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A}, \alpha}(t)]}(t_1)
+    \]
+    and
+    \[
+    Val_{\mathfrak{A}, \alpha}(t_2[x \mapsto t])
+    =
+    Val_{\mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A}, \alpha}(t)]}(t_2).
+    \]
+    Hence
+    \[
+    Val_{\mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A}, \alpha}(t)]}(t_1)
+    =
+    Val_{\mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A}, \alpha}(t)]}(t_2),
+    \]
+    that is,
+    \[
+    \mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A}, \alpha}(t)] \models t_1 = t_2.
+    \]
+    
+    \subsubsection*{Inductive steps}
+    \begin{enumerate}
+        \item $\psi \equiv R(t_1, \dots, t_n)$.
+    
+        \[
+        \psi[x \mapsto t] \equiv R(t_1[x \mapsto t], \dots, t_n[x \mapsto t]).
+        \]
+        Then
+        \[
+        \mathfrak{A}, \alpha \models \psi[x \mapsto t]
+        \iff
+        \bigl(Val_{\mathfrak{A}, \alpha}(t_1[x \mapsto t]), \dots, Val_{\mathfrak{A}, \alpha}(t_n[x \mapsto t])\bigr) \in I(R).
+        \]
+        By the substitution lemma for terms, for each $i$,
+        \[
+        Val_{\mathfrak{A}, \alpha}(t_i[x \mapsto t])
+        =
+        Val_{\mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A}, \alpha}(t)]}(t_i).
+        \]
+        \[
+        \bigl(Val_{\mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A}, \alpha}(t)]}(t_1), \dots,
+        Val_{\mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A}, \alpha}(t)]}(t_n)\bigr) \in I(R),
+        \]
+        \[
+        \mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A}, \alpha}(t)] \models R(t_1, \dots, t_n).
+        \]
+    
+        \item $\psi \equiv \neg \phi$.
+    
+        \[
+        \mathfrak{A}, \alpha \models (\neg \phi)[x \mapsto t]
+        \iff
+        \mathfrak{A}, \alpha \models \neg (\phi[x \mapsto t])
+        \]
+        \[
+        \iff
+        \mathfrak{A}, \alpha \not\models \phi[x \mapsto t].
+        \]
+        By IH,
+        \[
+        \mathfrak{A}, \alpha \models \phi[x \mapsto t]
+        \iff
+        \mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A}, \alpha}(t)] \models \phi.
+        \]
+        \[
+        \mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A}, \alpha}(t)] \not\models \phi,
+        \]
+        \[
+        \mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A}, \alpha}(t)] \models \neg \phi.
+        \]
+    
+        \item $\psi \equiv \phi_1 \lor \phi_2$.
+    
+        \[
+        \mathfrak{A}, \alpha \models (\phi_1 \lor \phi_2)[x \mapsto t]
+        \iff
+        \mathfrak{A}, \alpha \models \phi_1[x \mapsto t] \lor \phi_2[x \mapsto t].
+        \]
+        \[
+        \mathfrak{A}, \alpha \models \phi_1[x \mapsto t]
+        \quad \text{or} \quad
+        \mathfrak{A}, \alpha \models \phi_2[x \mapsto t].
+        \]
+        By IH
+        \[
+        \mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A}, \alpha}(t)] \models \phi_1
+        \quad \text{or} \quad
+        \mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A}, \alpha}(t)] \models \phi_2.
+        \]
+        \[
+        \mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A}, \alpha}(t)] \models \phi_1 \lor \phi_2.
+        \]
+    \end{enumerate}
+    \end{proof}
+\section*{Question 3}
+
+\begin{definition}[Herbrand Structure]
+Let $\Sigma=(C,F,R)$ be a signature with $C\neq \emptyset$.
+
+The $\Sigma$-Herbrand structure is
+\[
+\mathcal{A}_\Sigma=(U_\Sigma,I_\Sigma)
+\]
+defined as follows.
+
+\begin{itemize}
+
+\item The universe is
+\[
+U_\Sigma=\mathrm{Terms}_\Sigma
+\]
+(the set of all ground terms).
+
+\item Constants are interpreted naturally:
+\[
+I_\Sigma(c)=c.
+\]
+
+\item For every function symbol $f$ of arity $r$,
+\[
+I_\Sigma(f)(t_1,\dots,t_r)=f(t_1,\dots,t_r).
+\]
+
+\item Relation symbols may be interpreted arbitrarily.
+
+\end{itemize}
+
+\end{definition}
+
+\begin{lemma}
+If $\mathrm{Ground}(\Gamma)$ is propositionally satisfiable then $\Gamma$ is satisfiable.
+\end{lemma}
+
+\textbf{Question.} Prove Lemma 3.
+\begin{proof}
+    Suppose $Ground(\Gamma)$ is propositionally sat, there is a ground atomic valuatio $\tau$
+    \[
+    \forall \phi \in Ground(\Gamma), \tau \models_{Gr} \phi 
+    \]
+    Construct a Herbrand structure as per definition. For $I(R)$, we define as such:
+    \[I_\Sigma^\tau(R) = \{(t_1, t_2, \dots, t_{arity(R)})  \mid \tau\models_{Gr} R(t_1, t_2, \dots, t_{arity(R)}) \}\]
+    Now we show that for every ground formula $\psi$,
+    \[
+    \mathfrak{A}^\tau_\Sigma \models \psi \iff \tau \models_{Gr} \psi.
+    \]
+    
+    \begin{lemma}
+    For every ground term $t$,
+    \[
+    Val_{\mathfrak{A}^\tau_\Sigma}(t)=t.
+    \]
+    \end{lemma}
+    
+    \begin{proof}
+    By structural induction on $t$.
+    If $t\equiv c$ for some constant $c$, then
+    \[
+    Val_{\mathfrak{A}^\tau_\Sigma}(c)=I^\tau_\Sigma(c)=c.
+    \]
+    If $t\equiv f(t_1,\dots,t_r)$, then by IH
+    \[
+    Val_{\mathfrak{A}^\tau_\Sigma}(t_i)=t_i
+    \quad\text{for each }i.
+    \]
+    \[
+    Val_{\mathfrak{A}^\tau_\Sigma}(f(t_1,\dots,t_r))
+    =
+    I^\tau_\Sigma(f)(Val_{\mathfrak{A}^\tau_\Sigma}(t_1),\dots,Val_{\mathfrak{A}^\tau_\Sigma}(t_r))
+    =
+    I^\tau_\Sigma(f)(t_1,\dots,t_r)
+    =
+    f(t_1,\dots,t_r).
+    \]
+    \end{proof}
+    \subsubsection*{Base cases}
+    \begin{enumerate}
+        \item $\psi \equiv R(t_1,\dots,t_r)$.
+    
+        By definition,
+        \[
+        \mathfrak{A}^\tau_\Sigma \models R(t_1,\dots,t_r)
+        \iff
+        (Val_{\mathfrak{A}^\tau_\Sigma}(t_1),\dots,Val_{\mathfrak{A}^\tau_\Sigma}(t_r))\in I^\tau_\Sigma(R).
+        \]
+        \[
+        (t_1,\dots,t_r)\in I^\tau_\Sigma(R).
+        \]
+        By definition of $I^\tau_\Sigma(R)$, 
+        \[
+        \tau \models_{Gr} R(t_1,\dots,t_r).
+        \]
+    \end{enumerate}
+    
+    \subsubsection*{Inductive cases}
+    
+    \begin{enumerate}
+        \item $\psi \equiv \neg \phi$.
+        \[
+        \mathfrak{A}^\tau_\Sigma \models \neg\phi
+        \iff
+        \mathfrak{A}^\tau_\Sigma \not\models \phi.
+        \]
+        By IH
+        \[
+        \mathfrak{A}^\tau_\Sigma \not\models \phi
+        \iff
+        \tau \not\models_{Gr} \phi.
+        \]
+        \[
+        \mathfrak{A}^\tau_\Sigma \models \neg\phi
+        \iff
+        \tau \models_{Gr} \neg\phi.
+        \]
+    
+        \item $\psi \equiv \phi_1\lor\phi_2$.
+        \[
+        \mathfrak{A}^\tau_\Sigma \models \phi_1\lor\phi_2
+        \iff
+        \mathfrak{A}^\tau_\Sigma \models \phi_1
+        \text{ or }
+        \mathfrak{A}^\tau_\Sigma \models \phi_2.
+        \]
+        By IH
+        \[
+        \tau \models_{Gr} \phi_1
+        \text{ or }
+        \tau \models_{Gr} \phi_2.
+        \]
+        \[
+        \mathfrak{A}^\tau_\Sigma \models \phi_1\lor\phi_2
+        \iff
+        \tau \models_{Gr} \phi_1\lor\phi_2.
+        \]
+    \end{enumerate}
+    Now fix a frmula 
+\[
+\varphi=\forall x_1\cdots\forall x_n\,\psi \in \Gamma.
+\]
+We show that
+\[
+\mathfrak{A}^\tau_\Sigma \models \varphi
+\]
+fix arbitrary $u_1,\dots,u_n \in U_\Sigma = Terms_\Sigma$
+each $u_i$ is a ground term
+\[
+\chi \equiv \psi[x_1\mapsto u_1]\cdots[x_n\mapsto u_n]
+\]
+is a ground instantiation of $\varphi$, thus 
+\[
+\chi \in Ground(\Gamma).
+\]
+as $\tau$ propositionally satisfies $Ground(\Gamma)$
+\[
+\tau \models_{Gr} \chi.
+\]
+\[
+\mathfrak{A}^\tau_\Sigma \models \chi.
+\]
+\[
+\mathfrak{A}^\tau_\Sigma \models \psi[x_1\mapsto u_1]\cdots[x_n\mapsto u_n].
+\]
+Since $u_1,\dots,u_n \in U_\Sigma$ are arbitrarily chosne, by the semantics of universal
+quantifier,
+\[
+\mathfrak{A}^\tau_\Sigma \models \forall x_1\cdots\forall x_n\,\psi.
+\]
+\[
+\mathfrak{A}^\tau_\Sigma \models \varphi.
+\]
+
+Since $\varphi \in \Gamma$ is also arbitrarily chosen, we have
+\[
+\mathfrak{A}^\tau_\Sigma \models \Gamma.
+\]
+\end{proof}
+\bigskip
+
+\section*{Question 4}
+
+\begin{theorem}[Downward Löwenheim--Skolem Theorem]
+Let $\Sigma$ be a countable signature and let $\Gamma$ be a set of universally quantified
+FOL sentences without equality.
+
+If $\Gamma$ is satisfiable, then there exists a \emph{countable} structure $\mathcal{A}$ such that
+\[
+\mathcal{A} \models \Gamma.
+\]
+\end{theorem}
+
+\textbf{Question.} Prove Theorem 2.
+\begin{proof}
+    Suppose $\Gamma$ is satisfiable, $Ground(\Gamma)$ is propositionally sat, there exists a Herbrand structure
+    \[
+    \mathfrak{A}^\tau_\Sigma = (U_\Sigma, I^\tau_\Sigma)
+    \]
+    such that
+    \[
+    \mathfrak{A}^\tau_\Sigma \models \Gamma.
+    \]
+    Easy to show that $\mathfrak{A}^\tau_\Sigma$ is countable
+    \[
+    U_\Sigma = Terms_\Sigma,
+    \]
+    the set of all ground terms over the signature $\Sigma$. Since $\Sigma$ is countable, and every ground term is a finite string over the symbols of $\Sigma$, the set $Terms_\Sigma$ is countable.\\
+    Therefore $\mathfrak{A}^\tau_\Sigma$ is a countable structure satisfying $\Gamma$.
+    \end{proof}
+\bigskip
+
+\section*{Question 5}
+
+\begin{theorem}
+$\Gamma$ is satisfiable if and only if $\mathrm{Ground}(\Gamma)$ is satisfiable.
+\end{theorem}
+
+Two sets of sentences $\Gamma_1,\Gamma_2$ are said to be \emph{equivalent} if for every
+structure $\mathcal{A}$,
+\[
+\mathcal{A}\models \Gamma_1
+\iff
+\mathcal{A}\models \Gamma_2 .
+\]
+
+\textbf{Question.}
+
+Describe:
+
+\begin{itemize}
+\item a signature $\Sigma$,
+\item a set $\Gamma$ of universally quantified FOL sentences without equality over $\Sigma$,
+\item a $\Sigma$-structure $\mathcal{A}$,
+\end{itemize}
+
+such that
+
+\[
+\mathcal{A}\models \mathrm{Ground}(\Gamma)
+\quad \text{but} \quad
+\mathcal{A}\not\models \Gamma.
+\]
+
+\begin{proof}
+    Consider signature
+    \[\Sigma = (\{0\}, \emptyset, \{R^1\})\]
+    structure 
+    \[\mathfrak{A} = (\{0,1\}, I(0) = 0, I(R)=\{0\})\]
+    singleton set
+    \[\Gamma = \{\forall x R(x)\}\]
+    \[Ground(\Gamma) = \{R(0)\}\]
+    \[\mathfrak{A} \models Ground(\Gamma)\]
+    but    
+    \[\mathfrak{A} \not\models \Gamma\]
+    as $R(1) \notin I(R)$. Basically grounding loses information about elements in the universe that no ground terms represent
+\end{proof}
+
+\bigskip
+
+\section*{Question 6}
+
+Let
+
+\[
+\Sigma = (\{c,d,e\}, \{f\}, \{R\})
+\]
+
+where $f$ is unary and $R$ is unary.
+
+Define the formulas
+
+\[
+\psi_1 \equiv \neg(c=c)
+\]
+
+\[
+\psi_2 \equiv (c=d) \wedge \neg(d=c)
+\]
+
+\[
+\psi_3 \equiv (c=d) \wedge (d=e) \wedge \neg(c=e)
+\]
+
+\[
+\psi_4 \equiv (c=d) \wedge \neg(f(c)=f(d))
+\]
+
+\[
+\psi_5 \equiv (c=d) \wedge R(c) \wedge \neg R(d)
+\]
+
+Let
+
+\[
+\Gamma_i = \{\psi_i\}
+\]
+
+for $i\in\{1,2,3,4,5\}$.
+
+\textbf{Question.}
+
+Show that for each $i$,
+
+\[
+\mathrm{Ground}(\Gamma_i)
+\]
+
+is propositionally satisfiable but
+
+\[
+\Gamma_i
+\]
+
+is not satisfiable.
+\begin{enumerate}
+    \item $\psi_1 \equiv \neg(c=c)$
+
+    \begin{itemize}
+        \item Propositionally satisfiable: let $\tau(c=c)=\mathrm{false}$.
+        \item Not satisfiable in FOL: equality is reflexive, so $c=c$ must be true.
+    \end{itemize}
+
+    \item $\psi_2 \equiv (c=d)\wedge \neg(d=c)$
+
+    \begin{itemize}
+        \item Propositionally satisfiable: let $\tau(c=d)=\mathrm{true}$ and $\tau(d=c)=\mathrm{false}$.
+        \item Not satisfiable in FOL: equality is symmetric, so $c=d \Rightarrow d=c$.
+    \end{itemize}
+
+    \item $\psi_3 \equiv (c=d)\wedge (d=e)\wedge \neg(c=e)$
+
+    \begin{itemize}
+        \item Propositionally satisfiable: let $\tau(c=d)=\tau(d=e)=\mathrm{true}$ and $\tau(c=e)=\mathrm{false}$.
+        \item Not satisfiable in FOL: equality is transitive, so $c=d$ and $d=e$ imply $c=e$.
+    \end{itemize}
+
+    \item $\psi_4 \equiv (c=d)\wedge \neg(f(c)=f(d))$
+
+    \begin{itemize}
+        \item Propositionally satisfiable: let $\tau(c=d)=\mathrm{true}$ and $\tau(f(c)=f(d))=\mathrm{false}$.
+        \item Not satisfiable in FOL: functions preserve equality, so $c=d \Rightarrow f(c)=f(d)$.
+    \end{itemize}
+
+    \item $\psi_5 \equiv (c=d)\wedge R(c)\wedge \neg R(d)$
+
+    \begin{itemize}
+        \item Propositionally satisfiable: let $\tau(c=d)=\mathrm{true}$, $\tau(R(c))=\mathrm{true}$, $\tau(R(d))=\mathrm{false}$.
+        \item Not satisfiable in FOL: relations respect equality, so $c=d \Rightarrow (R(c)\leftrightarrow R(d))$.
+    \end{itemize}
+\end{enumerate}
+\bigskip
+
+\section*{Question 7}
+
+Let
+
+\[
+\Gamma^* = eq(\Gamma) \cup E
+\]
+
+where $E$ is the set of equality axioms.
+
+\begin{lemma}
+If $\Gamma$ is satisfiable then $\Gamma^*$ is satisfiable.
+\end{lemma}
+
+\textbf{Question.} Prove Lemma 4.
+\begin{proof}
+    Intuition: $\Gamma \mapsto \Gamma^*$ just constraints the interpretation of relation EQ, therefore under any structure, 
+    if a formula $\phi \in \Gamma$ is true, corresponding $eq(\phi) \in \Gamma^*$ is true\\
+    Suppose $\Gamma$ is satisfiable. Then there exists a structure
+    $\mathfrak A=(U,I)$ such that $\mathfrak A \models \Gamma$.
+    
+    Define a new structure $\mathfrak A'=(U,I')$ based on $\mathfrak{A}$ as such
+    \begin{itemize}
+        \item For all symbols in $\Sigma$, interpretation remains the same 
+        \item Interpret EQ as
+        \[
+        I'(EQ) = \{(u,u)\mid u\in U\}.
+        \]
+    \end{itemize}
+    
+    Then $\mathfrak A'$ satisfies all equality axioms $E$, since identity is an equivalence relation and is preserved by functions and relations.
+    also, since $eq(\Gamma)$ is obtained from $\Gamma$ by replacing equality with $EQ$, and $EQ$ is interpreted as identity, trivially
+    \[
+    \mathfrak A' \models eq(\Gamma).
+    \]
+    \[
+    \mathfrak A' \models eq(\Gamma)\cup E = \Gamma^*.
+    \]
+    \end{proof}
+\bigskip
+
+\section*{Question 8}
+
+\begin{definition}[Equivalence Relation]
+A binary relation $R\subseteq U\times U$ is an \emph{equivalence relation} if it is
+
+\begin{itemize}
+\item reflexive
+\item symmetric
+\item transitive
+\end{itemize}
+
+For $u\in U$ the equivalence class is
+
+\[
+[u]_R = \{v\mid (u,v)\in R\}.
+\]
+
+The quotient set is
+
+\[
+U/R = \{[u]_R \mid u\in U\}.
+\]
+
+\end{definition}
+
+\begin{definition}[Congruence Relation]
+Let $U$ be a set and $E\subseteq U\times U$.
+
+$E$ is a \emph{congruence relation} with respect to functions $F$ and relations $R$ if
+
+\begin{enumerate}
+
+\item $E$ is an equivalence relation.
+
+\item For every function $f$ of arity $r$,
+\[
+E(u_1,v_1),\dots,E(u_r,v_r)
+\Rightarrow
+E(f(u_1,\dots,u_r),f(v_1,\dots,v_r)).
+\]
+
+\item For every relation $R$ of arity $r$,
+\[
+E(u_1,v_1),\dots,E(u_r,v_r)
+\]
+implies the tuples either both belong to $R$ or both do not.
+
+\end{enumerate}
+
+\end{definition}
+
+\textbf{Question.}
+
+Let $\mathcal{A}=(U,I)$ be a structure for the signature
+
+\[
+\Sigma^*=(C,F,R\cup\{EQ\})
+\]
+
+such that
+
+\[
+\mathcal{A}\models E.
+\]
+
+Show that $I(EQ)$ is a congruence relation with respect to every function symbol
+$f\in F$ and relation symbol $R\in R$.
+\begin{proof}
+    since $\mathcal A \models E_1,E_2,E_3$, the relation $I(EQ)$ is reflexive, symmetric, and transitive, therefore $I(EQ)$ is an equivalence relation.\\
+    let $f\in F$ be of arity $r$, and let $u_1,\dots,u_r,v_1,\dots,v_r \in U$ satisfy
+    \[
+    (u_i,v_i)\in I(EQ)\qquad (1\le i\le r).
+    \]
+    Since $\mathcal A \models E_4$, it follows that
+    \[
+    \bigl(f(u_1,\dots,u_r),\,f(v_1,\dots,v_r)\bigr)\in I(EQ).
+    \]
+    Thus $I(EQ)$ is preserved by every function symbol.
+    
+    Similarly for relation symbols we have
+    \[
+    R(u_1,\dots,u_r)\iff R(v_1,\dots,v_r).
+    \]
+    Hence $(u_1,\dots,u_r)\in I(R)$ iff $(v_1,\dots,v_r)\in I(R)$, so $I(EQ)$ is consistent with every relation symbol.
+    
+    Therefore $I(EQ)$ is a congruence relation with respect to every function symbol in $F$ and every relation symbol in $\mathcal R$.
+    \end{proof}
+
+\section*{Question 9}
+
+\begin{lemma}
+If $\Gamma^*$ is satisfiable then $\Gamma$ is satisfiable.
+\end{lemma}
+
+\textbf{Question.} Prove Lemma 5.
+Heavy duty at work this 2 weeks, unable to finish, will attempt alongside with hw5
+\bigskip
+
+\section*{Question 10}
+
+\begin{theorem}
+Assume that the signature $\Sigma$ contains at least one constant.
+
+Let $\Gamma$ be a set of universally quantified FOL sentences in prenex normal form.
+
+Then
+
+\[
+\Gamma
+\text{ is satisfiable }
+\iff
+\mathrm{Ground}(\Gamma^*)
+\text{ is propositionally satisfiable.}
+\]
+
+\end{theorem}
+
+\textbf{Question.} Prove Theorem 5.
+
+
+
+
 \end{document}
+
+
+
