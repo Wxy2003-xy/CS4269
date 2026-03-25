@@ -2625,7 +2625,7 @@ To determine satisfiability, we can ignore existential quantifiers.
         }
     }
     \Else{ \tcp{$q = \forall$}
-        $u' \gets u \cdot x$ \tcp{append $x$ to $u$}\;
+        $u' \gets u \cdot x$ \tcp{append $x$ to $u$}
         $(\pi', \psi') \gets$ Skol$(\Sigma, (\pi_{\text{rest}}, \psi), u')$\;
         \Return{$((\forall x)\cdot \pi', \psi')$}
     }
@@ -2634,8 +2634,15 @@ We claim that the invariant is the satisfiability of input and output is the sam
 \subsubsection*{Base case:}
 When there is no quantifier prefix, $\phi \equiv \psi \implies \phi $ is satisfiable $\iff \psi$ is satisfiable.
 \subsubsection*{Inductive steps:}
+Inductive hypothesis: $P(\pi, \psi, u): (\pi, \psi)$ is equisatisfiable with $Skol(\pi, \psi, u)$
 \begin{itemize}
-    \item Case 1: 
+    \item Case 1: leading existential, no processed universals
+    \[\exists x \chi \rightarrow \chi[x \mapsto c_x]\]
+    
+    \item Case 2: leading existential, exist processed universals
+    \[\]
+    \item Case 3: leading universal
+    \[\forall x \chi \rightarrow \forall x Skol(\chi)\]
 \end{itemize} 
 
 \end{proof}
