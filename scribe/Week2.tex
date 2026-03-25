@@ -10,6 +10,9 @@
     linktoc=all            % 'all' makes both text and page number clickable
 }
 \usepackage{amsmath}   
+\usepackage{algpseudocode}
+\usepackage[ruled, vlined, algoruled]{algorithm2e} % Options for styling
+
 \usepackage{amssymb}   
 \usepackage{geometry}  
 \usepackage{enumerate} 
@@ -102,7 +105,9 @@
 \author{Wang Xiyu A0282500R}
 \date{}
 \maketitle
+
 \tableofcontents
+
 \newpage
 \section{Syntax of Propositional Logics}
 \begin{definition}
@@ -2440,7 +2445,7 @@ In FOL, we need to define the universe and interpret the symbols to unpack the s
 
     After this step, negations appear only directly in front of atomic formulas.
 
-    \item \textbf{Standardize variables apart.}
+    \item \textbf{Standardize variables apart: $\alpha$-renaming}
 
     Rename bound variables so that each quantifier binds a unique variable and no variable is bound by more than one quantifier.
 
@@ -2466,6 +2471,23 @@ In FOL, we need to define the universe and interpret the symbols to unpack the s
     \]
     where each \(Q_i \in \{\forall,\exists\}\) and \(\varphi\) is quantifier-free.
 \end{enumerate}
+\begin{example}
+    \[\phi \equiv P(x) \land \forall z (R(x, z)\lor \exists y Q(y))\]
+    \begin{enumerate}
+        \item move out quantifiers: 
+        \[\phi \equiv P(x) \land \forall z\exists y (R(x, z) \lor Q(y))\]
+        \[\phi \equiv \forall z\exists y [P(x) \land (R(x, z) \lor Q(y))]\]
+        \item PNF obtained, $\varphi \equiv P(x) \land (R(x, z) \lor Q(y))$
+    \end{enumerate}
+\end{example}
+\begin{example}
+    \[\phi \equiv \forall x (\neg P(x) \lor \exists y (Q(x, y) \land \forall z R(y, z))) \lor \exists x S(x)\]
+    \begin{enumerate}
+        \item $\alpha$-renaming
+        \[\phi \equiv \forall x (\neg P(x) \lor \exists y (Q(x, y) \land \forall z R(y, z))) \lor \exists u S(u)\]
+        \item 
+    \end{enumerate}
+\end{example}
 \begin{lemma}
     $\psi$, the PNF of $\phi$ is logically equivalent to $\phi$
     \[\forall (\mathfrak{A}, \alpha), \mathfrak{A}, \alpha \models \psi \iff \mathfrak{A}, \alpha \models \phi\]
@@ -2480,12 +2502,18 @@ $\phi$ is universally wuantified if all quantifiers in $\phi$ are $\forall$. Ana
     $\phi$ is a sentence if there is no free variables. 
     \[FVar(\phi) = \emptyset\]
 \end{definition}
+To determine satisfiability, we can ignore existential quantifiers. 
+\begin{theorem}
+    Let $\varphi$ be a formula and $FVar(\varphi) = \{x_1, x_2, \dots, x_k\} \varphi$ is satisfiable iff 
+    \[\varphi' \equiv \exists x_1 \exists x_2, \dots, \exists x_k \varphi \text{ is satisfiable}\]
+    $\varphi'$ is a sentence
+\end{theorem}
 
 \begin{definition}{Skolemization}
     Transform PNF into universally quantified PNF. \\
     $\forall \phi, \exists \phi'$, such that
     \begin{enumerate}
-        \item $\phi$ and $\phi'$ are equisatisfiable. 
+        \item $\phi$ and $\phi'$ are equisatisfiable. (Not necessarily equivalent!)
         \item $\phi'$ is universally quantified PNF
     \end{enumerate}
 \end{definition}
@@ -2538,7 +2566,79 @@ $\phi$ is universally wuantified if all quantifiers in $\phi$ are $\forall$. Ana
     quantifiers are omitted, since variables are implicitly assumed to
     be universally quantified.
 \end{enumerate}
+\begin{example}
+    \[\phi \equiv \exists x P(x) \land \forall z(R(x, z) \lor \exists y Q(y))\]
+    \begin{enumerate}
+        \item convert to PNF
+        \[\phi \equiv \exists x \forall z \exists y (P(x) \land (R(x, z) \lor Q(y)))\]
+        \item if the leftmost quantifier is exisitential, replace the variable with a new constant $c$
+        \[\phi' \equiv \forall z \exists y (P(c_x) \land (R(c_x, z) \lor Q(y)))\]
+        \[c_x \notin \Sigma\]
+        At this stage, $\phi$ and $\phi'$ are equisatisfiable. No longer equivalent
+        \begin{proof}
+            $\phi$ is satisfiabe $\implies \exists \mathfrak{A}, \alpha \models \phi$. We can construct a new signature and structure from it as such
+            \[\Sigma' = \Sigma \cup \{c_x\}, \quad I'(c_x) = \alpha(x)\]
+            We can show that $\mathfrak{A}', \alpha \models \phi'$\\
+            The other way can be done similarly
+        \end{proof}
+        \item if the next existential quantifie is not the outer most, add a new funciton symbol to replace each variable quantified by the existential
+        quantifer with the function call using all previous universally quantified variables
+        \[\phi'' \equiv \forall z (P(c_x)) \land (R(c_x, z)\lor Q(f_y(z))) \]
+        We can show that $\phi'$ and $\phi''$ are equisatisfiable
+    \end{enumerate}
+\end{example}
 
+\begin{theorem}
+    Skolemization preserves satisfiability.
+\end{theorem}
+
+\begin{proof}
+    Consider skolemization as a recursive algorithm described as follows:\\
+\begin{algorithm}[H]
+    \caption{Skolemization on Prenex Formula}
+    \KwIn{
+    Signature $\Sigma = (C, F, R)$; \\
+    Formula $\phi = (\pi, \psi)$ where $\pi$ is a quantifier prefix and $\psi$ is quantifier-free\;
+    List $u$ of universally quantified variables in scope (initially empty).
+    }
+    \KwOut{
+    Skolemized formula $(\pi', \psi')$ equisatisfiable with $\phi$.
+    }
+    
+    \If{$\pi$ is empty}{
+        \Return$(\emptyset, \psi)$
+    }
+    
+    $(q, x) \gets \text{head}(\pi)$\;
+    $\pi_{\text{rest}} \gets \text{tail}(\pi)$
+    
+    \If{$q = \exists$}{
+        \eIf{$u$ is empty}{
+            introduce fresh constant $c_x$\;
+            $\Sigma.C \gets \Sigma.C \uplus \{c_x\}$\;
+            \Return{Skol$(\Sigma, (\pi_{\text{rest}}, \psi[x \mapsto c_x]), u)$}
+        }{
+            introduce fresh function $f_x$ of arity $|u|$\;
+            $\Sigma.F \gets \Sigma.F \uplus \{f_x\}$\;
+            let $t = f_x(u_1, \dots, u_k)$ where $u = [u_1, \dots, u_k]$\;
+            \Return{Skol$(\Sigma, (\pi_{\text{rest}}, \psi[x \mapsto t]), u)$}
+        }
+    }
+    \Else{ \tcp{$q = \forall$}
+        $u' \gets u \cdot x$ \tcp{append $x$ to $u$}\;
+        $(\pi', \psi') \gets$ Skol$(\Sigma, (\pi_{\text{rest}}, \psi), u')$\;
+        \Return{$((\forall x)\cdot \pi', \psi')$}
+    }
+\end{algorithm}
+We claim that the invariant is the satisfiability of input and output is the same.
+\subsubsection*{Base case:}
+When there is no quantifier prefix, $\phi \equiv \psi \implies \phi $ is satisfiable $\iff \psi$ is satisfiable.
+\subsubsection*{Inductive steps:}
+\begin{itemize}
+    \item Case 1: 
+\end{itemize} 
+
+\end{proof}
 \begin{theorem}[Herbrand's Theorem]
     Informally, if a first-order formula $\phi$ is satisfiable, then its
     satisfiability is witnessed by a special kind of structure called a

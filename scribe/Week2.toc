@@ -79,14 +79,14 @@
 \contentsline {section}{\numberline {8}Compactness of First Order Logics}{37}{section.8}%
 \contentsline {subsection}{\numberline {8.1}Prenex Normal Form}{38}{subsection.8.1}%
 \contentsline {subsection}{\numberline {8.2}Skolemization}{39}{subsection.8.2}%
-\contentsline {subsection}{\numberline {8.3}Proof of the compactness theorem for FOL}{41}{subsection.8.3}%
-\contentsline {subsubsection}{\numberline {8.3.1}$\Gamma $ is satisfiable $\DOTSB \tmspace +\thickmuskip {.2777em}\DOTSB \Relbar \joinrel \Rightarrow \tmspace +\thickmuskip {.2777em}Gr(\Gamma )$ is satisfiable}{41}{subsubsection.8.3.1}%
-\contentsline {section}{\numberline {9}Computability}{41}{section.9}%
-\contentsline {subsection}{\numberline {9.1}Halting problem}{41}{subsection.9.1}%
-\contentsline {subsection}{\numberline {9.2}Reduction}{42}{subsection.9.2}%
-\contentsline {subsection}{\numberline {9.3}RE-hardness}{43}{subsection.9.3}%
-\contentsline {subsection}{\numberline {9.4}Validity of FOL}{43}{subsection.9.4}%
-\contentsline {paragraph}{Structural Induction Principle.}{57}{section*.143}%
-\contentsline {paragraph}{Case 1: $\psi _i \in \Gamma $ or $\psi _i$ is an Axiom}{69}{section*.204}%
-\contentsline {paragraph}{Case 2: $\psi _i = \varphi $}{69}{section*.205}%
-\contentsline {paragraph}{Case 3: $\psi _i$ via MP from $\psi _j, \psi _k$ where $\psi _j = \psi _k \rightarrow \psi _i$}{69}{section*.206}%
+\contentsline {subsection}{\numberline {8.3}Proof of the compactness theorem for FOL}{42}{subsection.8.3}%
+\contentsline {subsubsection}{\numberline {8.3.1}$\Gamma $ is satisfiable $\DOTSB \tmspace +\thickmuskip {.2777em}\DOTSB \Relbar \joinrel \Rightarrow \tmspace +\thickmuskip {.2777em}Gr(\Gamma )$ is satisfiable}{42}{subsubsection.8.3.1}%
+\contentsline {section}{\numberline {9}Computability}{42}{section.9}%
+\contentsline {subsection}{\numberline {9.1}Halting problem}{42}{subsection.9.1}%
+\contentsline {subsection}{\numberline {9.2}Reduction}{44}{subsection.9.2}%
+\contentsline {subsection}{\numberline {9.3}RE-hardness}{45}{subsection.9.3}%
+\contentsline {subsection}{\numberline {9.4}Validity of FOL}{45}{subsection.9.4}%
+\contentsline {paragraph}{Structural Induction Principle.}{59}{section*.145}%
+\contentsline {paragraph}{Case 1: $\psi _i \in \Gamma $ or $\psi _i$ is an Axiom}{71}{section*.206}%
+\contentsline {paragraph}{Case 2: $\psi _i = \varphi $}{71}{section*.207}%
+\contentsline {paragraph}{Case 3: $\psi _i$ via MP from $\psi _j, \psi _k$ where $\psi _j = \psi _k \rightarrow \psi _i$}{71}{section*.208}%
