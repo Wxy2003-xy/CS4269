@@ -1,0 +1,424 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}    
+\usepackage[T1]{fontenc}       
+\usepackage{lmodern}           
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,       % false: boxed links; true: colored links
+    linkcolor=blue,        % color of internal links (sections, etc.)
+    urlcolor=cyan,         % color of external links
+    linktoc=all            % 'all' makes both text and page number clickable
+}
+\usepackage{bbm}
+\usepackage{amsmath}   
+\usepackage{amssymb}   
+\usepackage{geometry}  
+\usepackage{enumerate} 
+\usepackage{xcolor}  
+\usepackage{amsthm}
+\usepackage{pdfpages}
+\usepackage{mathrsfs}
+\usepackage{stmaryrd}
+\newtheorem{theorem}{Theorem}[section]
+% \newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+% \newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\usepackage{listings}  
+\usepackage{tikz-cd}
+\usetikzlibrary{positioning}
+\usepackage{forest}     
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems}
+\usepackage{algpseudocode}
+\usepackage[ruled, vlined, algoruled]{algorithm2e} % Options for styling
+\usepackage{dsfont}
+% remove/comment out the old line:
+% \newtheorem{definition}[theorem]{Definition}
+
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+\newtheorem{definition}[theorem]{Definition}
+\let\olddefinition\definition
+\let\endolddefinition\enddefinition
+\renewenvironment{definition}
+  {\begin{tcolorbox}[
+      colback=red!10,
+      colframe=red!50!black,
+      boxrule=0.6pt,
+      arc=2pt,
+      left=6pt,right=6pt,top=4pt,bottom=4pt,
+      breakable
+    ]\olddefinition}
+  {\endolddefinition\end{tcolorbox}}
+
+\newtheorem{lemma}[theorem]{Lemma}
+\let\oldlemma\lemma
+\let\endoldlemma\endlemma
+\renewenvironment{lemma}
+  {\begin{tcolorbox}[
+      colback=green!8,
+      colframe=green!50!black,
+      boxrule=0.6pt,
+      arc=2pt,
+      left=6pt,right=6pt,top=4pt,bottom=4pt
+    ]\oldlemma}
+  {\endoldlemma\end{tcolorbox}}
+
+  \let\oldtheorem\theorem
+\let\endoldtheorem\endtheorem
+\renewenvironment{theorem}
+  {\begin{tcolorbox}[
+      colback=yellow!6,
+      colframe=yellow!60!black,
+      boxrule=0.6pt,
+      arc=2pt,
+      left=6pt,right=6pt,top=4pt,bottom=4pt,
+      parbox=false
+    ]\oldtheorem}
+  {\endoldtheorem\end{tcolorbox}}
+\usepackage{bussproofs}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{arrows.meta,decorations.pathreplacing,calc}
+\lstset{frame=tb,
+  language=C,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,   
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{brown},
+  stringstyle=\color{orange},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+\geometry{top=0.5in, bottom=0.5in, left=1in, right=1in}
+% ctrl shift D to toggle night 
+\begin{document}
+
+\title{HW4}
+\author{Wang Xiyu A0282500R}
+\date{}
+\maketitle
+\section*{Skolem Normal Form and Skolemization}
+
+\begin{definition}[Skolem Normal Form]
+A formula is in Skolem Normal Form if it is a sentence in prenex normal form with no existential quantifiers.
+\end{definition}
+
+\begin{definition}[Skolemization]
+Let $\varphi$ be a FOL formula. Its Skolem Normal Form $\mathrm{sk}(\varphi)$ is obtained as follows:
+\begin{enumerate}
+    \item Convert $\varphi$ to an equivalent prenex normal form $\psi$ over the same signature.
+    \item Existentially quantify all free variables to obtain a sentence $\psi_0$.
+    \item Replace each existential variable $x$ by a Skolem term:
+    \begin{itemize}
+        \item If $\mathrm{dep}(x) = \emptyset$, replace $x$ by a fresh constant $c_x$.
+        \item Otherwise, replace $x$ by a fresh function $f_x(\bar y)$ where $\bar y = \mathrm{dep}(x)$.
+    \end{itemize}
+    Remove all existential quantifiers.
+\end{enumerate}
+\end{definition}
+
+\paragraph{General Form}
+\[
+\psi_0 \equiv \exists x_{1,1}\cdots \exists x_{1,k_1} \forall y_{1,1}\cdots \forall y_{1,l_1} \cdots
+\exists x_{m,1}\cdots \exists x_{m,k_m} \forall y_{m,1}\cdots \forall y_{m,l_m} \;\psi_b
+\]
+
+\[
+\mathrm{sk}(\varphi) =
+\forall y_{1,1}\cdots \forall y_{1,l_1}\cdots \forall y_{m,1}\cdots \forall y_{m,l_m}\;
+\psi_b[x_{i,j} \mapsto \mathrm{sTrm}(x_{i,j})]
+\]
+
+\paragraph{Properties}
+\begin{itemize}
+    \item $\mathrm{sk}(\varphi)$ is a sentence
+    \item $\mathrm{sk}(\varphi)$ has no existential quantifiers
+    \item $\mathrm{sk}(\varphi)$ is over an extended signature
+\end{itemize}
+
+
+\section*{Question 1}
+Show that for any FOL formula $\varphi$,
+\[
+\varphi \text{ is satisfiable } \iff \mathrm{sk}(\varphi) \text{ is satisfiable}.
+\]
+
+\begin{proof}
+    Consider skolemization as a recursive algorithm described as follows:\\
+\begin{algorithm}[H]
+    \caption{Skolemization on Prenex Formula}
+    \KwIn{
+    Signature $\Sigma = (C, F, R)$; \\
+    Formula $\phi = (\pi, \psi)$ where $\pi$ is a quantifier prefix and $\psi$ is quantifier-free\;
+    List $u$ of universally quantified variables in scope (initially empty).
+    }
+    \KwOut{
+    Skolemized formula $(\pi', \psi')$ equisatisfiable with $\phi$.
+    }
+    
+    \If{$\pi$ is empty}{
+        \Return$(\emptyset, \psi)$
+    }
+    
+    $(q, x) \gets \text{head}(\pi)$\;
+    $\pi_{\text{rest}} \gets \text{tail}(\pi)$
+    
+    \If{$q = \exists$}{
+        \eIf{$u$ is empty}{
+            introduce fresh constant $c_x$\;
+            $\Sigma.C \gets \Sigma.C \uplus \{c_x\}$\;
+            \Return{Skol$(\Sigma, (\pi_{\text{rest}}, \psi[x \mapsto c_x]), u)$}
+        }{
+            introduce fresh function $f_x$ of arity $|u|$\;
+            $\Sigma.F \gets \Sigma.F \uplus \{f_x\}$\;
+            let $t = f_x(u_1, \dots, u_k)$ where $u = [u_1, \dots, u_k]$\;
+            \Return{Skol$(\Sigma, (\pi_{\text{rest}}, \psi[x \mapsto t]), u)$}
+        }
+    }
+    \Else{ \tcp{$q = \forall$}
+        $u' \gets u \cdot x$ \tcp{append $x$ to $u$}
+        $(\pi', \psi') \gets$ Skol$(\Sigma, (\pi_{\text{rest}}, \psi), u')$\;
+        \Return{$((\forall x)\cdot \pi', \psi')$}
+    }
+\end{algorithm}
+We claim that the invariant is the satisfiability of input and output is the same.
+Let $\text{Skol}(\Sigma, (\pi, \psi), u)$ be the recursive algorithm defined. 
+We prove by induction on the length of the quantifier prefix $n = |\pi|$ that the algorithm preserves equisatisfiability.
+\subsubsection*{Inductive hypotshis}
+For any prefix $\pi$ of length $n$, any signature $\Sigma$, and any list of universal variables $u = [u_1, \dots, u_k]$, 
+a formula $\phi = \forall u (\pi \psi)$ is satisfiable in a $\Sigma$-structure $\mathfrak{A}$ 
+if and only if there exists a larger $\mathfrak{A}'$ than $\mathfrak{A}$ to $\Sigma'$ (containing new symbols) 
+such that $\mathfrak{A}'$ satisfies the output of $\text{Skol}(\Sigma, (\pi, \psi), u)$.
+\[\mathfrak{A} \models \phi = \forall u (\pi \psi) \iff \mathfrak{A}' \models {Skol}(\Sigma, (\pi, \psi), u)\]
+
+\subsection*{Case 1: Base Case ($n = 0$)}
+If $\pi$ is empty, the algorithm returns $(\emptyset, \psi)$, trivially equisatisfiable
+
+\subsection*{Case 2: Universal Case ($q = \forall$)}
+Let $\pi = \forall x \cdot \pi_{\text{rest}}$. The algorithm sets $u' = u \cdot x$ and recurses\\
+We will show that:
+$$\mathfrak{A} \models \forall u \forall x (\pi_{\text{rest}} \psi) \iff \mathfrak{A}' \models \forall u \forall x ({Skol}(\pi_{\text{rest}}, \psi, u'))$$
+
+\begin{itemize}
+    \item \textbf{ ($\Rightarrow$):} Suppose $\mathfrak{A} \models \forall u \forall x (\pi_{\text{rest}} \psi)\implies \mathfrak{A} \models \forall (u \cup \{x\}) (\pi_{\text{rest}} \psi)$. 
+    There exists an expansion $\mathfrak{A}'$ such that $\mathfrak{A}' \models \forall (u \cup \{x\}) {Skol}(\pi_{\text{rest}}, \psi, u')$. rearrange the quantifiers gives $\mathfrak{A}' \models \forall u \forall x {Skol}(\dots)$.
+    \item \textbf{ ($\Leftarrow$):} Suppose $\mathfrak{A}' \models {Skol}(\pi_{\text{rest}}, \psi, u')$. Since $\mathfrak{A}'$ is an expansion of $\mathfrak{A}$, and the universal quantifier $\forall x$ 
+    does not introduce new symbols in this step, same logic 
+\end{itemize}
+
+\subsection*{Case 3: Existential Case ($q = \exists$)}
+
+\end{proof}
+
+
+\section*{Theorem 1 (Restricted Downward Löwenheim-Skolem)}
+Let $\Sigma$ be a countable signature and $\Gamma$ a set of universally quantified FOL sentences without equality.  
+If $\Gamma$ is satisfiable, then there exists a countable structure $\mathfrak{A}$ such that
+\[
+\mathfrak{A} \models \Gamma.
+\]
+
+\section*{Theorem 2 (Full Downward Löwenheim-Skolem)}
+Let $\Sigma$ be a countable signature, $V$ a countable set of variables, and $\Gamma$ a set of FOL formulae.  
+If $\Gamma$ is satisfiable, then there exists a countable structure $\mathfrak{A}$ such that
+\[
+\mathfrak{A} \models \Gamma.
+\]
+
+\section*{Question 2}
+Prove Theorem 2.
+\begin{proof}
+    Let $\Gamma$ be a set of FOL formulae over a countable signature $\Sigma$.
+    \begin{enumerate}
+        \item For each $\phi \in \Gamma$ with free variables $x_1, \dots, x_n$, let $\phi' = \exists x_1 \dots \exists x_n \phi$. $\Gamma$ is sat $\iff \Gamma' = \{ \phi' \mid \phi \in \Gamma \}$ is satisfiable
+        \item Convert $\Gamma'$ to $sk(\Gamma)$ by skolmization. 
+        $sk(\Gamma)$ is a set of universal sentences over an extended countable signature $\Sigma'$, By Question 1, $sk(\Gamma)$ is sat $\iff \Gamma'$ is sat
+        \item Since $sk(\Gamma)$ consists of universal sentences, by Theorem 1, there exists a countable structure $\mathfrak{A} = (U, I)$ such that $\mathfrak{A} \models sk(\Gamma)$
+        \item If $\Sigma$ contains equality, treat $=$ as a binary relation $EQ$. By the congruence proof from hw4, define $I(EQ)$ to make a congruence relation on $\mathfrak{A}$. 
+        \item construct a new quotient structure $\mathfrak{A}_{EQ}$ with universe $U_{EQ} = \{ [u]_{EQ} \mid u \in U \}$ where equal elemnts collapse to th same equivalent class
+        \item $|U|$ is countable $\implies |U/EQ| \le |U|$ is countable. By congruence, $\mathfrak{A}/EQ \models sk(\Gamma) \implies \mathfrak{A}/EQ \models \Gamma$.
+    \end{enumerate}
+    \end{proof}
+
+\section*{Theorem 3 (Compactness)}
+Let $\Sigma$ be a countable signature and $\Gamma$ a set of FOL formulae. Then:
+\[
+\Gamma \text{ is satisfiable } \iff \Gamma \text{ is finitely satisfiable}.
+\]
+
+\section*{Question 3}
+Prove Theorem 3.
+
+\section*{Definability}
+
+\begin{definition}
+Let $\Sigma$ be a signature and $C$ a class of $\Sigma$-structures.  
+$C$ is definable in FOL if there exists a sentence $\varphi$ such that
+\[
+\llbracket \varphi \rrbracket = \{ \mathfrak{A} \mid \mathfrak{A} \models \varphi \} = C.
+\]
+\end{definition}
+
+\section*{Question 4 (Reachability)}
+Prove that reachability is not definable in FOL, i.e., there is no sentence $\varphi_{\text{reach}}$ such that
+\[
+\{ G(\mathfrak{A}) \mid \mathfrak{A} \models \varphi_{\text{reach}} \} = G_{\text{reach}}.
+\]
+
+\begin{proof}[Proof of Question 4]
+    To prove that reachability is not definable in First-Order Logic (FOL), we proceed by contradiction using the Compactness Theorem
+    
+    \begin{enumerate}
+        \item
+        Let $\Sigma_{graphs}$ be the signature $( \{s, t\}, \emptyset, \{E\} )$
+        For each $k \in \mathbb{N}$, define a FOL formula $\psi_k(s, t)$ asserting there exists a path of length at most $k$ from $s$ to $t$:
+        \[ \psi_k(s, t) \equiv \exists v_0 \dots \exists v_k \left( (v_0 = s) \wedge (v_k = t) \wedge \bigwedge_{0 \le i < k} E(v_i, v_{i+1}) \right) \]
+    
+        \item 
+        Suppose there exists a sentence $\phi_{reach}$ such that $\mathfrak{A} \models \phi_{reach}$ iff $t$ is reachable from $s$ in $G(\mathfrak{A})$
+        Consider the set of sentences:
+        \[ \Gamma = \{ \phi_{reach} \} \cup \{ \neg \psi_k(s, t) \mid k \in \mathbb{N} \} \]
+    
+        \item 
+        Let $\Gamma_0 \subseteq \Gamma$ be any finite subset. There exists a maximum $k_{max}$ such that $\neg \psi_{k_{max}}$ is in $\Gamma_0$.
+        Construct a graph $G$ where $t$ is reachable from $s$ via a path of length $k_{max} + 1$. 
+        In this structure, $\phi_{reach}$ is true, and all $\neg \psi_k$ for $k \le k_{max}$ are true. 
+        Thus, $\Gamma_0$ is finitely satisfiable.
+    
+        \item
+        By the Compactness Theorem, if every finite subset of $\Gamma$ is satisfiable, then $\Gamma$ is satisfiable
+        However, a model $\mathfrak{A} \models \Gamma$ would imply:
+        \begin{itemize}
+            \item $t$ is reachable from $s$ (since $\mathfrak{A} \models \phi_{reach}$)
+            \item There is no finite path from $s$ to $t$ (since $\mathfrak{A} \models \neg \psi_k$ for all $k$)
+        \end{itemize}
+        contradiction, as reachability requires a finite sequence of vertices
+        Therefore, no such sentence $\phi_{reach}$ exists.
+    \end{enumerate}
+    \end{proof}
+
+\section*{Question 5 ($k$-Colorability)}
+Define a FOL sentence $\varphi_{k\text{-colorable}}$ such that
+\[
+\{ G(\mathfrak{A}) \mid \mathfrak{A} \models \varphi_{k\text{-colorable}} \} = G_{k\text{-colorable}}.
+\]
+
+\begin{proof}
+    To define $k$-colorability over the signature $\Sigma_{colored-graphs} = (\emptyset, \emptyset, \{E, R_1, \dots, R_k\})$, we construct a sentence $\phi_{k-colorable}$ that enforces the following constraints:
+    
+    \begin{enumerate}
+        \item {Total Assignment:} 
+        \[ \forall x  \bigvee_{i=1}^k R_i(x)  \]
+        
+        \item {Mutual Exclusivity:}
+        \[ \forall x  \bigwedge_{1 \le i < j \le k} \neg (R_i(x) \wedge R_j(x))  \]
+        
+        \item {Edge Consistency:} 
+        \[ \forall x \forall y E(x, y) \implies \bigwedge_{i=1}^k \neg (R_i(x) \wedge R_i(y))  \]
+    \end{enumerate}
+    
+    \[ \phi_{k-colorable} \equiv \forall x \left( \bigvee_{i=1}^k R_i(x) \right) \wedge \forall x \left( \bigwedge_{i < j} \neg (R_i(x) \wedge R_j(x)) \right) \wedge \forall x \forall y \left( E(x, y) \implies \bigwedge_{i=1}^k \neg (R_i(x) \wedge R_i(y)) \right) \]
+    \end{proof}
+
+\begin{definition}
+    Let $\Sigma = (C, F, R)$ and $\mathfrak{A}_1, \mathfrak{A}_2$ be $\Sigma$-structures.  
+A function $h : U_1 \to U_2$ is a homomorphism if:
+\begin{enumerate}
+    \item $h(I_1(c)) = I_2(c)$ for all $c \in C$
+    \item $h(I_1(f)(\bar u)) = I_2(f)(h(\bar u))$ for all $f \in F$
+    \item $(\bar u \in I_1(R)) \iff (h(\bar u) \in I_2(R))$ for all $R \in R$
+\end{enumerate}
+\end{definition}
+
+
+\section*{Question 6}
+\begin{enumerate}
+    \item Prove $h(n) = n \bmod 2$ is a homomorphism from $\mathfrak{A}_\mathbb{N}$ to $\mathfrak{A}_\mathbb{B}$.
+    \item Find $\varphi$ such that $\mathfrak{A}_\mathbb{N} \models \varphi$ but $\mathfrak{A}_\mathbb{B} \not\models \varphi$.
+\end{enumerate}
+6.1
+\begin{proof}
+    To prove $h: \mathbb{N} \to \mathbb{B}$ is a homomorphism from $\mathfrak{A}_{\mathbb{N}}$ to $\mathfrak{A}_{\mathbb{B}}$:
+    \begin{enumerate}
+        \item {Constants:} 
+        \begin{itemize}
+            \item $h(I_{\mathbb{N}}(\mathbb{O})) = h(0) = 0 = I_{\mathbb{B}}(\mathbb{O})$.
+            \item $h(I_{\mathbb{N}}(\mathds{1})) = h(1) = 1 = I_{\mathbb{B}}(\mathds{1})$.
+        \end{itemize}
+        \item {Functions ($+$):} We must show $h(m + n) = I_{\mathbb{B}}(+)(h(m), h(n))$ for all $m, n \in \mathbb{N}$.
+        \begin{itemize}
+            \item Case 1: $m, n$ both even. $m+n$ is even. $h(m+n)=0$. $I_{\mathbb{B}}(+)(0, 0)=0$.
+            \item Case 2: $m, n$ both odd. $m+n$ is even. $h(m+n)=0$. $I_{\mathbb{B}}(+)(1, 1)=0$.
+            \item Case 3: One even, one odd. $m+n$ is odd. $h(m+n)=1$. $I_{\mathbb{B}}(+)(0, 1)=1$.
+        \end{itemize}
+    \end{enumerate}
+    \end{proof}
+    6.2
+    \begin{proof}
+    \[ \phi \equiv \neg (1 + 1 = 0) \]
+    \begin{itemize}
+        \item $1 + 1 = 2 \neq 0 \implies \mathfrak{A}_{\mathbb{N}} \models \phi$.
+        \item $1 + 1 = 0 \implies \mathfrak{A}_{\mathbb{B}} \models \neg \phi$.
+    \end{itemize}
+    \end{proof}
+
+\begin{definition}
+    A homomorphism $h : U_1 \to U_2$ is an isomorphism if it is bijective.
+
+\[
+\mathfrak{A}_1 \cong \mathfrak{A}_2 \iff \exists h \text{ isomorphism}
+\]
+\end{definition}
+
+\section*{Question 7}
+Prove that if $\mathfrak{A}_1 \cong \mathfrak{A}_2$, then $\mathfrak{A}_2 \cong \mathfrak{A}_1$.
+\begin{proof}
+    Let $h: U_1 \to U_2$ be an isomorphism from $\mathfrak{A}_1$ to $\mathfrak{A}_2$. By definition, $h$ is a bijective homomorphism. Since $h$ is a bijection, there exists an inverse function $h^{-1}: U_2 \to U_1$ which is also a bijection. We show $h^{-1}$ is a homomorphism:
+    
+    \begin{enumerate}
+        \item $\forall c \in {C}$, we know $h(I_1(c)) = I_2(c)$. Applying $h^{-1}$ to both sides, we get $I_1(c) = h^{-1}(I_2(c))$.
+        
+        \item $\forall f \in {F}$ of arity $k$ and $v_1, \dots, v_k \in U_2$, let $u_i = h^{-1}(v_i)$. 
+        \[ h(I_1(f)(u_1, \dots, u_k)) = I_2(f)(h(u_1), \dots, h(u_k)) = I_2(f)(v_1, \dots, v_k) \]
+        Applying $h^{-1}$ on both sides:
+        \[ I_1(f)(h^{-1}(v_1), \dots, h^{-1}(v_k)) = h^{-1}(I_2(f)(v_1, \dots, v_k)) \]
+        
+        \item $\forall R \in \mathcal{R}$ of arity $k$:
+        \[ (v_1, \dots, v_k) \in I_2(R) \iff (h(h^{-1}(v_1)), \dots, h(h^{-1}(v_k))) \in I_2(R) \]
+        \[ \iff (h^{-1}(v_1), \dots, h^{-1}(v_k)) \in I_1(R) \]
+    \end{enumerate}
+    Since $h^{-1}$ is a bijective homomorphism, it is an isomorphism from $\mathfrak{A}_2$ to $\mathfrak{A}_1$.
+    \end{proof}
+
+\section*{Question 8}
+\begin{enumerate}
+    \item Give examples of isomorphic structures.
+    \item Give examples of non-isomorphic structures with same finite cardinality.
+\end{enumerate}
+
+8.1 
+\begin{proof}
+Natural number to even natural number, shown in class
+\end{proof}
+8.2
+\begin{proof}
+    $\mathfrak{A}_1$ and  $\mathfrak{A}_2$ from question 6, just change $U_{\mathfrak{A}_1}$ from $\mathbb{N}$ to $\{0,1\}$, redefine $+$ such that $1+1 = 1$
+\end{proof}
+
+\section*{Theorem 4 (Isomorphism Theorem)}
+Let $h : \mathfrak{A}_1 \to \mathfrak{A}_2$ be an isomorphism. Then for every formula $\varphi$ and assignment $\alpha$,
+\[
+\mathfrak{A}_1, \alpha \models \varphi \iff \mathfrak{A}_2, (h \circ \alpha) \models \varphi.
+\]
+
+
+  \end{document}

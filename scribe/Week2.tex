@@ -31,6 +31,7 @@
 \usepackage{forest}     
 \usepackage{xcolor}
 \usepackage{tcolorbox}
+\usepackage{stmaryrd}
 \tcbuselibrary{theorems}
 
 % remove/comment out the old line:
@@ -2291,6 +2292,9 @@ Under this signature, we can write formula:
 \end{itemize}
 These are all syntactically valid formula.
 \end{example}
+
+
+
 \section{Sematics of First Order Logics}
 In propositional logics, sematics are conveyed by valuations, which assigns true of false to each proosition.
 In FOL, we need to define the universe and interpret the symbols to unpack the sematics. 
@@ -2317,6 +2321,7 @@ In FOL, we need to define the universe and interpret the symbols to unpack the s
         &Val_{\mathfrak{A}, \alpha}(x) = \alpha(x) \in U\\
         &Val_{\mathfrak{A}, \alpha}(f(t, \dots)) = I(f)(Val_{\mathfrak{A}, \alpha}(t), \dots) \in U\\
     \end{align*}
+    Essentially Valuation is an assignment of elemenets in a universe to terms, the objects in FOL
 \end{definition}
 \begin{definition}{Substitution}
     \[\alpha[x\mapsto u](z) = \begin{cases}
@@ -2389,19 +2394,210 @@ In FOL, we need to define the universe and interpret the symbols to unpack the s
 \end{definition}
 
 \begin{lemma}[Relevance Lemma for FOL]
-    Let $\varphi$ be a FOL formula, 
-    \[(\forall x \in FVar(\varphi), \alpha_1(x) = \alpha_2(a)) \implies (\mathfrak{A}, \alpha_1 \models \varphi \iff \mathfrak{A}, \alpha_2 \models \varphi)\]
-\end{lemma}
-\begin{lemma}
+    Let $\phi$ be a FOL formula, let $\mathfrak{A}$ be a structure and let $\alpha_1,\alpha_2$ be
+    variable assignments such that for all $x \in FVar(\phi)$,
+    \[
+    \alpha_1(x) = \alpha_2(x).
+    \]
+    Then
+    \[
+    \mathfrak{A},\alpha_1 \models \phi \iff \mathfrak{A},\alpha_2 \models \phi.
+    \]
+    \end{lemma}
     
+    \begin{proof}
+        By symmetry, we only need to prove if for all $x\in FVar(\phi), \alpha_1(x) = \alpha_2(x)$
+        then
+        \[
+    \mathfrak{A},\alpha_1 \models \phi \implies \mathfrak{A},\alpha_2 \models \phi.
+    \]
+    \begin{lemma}[Substitution lemma]
+        \[
+        \mathfrak{A}, \alpha \models \phi[x \mapsto t] \iff \mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A}, \alpha}(t)] \models \phi
+        \]        
+    \end{lemma}
+    \begin{lemma}[Substitution lemma]
+        \[\forall x \in Var(t), \alpha_1(x) = \alpha_2(x) \implies Val_{\mathfrak{A}, \alpha_1}(t) = Val_{\mathfrak{A}, \alpha_2}(t)\]
+    \end{lemma}\begin{lemma}[Substitution lemma]
+        \[\mathfrak{A}\models \psi[x \mapsto t] \iff \mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A}(t)}] \models \psi\]
+    \end{lemma}
+    \begin{lemma}
+        \[Val_{\mathfrak{A}, \alpha}(t[x\mapsto t']) = Val_{\mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A}, \alpha}(t')]}(t)\]
+    \end{lemma}
+    \begin{proof}
+    \subsubsection*{Base case: }
+    \begin{enumerate}
+        \item $t = c \in C$: 
+        \[Val_{\mathfrak{A}, \alpha}(t[x \mapsto t']) = Val_{\mathfrak{A}, \alpha}(c) = I(c)\]
+        \[Val_{\mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A}, \alpha}(t')]}(t) = Val_{\mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A}, \alpha}(t')]}(c) = I(c)\]
+        \item $t = y \in V$:\\
+        Case 1: $x = y$
+        \[
+        \implies y[x \mapsto t'] = t'
+        \]
+        \[
+        Val_{\mathfrak{A}, \alpha}(y[x \mapsto t']) = Val_{\mathfrak{A}, \alpha}(t')
+        \]
+        \[
+        Val_{\mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A},\alpha}(t')]}(y)
+        = \alpha[x \mapsto Val_{\mathfrak{A},\alpha}(t')](y)
+        = Val_{\mathfrak{A},\alpha}(t')
+        \]
+        Case 2: $x \neq y$
+        \[
+        \implies y[x \mapsto t'] = y
+        \]
+        \[
+        Val_{\mathfrak{A}, \alpha}(y[x \mapsto t']) = Val_{\mathfrak{A}, \alpha}(y) = \alpha(y)
+        \]
+        \[
+        Val_{\mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A},\alpha}(t')]}(y)
+        = \alpha[x \mapsto Val_{\mathfrak{A},\alpha}(t')](y)
+        = \alpha(y)
+        \]
+    \end{enumerate}
+    \subsubsection*{Inductive step: $t = f(t_1, \dots)$}
+    \[
+        t[x \mapsto t'] = 
+        f(t_1[x \mapsto t'], t_2[x \mapsto t'], \dots)
+    \]
+    \[
+        Val_{\mathfrak{A}, \alpha}(t[x \mapsto t']) = 
+        Val_{\mathfrak{A}, \alpha}(f(t_1[x \mapsto t'], t_2[x \mapsto t'], \dots)) =
+    \]
+    \[
+        I(f)(Val_{\mathfrak{A}, \alpha}(t_1[x \mapsto t']), Val_{\mathfrak{A}, \alpha}(t_2[x \mapsto t']), \dots)
+    \]
+    The other side
+    \[
+        Val_{\mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A},\alpha}(t')]}(f(t_1, t_2, \dots)) = 
+        I(f)(Val_{\mathfrak{A}, \alpha}(t_1[x \mapsto t']), Val_{\mathfrak{A}, \alpha}(t_2[x \mapsto t']), \dots)
+    \]
+    \end{proof}
+    \begin{proof}
+        We prove the substitution lemma for formulae by structural induction on $\psi$.
+        
+        \subsubsection*{Base case: $\psi \equiv t_1 = t_2$}
+        \[
+        \psi[x \mapsto t] \equiv t_1[x \mapsto t] = t_2[x \mapsto t]
+        \]
+        Thus
+        \[
+        \mathfrak{A}, \alpha \models \psi[x \mapsto t]
+        \iff
+        Val_{\mathfrak{A}, \alpha}(t_1[x \mapsto t])
+        =
+        Val_{\mathfrak{A}, \alpha}(t_2[x \mapsto t]).
+        \]
+        By the substitution lemma for terms,
+        \[
+        Val_{\mathfrak{A}, \alpha}(t_1[x \mapsto t])
+        =
+        Val_{\mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A}, \alpha}(t)]}(t_1)
+        \]
+        and
+        \[
+        Val_{\mathfrak{A}, \alpha}(t_2[x \mapsto t])
+        =
+        Val_{\mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A}, \alpha}(t)]}(t_2).
+        \]
+        Hence
+        \[
+        Val_{\mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A}, \alpha}(t)]}(t_1)
+        =
+        Val_{\mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A}, \alpha}(t)]}(t_2),
+        \]
+        that is,
+        \[
+        \mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A}, \alpha}(t)] \models t_1 = t_2.
+        \]
+        
+        \subsubsection*{Inductive steps}
+        \begin{enumerate}
+            \item $\psi \equiv R(t_1, \dots, t_n)$.
+        
+            \[
+            \psi[x \mapsto t] \equiv R(t_1[x \mapsto t], \dots, t_n[x \mapsto t]).
+            \]
+            Then
+            \[
+            \mathfrak{A}, \alpha \models \psi[x \mapsto t]
+            \iff
+            \bigl(Val_{\mathfrak{A}, \alpha}(t_1[x \mapsto t]), \dots, Val_{\mathfrak{A}, \alpha}(t_n[x \mapsto t])\bigr) \in I(R).
+            \]
+            By the substitution lemma for terms, for each $i$,
+            \[
+            Val_{\mathfrak{A}, \alpha}(t_i[x \mapsto t])
+            =
+            Val_{\mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A}, \alpha}(t)]}(t_i).
+            \]
+            \[
+            \bigl(Val_{\mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A}, \alpha}(t)]}(t_1), \dots,
+            Val_{\mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A}, \alpha}(t)]}(t_n)\bigr) \in I(R),
+            \]
+            \[
+            \mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A}, \alpha}(t)] \models R(t_1, \dots, t_n).
+            \]
+        
+            \item $\psi \equiv \neg \phi$.
+        
+            \[
+            \mathfrak{A}, \alpha \models (\neg \phi)[x \mapsto t]
+            \iff
+            \mathfrak{A}, \alpha \models \neg (\phi[x \mapsto t])
+            \]
+            \[
+            \iff
+            \mathfrak{A}, \alpha \not\models \phi[x \mapsto t].
+            \]
+            By IH,
+            \[
+            \mathfrak{A}, \alpha \models \phi[x \mapsto t]
+            \iff
+            \mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A}, \alpha}(t)] \models \phi.
+            \]
+            \[
+            \mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A}, \alpha}(t)] \not\models \phi,
+            \]
+            \[
+            \mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A}, \alpha}(t)] \models \neg \phi.
+            \]
+        
+            \item $\psi \equiv \phi_1 \lor \phi_2$.
+        
+            \[
+            \mathfrak{A}, \alpha \models (\phi_1 \lor \phi_2)[x \mapsto t]
+            \iff
+            \mathfrak{A}, \alpha \models \phi_1[x \mapsto t] \lor \phi_2[x \mapsto t].
+            \]
+            \[
+            \mathfrak{A}, \alpha \models \phi_1[x \mapsto t]
+            \quad \text{or} \quad
+            \mathfrak{A}, \alpha \models \phi_2[x \mapsto t].
+            \]
+            By IH
+            \[
+            \mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A}, \alpha}(t)] \models \phi_1
+            \quad \text{or} \quad
+            \mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A}, \alpha}(t)] \models \phi_2.
+            \]
+            \[
+            \mathfrak{A}, \alpha[x \mapsto Val_{\mathfrak{A}, \alpha}(t)] \models \phi_1 \lor \phi_2.
+            \]
+        \end{enumerate}
+        \end{proof}
+    \end{proof}
+\begin{lemma}[Analogous relevance lemma on structure]
+    If $\mathfrak{A}$ and $\mathfrak{B}$ agree on all parameters ocucr in $\phi$, then $\mathfrak{A} \models \phi \iff \mathfrak{B} \models \phi$\\
+    If 
+    \begin{align*}
+        &\forall c \in C, Val_{\mathfrak{A}, \alpha}(c) = Val_{\mathfrak{B}, \alpha}(c)\\
+        &\forall x \in V, Val_{\mathfrak{A}, \alpha}(x) = Val_{\mathfrak{B}, \alpha}(x)\\
+        &\forall f(t, \dots), Val_{\mathfrak{A}, \alpha}(f(t, \dots)) = Val_{\mathfrak{B}, \alpha}(f(t, \dots))\\
+        &\forall R(t, \dots), R(t, \dots) \in I_{\mathfrak{A}}(R) \iff R(t, \dots) \in I_{\mathfrak{B}}(R)
+    \end{align*}
+    \[\mathfrak{A} \models \phi \iff \mathfrak{B} \models \phi\]
 \end{lemma}
-
-
-
-
-
-
-
 \section{Compactness of First Order Logics}
 \begin{definition}{Compactness Theorem for First Order Logics}
 \[\Gamma \text{ is satisfiable } \iff \Gamma \text{ is finitely satisfiable }\]
@@ -2631,19 +2827,32 @@ To determine satisfiability, we can ignore existential quantifiers.
     }
 \end{algorithm}
 We claim that the invariant is the satisfiability of input and output is the same.
-\subsubsection*{Base case:}
-When there is no quantifier prefix, $\phi \equiv \psi \implies \phi $ is satisfiable $\iff \psi$ is satisfiable.
-\subsubsection*{Inductive steps:}
-Inductive hypothesis: $P(\pi, \psi, u): (\pi, \psi)$ is equisatisfiable with $Skol(\pi, \psi, u)$
+Let $\text{Skol}(\Sigma, (\pi, \psi), u)$ be the recursive algorithm defined. 
+We prove by induction on the length of the quantifier prefix $n = |\pi|$ that the algorithm preserves equisatisfiability.
+
+\subsection*{Inductive Hypothesis (IH)}
+For any prefix $\pi$ of length $n$, any signature $\Sigma$, and any list of universal variables $u = [u_1, \dots, u_k]$, 
+a formula $\phi = \forall u (\pi \psi)$ is satisfiable in a $\Sigma$-structure $\mathfrak{A}$ 
+if and only if there exists a larger $\mathfrak{A}'$ than $\mathfrak{A}$ to $\Sigma'$ (containing new symbols) 
+such that $\mathcal{A}'$ satisfies the output of $\text{Skol}(\Sigma, (\pi, \psi), u)$.
+\[\mathfrak{A} \models \phi = \forall u (\pi \psi) \iff \mathfrak{A}' \models {Skol}(\Sigma, (\pi, \psi), u)\]
+
+\subsection*{Case 1: Base Case ($n = 0$)}
+If $\pi$ is empty, the algorithm returns $(\emptyset, \psi)$, trivially equisatisfiable
+
+\subsection*{Case 2: Universal Case ($q = \forall$)}
+Let $\pi = \forall x \cdot \pi_{\text{rest}}$. The algorithm sets $u' = u \cdot x$ and recurses\\
+We will show that:
+$$\mathfrak{A} \models \forall u \forall x (\pi_{\text{rest}} \psi) \iff \mathfrak{A}' \models \forall u \forall x ({Skol}(\pi_{\text{rest}}, \psi, u'))$$
+
 \begin{itemize}
-    \item Case 1: leading existential, no processed universals
-    \[\exists x \chi \rightarrow \chi[x \mapsto c_x]\]
-    
-    \item Case 2: leading existential, exist processed universals
-    \[\]
-    \item Case 3: leading universal
-    \[\forall x \chi \rightarrow \forall x Skol(\chi)\]
-\end{itemize} 
+    \item \textbf{ ($\Rightarrow$):} Suppose $\mathfrak{A} \models \forall u \forall x (\pi_{\text{rest}} \psi)\implies \mathfrak{A} \models \forall (u \cup \{x\}) (\pi_{\text{rest}} \psi)$. 
+    There exists an expansion $\mathfrak{A}'$ such that $\mathfrak{A}' \models \forall (u \cup \{x\}) {Skol}(\pi_{\text{rest}}, \psi, u')$. rearrange the quantifiers gives $\mathfrak{A}' \models \forall u \forall x {Skol}(\dots)$.
+    \item \textbf{ ($\Leftarrow$):} Suppose $\mathfrak{A}' \models {Skol}(\pi_{\text{rest}}, \psi, u')$. Since $\mathfrak{A}'$ is an expansion of $\mathfrak{A}$, and the universal quantifier $\forall x$ 
+    does not introduce new symbols in this step, same logic 
+\end{itemize}
+
+\subsection*{Case 3: Existential Case ($q = \exists$)}
 
 \end{proof}
 \begin{theorem}[Herbrand's Theorem]
@@ -2709,7 +2918,7 @@ This suggests the following proof plan: establish a correspondence between satis
     \arrow[l, dashed, shift left=0.6ex]
     \arrow[d, shift left=0.6ex, "\text{(3)}"]
 \\
-\mathrm{Gr}(\Gamma) \text{ is satisfiable}
+\mathrm{Gr}(\Gamma) \text{ is propositionally satisfiable}
     \arrow[u, shift left=0.6ex, "\text{(2)}"]
     \arrow[r, leftrightarrow, left=0.6ex, "\text{Compactness of PL}"]
 &
@@ -2732,7 +2941,7 @@ This suggests the following proof plan: establish a correspondence between satis
 \begin{corollary}[Ground instantiation of a set is countable]
 \end{corollary}
 \begin{definition}[Ground valuation]
-    \[gv: gt_\Sigma \mapsto \{true, false\}\]
+    \[gv: ga_\Sigma \mapsto \{true, false\}\]
     \begin{align*}
         &gv \models_{gr} R(t, \dots) \iff gv(R(t, \dots)) = true\\
         &gv \models_{gr} \neg gf \iff gv \not\models_{gr} gf\\
@@ -2743,13 +2952,214 @@ This suggests the following proof plan: establish a correspondence between satis
 
 
 
-\begin{definition}[Propositional satisfiable]
+\begin{definition}[Propositionally satisfiable]
     A ground formula $gf$ is propositionally satisfiable if 
-    \[\exists gv \models_{gr} gf\]
+    \[\exists \tau \models_{gr} gf\]
+\end{definition}
+\begin{definition}[Propositionally satisfiable set]
+    A set of grounf formula $\Gamma$ is propositionally satisfiable if there exist a ground atomic valuation $\tau$
+    such that 
+    \[\forall \phi \in \Gamma, \tau \models_{Gr} \phi\]
+    
 \end{definition}
 
 \subsection{Proof of the compactness theorem for FOL}
-\subsubsection{$\Gamma$ is satisfiable $\implies Gr(\Gamma)$ is satisfiable}
+Let's first consider the case without equality, the definition of ground formula becomes: 
+\[gf := R(ga, \dots) \mid \neg gf \mid gf \lor gf\]
+\subsubsection{$\Gamma$ is satisfiable $\implies Gr(\Gamma)$ is propositionally satisfiable}
+
+
+
+\begin{lemma}[Substitution Lemma for Ground Terms]
+    Let $\mathfrak A = (U,I)$ be a structure, $\psi$ a formula, $x$ a variable, and $t$ a ground term. Then for any assignment $\alpha$,
+    \[
+    \mathfrak A, \alpha \models \psi[x \mapsto t]
+    \;\Longleftrightarrow\;
+    \mathfrak A, \alpha[x \mapsto \operatorname{Val}_{\mathfrak A}(t)] \models \psi.
+    \]
+    \end{lemma}
+    \begin{proof}
+        We have proven a more general case of substitution for FOL formula and terms
+    \end{proof}
+    
+    \begin{lemma}[Ground Instantiation for Universal Prefix]
+    Let $\mathfrak A = (U,I)$ be a structure and
+    \[
+    \phi = \forall x_1 \cdots \forall x_n\,\psi.
+    \]
+    If $\mathfrak A \models \phi$, then for all ground terms $t_1,\dots,t_n$,
+    \[
+    \mathfrak A \models \psi[x_1 \mapsto t_1]\dots[x_n \mapsto t_n].
+    \]
+    \end{lemma}
+    \begin{proof}
+        Assume $\mathfrak A \models \forall x_1 \cdots \forall x_n\,\psi$.
+        
+        Let $t_1,\dots,t_n$ be arbitrary ground terms. Define
+        \[
+        u_i = \operatorname{Val}_{\mathfrak A}(t_i) \in U \quad (1 \le i \le n).
+        \]
+        
+        By the semantics of universal quantifiers,
+        \[
+        \mathfrak A \models \forall x_1 \cdots \forall x_n\,\psi
+        \;\Longrightarrow\;
+        \mathfrak A, \alpha[x_1 \mapsto u_1]\cdots[x_n \mapsto u_n] \models \psi
+        \]
+        for every assignment $\alpha$.
+        
+        By the substitution lemma for ground terms,
+        \[
+        \mathfrak A, \alpha \models \psi[x_1 \mapsto t_1]\cdots[x_n \mapsto t_n]
+        \;\Longleftrightarrow\;
+        \mathfrak A, \alpha[x_1 \mapsto u_1]\cdots[x_n \mapsto u_n] \models \psi.
+        \]
+        
+        Hence,
+        \[
+        \mathfrak A, \alpha \models \psi[x_1 \mapsto t_1]\cdots[x_n \mapsto t_n].
+        \]
+        
+        Since $\alpha$ was arbitrary,
+        \[
+        \mathfrak A \models \psi[x_1 \mapsto t_1]\cdots[x_n \mapsto t_n].
+        \]
+        \end{proof}
+        \begin{lemma}[Ground Semantic Equivalence] Let $\mathfrak A = (U,I)$ and $\tau$ be defined as above. Then for every ground formula $\chi$, \[ \mathfrak A \models \chi \;\Longleftrightarrow\; \tau \models_{Gr} \chi. \] \end{lemma}
+        \begin{proof}
+            Trivial by definition
+        \end{proof}
+
+    \begin{lemma}[Ground Semantic Equivalence]
+    Let $\mathfrak A = (U,I)$ and $\tau$ be defined as above. Then for every ground formula $\chi$,
+    \[
+    \mathfrak A \models \chi
+    \;\Longleftrightarrow\;
+    \tau \models_{Gr} \chi.
+    \]
+    \end{lemma}
+    \begin{proof}
+        We prove the claim by structural induction on the ground formula $\chi$.
+        
+        \textbf{Base case:} $\chi$ is a ground atom. Then
+        \[
+        \mathfrak A \models \chi
+        \;\Longleftrightarrow\;
+        \tau \models_{Gr} \chi
+        \]
+        by the Atomic Agreement Lemma.
+        
+        \textbf{Inductive case 1:} $\chi = \neg \chi_1$ for some ground formula $\chi_1$.
+        
+        By the semantics of negation,
+        \[
+        \mathfrak A \models \neg \chi_1
+        \;\Longleftrightarrow\;
+        \mathfrak A \not\models \chi_1.
+        \]
+        By the induction hypothesis,
+        \[
+        \mathfrak A \not\models \chi_1
+        \;\Longleftrightarrow\;
+        \tau \not\models_{Gr} \chi_1.
+        \]
+        Again by the semantics of negation,
+        \[
+        \tau \not\models_{Gr} \chi_1
+        \;\Longleftrightarrow\;
+        \tau \models_{Gr} \neg \chi_1.
+        \]
+        Hence
+        \[
+        \mathfrak A \models \neg \chi_1
+        \;\Longleftrightarrow\;
+        \tau \models_{Gr} \neg \chi_1.
+        \]
+        
+        \textbf{Inductive case 2:} $\chi = \chi_1 \vee \chi_2$ for some ground formulas $\chi_1,\chi_2$.
+        
+        By the semantics of disjunction,
+        \[
+        \mathfrak A \models \chi_1 \vee \chi_2
+        \;\Longleftrightarrow\;
+        (\mathfrak A \models \chi_1 \text{ or } \mathfrak A \models \chi_2).
+        \]
+        By the induction hypothesis,
+        \[
+        (\mathfrak A \models \chi_1 \text{ or } \mathfrak A \models \chi_2)
+        \;\Longleftrightarrow\;
+        (\tau \models_{Gr} \chi_1 \text{ or } \tau \models_{Gr} \chi_2).
+        \]
+        Again by the semantics of disjunction,
+        \[
+        (\tau \models_{Gr} \chi_1 \text{ or } \tau \models_{Gr} \chi_2)
+        \;\Longleftrightarrow\;
+        \tau \models_{Gr} \chi_1 \vee \chi_2.
+        \]
+        Hence
+        \[
+        \mathfrak A \models \chi_1 \vee \chi_2
+        \;\Longleftrightarrow\;
+        \tau \models_{Gr} \chi_1 \vee \chi_2.
+        \]
+        
+        Therefore, for every ground formula $\chi$,
+        \[
+        \mathfrak A \models \chi
+        \;\Longleftrightarrow\;
+        \tau \models_{Gr} \chi.
+        \]
+        \end{proof}
+    
+    \begin{lemma}[Grounding Preserves Truth]
+    Let $\Gamma$ be a set of sentences (in Skolem form). If
+    \[
+    \mathfrak A \models \Gamma,
+    \]
+    then
+    \[
+    \mathfrak A \models Ground(\Gamma).
+    \]
+    \end{lemma}
+    
+    \begin{lemma}[Transfer to Ground Valuation]
+    Let $\mathfrak A = (U,I)$ and $\tau$ be defined as above. If
+    \[
+    \mathfrak A \models Ground(\Gamma),
+    \]
+    then
+    \[
+    \tau \models_{Gr} Ground(\Gamma).
+    \]
+    \end{lemma}
+
+
+
+
+
+\begin{proof}
+    $\Gamma$ is satisfiable $\implies$ there exists a strucutre $\mathfrak{A}$ such that
+    \[\mathfrak{A} \models \Gamma\]
+    Define ground valuation on atoms 
+    \[\tau: ga_{\Sigma} \mapsto \{true, false\}\]
+    and for all ground atoms over $\Sigma$, define
+    \[\tau(a) = true \iff \mathfrak{A} \models a\]
+    Now we will show that: $\mathfrak{A} \models \phi \implies \tau \models_{Gr} \phi$\\
+    Define ground valuation $\tau$ as such:
+    \[\tau(R(t_1, \dots t_n)) = \begin{cases}
+        true \quad \text{if } (Val_{\mathfrak{A}}(t_1), \dots, Val_{\mathfrak{A}}(t_n))\in I_{\mathfrak{A}}(R)\\
+        false \quad \text{ otherwise}
+    \end{cases}\]
+    \subsubsection*{Base case: $\phi$ is ground atom}
+    By definition, trivial
+    \subsubsection*{Inductive steps: induction over the structure of formula(not gf)}
+    \begin{itemize}
+        \item $\varphi = \neg \phi$: $\mathfrak{A} \models \neg\phi \implies \mathfrak{A} \not\models \phi $. 
+        
+        \item $\varphi = \phi_1 \lor \phi_2$
+    \end{itemize}
+
+\end{proof}
 
 
 
@@ -2958,17 +3368,126 @@ There are languages beyond the RE class. For example
 
 
 
+\section{Second Order Logics}
+\subsection{Syntax of Second Order Logics}
+in second order logics, terms are defined the same as in FOL. 
 
+\[\Sigma = (C, F, R)\]
+\[V = FOV \cup SOV\]
+where $FOV$ is the set containing variables in FOL, and $SOV$ contains the relation variables, for example
+\[SOV = \{X^2, Y^1, ...\}\]
+where the superscripts denote the arity of these relation variable. 
+\begin{definition}
+\[\varphi := t = t \mid R^k(t_1, \dots, t_k) \mid X^k(t_1, \dots, t_k) \mid \neg \varphi \mid \varphi \lor \varphi \mid 
+\exists x, \varphi \mid \forall x, \varphi \mid \exists X, \varphi \mid \forall X, \varphi\]    
+\end{definition}
+\begin{example}
+    \[\phi \equiv \forall x, \exists X^1, X(x)\]
+    This formula means for all x in the universe, there exist such a unary relation, such that x is in the relation. \\
+    This formula is valid as we can always interpret $X = U$.
+\end{example}
 
+\subsection*{Semantics of SOL}
+Similar to FOL, the semantics of SOL is defined by a structure and an assignment (with free variables)
+\[\mathfrak{A} = (U, I)\]
+\begin{definition}
+    for FOL variable:
+    \[\alpha(x) \in U\]
+    for SOL variables:
+    \[\alpha(X^k) \subseteq U^k\]
+    Similar to FOL, model relation is defined recursively:
+    \begin{align*}
+        &\mathfrak{A}, \alpha \models X^k(t_1, \dots, t_k) &&\iff Val_{\mathfrak{A}, \alpha}(t_1), \dots, Val_{\mathfrak{A}, \alpha}(t_k)) \in \alpha(X)\\
+        &\mathfrak{A}, \alpha \models \exists X^k, \phi &&\iff \text{ there is a set of k-ary tuples of } U, S\subseteq U^k\\
+        &&&\text{ such that } \mathfrak{A}, \alpha[X \mapsto S] \models \phi\\
+        &\mathfrak{A}, \alpha \models \forall X^k, \phi &&\iff \text{ for all sets of k-ary tuples of } U, S\subseteq U^k\\
+        &&&\text{ such that } \mathfrak{A}, \alpha[X \mapsto S] \models \phi\\
+    \end{align*}
+\end{definition}
 
+\subsection{Expressiveness of SOL}
+\begin{definition}
+    Let $\phi$ be a sentence(no free variables), we can define the set of structures that models $\phi$ as
+    \[
+    \llbracket \phi \rrbracket = \{\mathfrak{A} \mid \mathfrak{A} \models \phi\}
+    \]
+\end{definition}
+We have proven by compactness of FOL, it is impossible to express the set of all finite/infinite structures with
+FOL formula. However we can do so in SOL. 
 
+\subsubsection{Finite structures}
+\begin{theorem}
+    There exist a SOL formula $\phi_{fin}$ such that
+    \[\llbracket \phi_{fin} \rrbracket = \{\mathfrak{A} \mid |U_{\mathfrak{A}}| < \infty\}\]
+\end{theorem}
+We need to first find some unique property of finite sets
+\begin{theorem}
+    Let $S$ be a set, $S$ is finite $\iff \forall f: S \mapsto S$ that are injective, $f$ is also surjective 
+\end{theorem}
 
+\begin{definition}[structure classes defined by non-sentence]
+    For formula $\phi$, where $FVar(\phi) = \{\bar{x}\}$
+    \[\llbracket \phi(\bar{x}) \rrbracket = \{(\mathfrak{A}, \bar{e} \in U^k) \mid \mathfrak{A}, \alpha[\bar{x} \mapsto \bar{e}] \models \phi\}\]
+\end{definition}
 
+We can first use SOL to define function-like relations. 
 
+\begin{definition}
+    A binary relation $S^2 \subseteq U^2$ is function-like, if 
+    \begin{enumerate}
+        \item $\forall u \in U, \exists v, (u, v) \in S$
+        \item $\forall u, v_1, v_2, (u, v_1) \in S \land (u, v_2) \in S \rightarrow (v_1 = v_2)$
+    \end{enumerate}
+    This is a literal translation of all elements in domain has a value to be mapped to, and no element maps to 2 different elements
+\end{definition}
 
+These constraints are be expressed with SOL with free variable: 
+\[\phi_{func}(X^2) \equiv \forall x\exists y X(x, y) \land \forall x\forall y \forall z (X(x, y)\land X(x, z) \rightarrow (y = z))\]
+\[\phi_{injection}(X^2) \equiv \phi_{func}(X^2) \land \forall x \forall y \forall z(X(x, y) \land X(y, z) \rightarrow (x = y))\]
+\[\phi_{surjection}(X^2) \equiv \phi_{func}(X^2) \land \forall y \exists x X(x, y)\]
+Therefore, we can use a SOL formula to express finite structures: 
+\[\phi_{fin} \equiv \forall X^2 (\phi_{injection}(X^2) \rightarrow \phi_{surjection}(X^2))\]
+Follow the same logic as how we proved that it is impossible to express such concept in FOL due to compactness, we can prove that in SOL, compactness does not hold. 
 
+\subsubsection{Reachability}
+Consider the following signature: 
+\[\Sigma = (\{s, t\}, \emptyset, \{E^2\})\]
+\[\mathfrak{C}_{s\leadsto t} = \{\mathfrak{A} \mid I(s) \text{ has a path using } I(E) \text{ to } T(t)\}\]
+We have shown this is not expressable in FOL. To express this concept, we need to characterize reachability as a property, which is 
+a binary relation that is 
+\begin{enumerate}
+    \item reflexive
+    \item transitive
+\end{enumerate}
 
+\[\phi_{reflexive}(X^2) \equiv \forall x X(x, x)\]
+\[\phi_{transitive}(X^2) \equiv \forall x\forall y \forall z X(x, y) \land X(y, z) \rightarrow X(x, z)\]
 
+$$\llbracket \phi_{s\leadsto t} \rrbracket \equiv \left\{ (\mathfrak{A} = (U, I), R \subseteq U^2) \mid 
+\begin{aligned}
+    &\exists w_0, \dots, w_k \in U, \text{ such that:} \\
+    &(s, w_0) \in I(E), \\
+    &\forall i \in \{0, \dots, k-1\}, (w_i, w_{i+1}) \in I(E), \\
+    &(w_k, t) \in I(E)
+\end{aligned}
+\right\}$$
+
+However we can artificially inflate the set to make it still satisfy the semantics of the formula, but contain more 
+pairs that are not connected. We can use the same technique used to define the set of WFF, which is the \textbf{smallest} set.
+\begin{definition}
+    The set of reachable pairs $\mathfrak{R}$ is the \textbf{smallest} set of pairs that are 
+    \begin{enumerate}
+        \item $E \subseteq S$
+        \item transitive and reflexive
+    \end{enumerate}
+\end{definition}
+
+First we define the concept of closure
+\[\phi_{closed}(X^2) \equiv \phi_{reflexive}(X^2) \land \phi_{transitive}(X^2) \land E \subseteq X \]
+the concept of $E$ subsetting $X$ can also be written in SOL as a shorthand
+\[\subseteq(X^2) \equiv \forall x\forall y E(x, y) \rightarrow X(x, y)\]
+Then we can formally define the relation reachable: 
+\[\phi_{reach}(X^2) \equiv \phi_{closed}(X^2) \land \forall Y^2 (\phi_{closed}(Y^2) \rightarrow X^2\supseteq Y^2 )\]
 
 
 
@@ -5937,6 +6456,5 @@ Then
 
 
 \end{document}
-
 
 
