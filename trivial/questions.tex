@@ -1,0 +1,119 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}    
+\usepackage[T1]{fontenc}       
+\usepackage{lmodern}           
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,       % false: boxed links; true: colored links
+    linkcolor=blue,        % color of internal links (sections, etc.)
+    urlcolor=cyan,         % color of external links
+    linktoc=all            % 'all' makes both text and page number clickable
+}
+\usepackage{amsmath}   
+\usepackage{amssymb}   
+\usepackage{geometry}  
+\usepackage{enumerate} 
+\usepackage{xcolor}  
+\usepackage{amsthm}
+\usepackage{pdfpages}
+\usepackage{mathrsfs}
+\newtheorem{theorem}{Theorem}[section]
+% \newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+% \newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\usepackage{listings}  
+\usepackage{tikz-cd}
+\usepackage{forest}     
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems}
+
+% remove/comment out the old line:
+% \newtheorem{definition}[theorem]{Definition}
+
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+\newtheorem{definition}[theorem]{Definition}
+\let\olddefinition\definition
+\let\endolddefinition\enddefinition
+\renewenvironment{definition}
+  {\begin{tcolorbox}[
+      colback=red!10,
+      colframe=red!50!black,
+      boxrule=0.6pt,
+      arc=2pt,
+      left=6pt,right=6pt,top=4pt,bottom=4pt,
+      breakable
+    ]\olddefinition}
+  {\endolddefinition\end{tcolorbox}}
+
+\newtheorem{lemma}[theorem]{Lemma}
+\let\oldlemma\lemma
+\let\endoldlemma\endlemma
+\renewenvironment{lemma}
+  {\begin{tcolorbox}[
+      colback=green!8,
+      colframe=green!50!black,
+      boxrule=0.6pt,
+      arc=2pt,
+      left=6pt,right=6pt,top=4pt,bottom=4pt
+    ]\oldlemma}
+  {\endoldlemma\end{tcolorbox}}
+
+  \let\oldtheorem\theorem
+\let\endoldtheorem\endtheorem
+\renewenvironment{theorem}
+  {\begin{tcolorbox}[
+      colback=yellow!6,
+      colframe=yellow!60!black,
+      boxrule=0.6pt,
+      arc=2pt,
+      left=6pt,right=6pt,top=4pt,bottom=4pt,
+      parbox=false
+    ]\oldtheorem}
+  {\endoldtheorem\end{tcolorbox}}
+\usepackage{bussproofs}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{arrows.meta,decorations.pathreplacing,calc}
+\lstset{frame=tb,
+  language=C,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,   
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{brown},
+  stringstyle=\color{orange},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+\geometry{top=0.5in, bottom=0.5in, left=1in, right=1in}
+% ctrl shift D to toggle night 
+\begin{document}
+
+\title{Questions}
+\author{Wang Xiyu A0282500R}
+\date{}
+\maketitle
+\tableofcontents
+
+\section{Optimal number selection strategy}
+You are one of the team of $n$ engineers, there are $m$ opening tickets $(m > n)$, each ticket $j$ has an associated objective complexity $c(j)$, which means it would take $c(j)$ 
+days to complete, regardless who takes it. There is also a reward $r(j)$ associated with each ticket, if engineer $i$ completes ticket $j$ no later than the deadline, they gets a 
+reward of $r(j)$. If they take this ticket but fail to complete it no later than the deadline, they receive a penalty of the same amount. $(-r(j))$. Before the sprint ends, there are 
+$K$ days for all engineers. 
+
+Today is the start of this sprint (Day 0), and the team needs to assign tickets to engineers. It is understandable that we might not be able to complete all of them, therefore we do 
+not force engineers to take more than they can handle, it is OK to leave some tickets unassigned. The rule of selecting tickets is as follows: 
+\begin{itemize}
+    \item A list of number $[0, m\times n)$ are given to all engineers, in random order each engineer are to pick $0$ to $m \times n -1$ numbers (as many as they may want)
+    \item The numbers represents priority, after picking the numbers, next step will be indication of interest. Each engineer will assign the priority numbers to tasks, 
+\end{itemize}
+
+\end{document}

@@ -3137,6 +3137,7 @@ Let's first consider the case without equality, the definition of ground formula
 
 
 
+
 \begin{proof}
     $\Gamma$ is satisfiable $\implies$ there exists a strucutre $\mathfrak{A}$ such that
     \[\mathfrak{A} \models \Gamma\]
@@ -3160,6 +3161,166 @@ Let's first consider the case without equality, the definition of ground formula
     \end{itemize}
 
 \end{proof}
+
+
+\subsection{Homomorphism and Isomorphism}
+\begin{definition}[Homomorphism]
+    Let $\Sigma = (C, F, R)$ be a First order signature. $\mathfrak{A}_1 = (U_1, I_1)$ and $\mathfrak{A}_2 = (U_2, I_2)$ be $\Sigma$-structures. A function 
+    \[h: U_1 \mapsto U_2\]
+    is a homomorphism from $\mathfrak{A}_1$ to $\mathfrak{A}_2$ if: 
+    \begin{enumerate}
+        \item $\forall c \in C, h(I_1(c)) = I_2(c)$
+        \item $\forall f^k \in F, \forall (u_1, \dots, u_k) \in U^k_1, h(I_1(f)(u_1, \dots, u_k)) = I_2(f)(h(u_1), \dots, h(u_k))$
+        \item $\forall R^k \in R, \forall (u_1, \dots, u_k) \in U^k_1, (u_1, \dots, u_k) \in I_1(R) \iff (h(u_1), \dots, h(u_k)) \in I_2(R)$
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}[Isomorphism]
+    Let $\Sigma = (C, F, R)$ be a First order signature. $\mathfrak{A}_1 = (U_1, I_1)$ and $\mathfrak{A}_2 = (U_2, I_2)$ be $\Sigma$-structures. A function 
+    \[h: U_1 \mapsto U_2\]
+    is an isomorphism from $\mathfrak{A}_1$ to $\mathfrak{A}_2$ if:  
+    \begin{enumerate}
+        \item $h$ is a homomorphism from $\mathfrak{A}_1$ to $\mathfrak{A}_2$
+        \item $h$ is a bijection
+    \end{enumerate}
+    denoted as 
+    \[\mathfrak{A}_1 \cong \mathfrak{A}_2\]
+\end{definition}
+\begin{theorem}[Isomorphism Theorem]
+    \[\mathfrak{A}_1, \alpha \models \phi \iff \mathfrak{A}_2, (h \circ \alpha) \models \phi\]
+\end{theorem}
+
+
+\subsection{Theory}
+\begin{definition}[Theory]
+    A theory $T$ is a set of sentences.
+\end{definition}
+\begin{example}[Partial order]
+    \[T_{po} = \begin{cases}
+        \forall x \forall y \forall z <(x, y) \land <(y, z) \rightarrow <(x, z) \quad \text{ (transitivity)}\\
+        \forall x \neg <(x, x) \quad \text{ (irreflexivity)}
+    \end{cases}\]
+\end{example}
+
+\begin{definition}[T-satisfiable]
+    Let $T$ be a theory over $\Sigma$, a formula $\phi$ over $\Sigma$ is T-satisfiable if 
+    \[\exists \mathfrak{A}, \alpha, \mathfrak{A}, \alpha \models \phi\]
+    AND
+    \[\forall \psi \in T, \mathfrak{A} \models \psi\]
+\end{definition}
+\begin{definition}[T-validity]
+    Let $T$ be a theory over $\Sigma$, a formula $\phi$ over $\Sigma$ is T-valid if 
+    \[\forall \mathfrak{A}, \text{ if } \forall \psi \in T, \mathfrak{A} \models \psi \rightarrow \mathfrak{A} \models \phi\]
+\end{definition}
+
+\subsubsection{Common clauses used to define theories}
+\begin{itemize}
+    \item $\sigma_1 \equiv \forall x \neg(x < x) \land \forall x\forall y \forall z (x<y \land y<z \rightarrow x<z)$ (partial order)
+    \item $\sigma_2 \equiv \forall x\forall y (x<y \lor x = y \lor y < x)$ (trichotomy)
+    \item $\sigma_3 \equiv \forall x \forall y(x < y \rightarrow \exists z(x < z< y))$ (dense)
+    \item $\sigma_4 \equiv \forall x \exists y \exists z (y < x < z)$ (no endpoints)
+    \item $\varphi_1 \equiv \forall x \forall y \forall z ((x + y) + z) = x + (y + z)$ (associativity)
+    \item $\varphi_2 \equiv \forall x ((x + 0 = x = 0 + x) \land (x + (-x) = (-x) + x = 0))$ (additive identity \& add. inverse axioms)
+    \item $\varphi_3 \equiv \forall x \forall y (x + y = y + x)$ (commutativity)
+    \item $\varphi_4 \equiv \forall x \forall y \forall z (x < y \rightarrow ((x + z) < (y + z)))$ (order-compatibility axiom for addition)
+    \item $\psi_n \equiv \forall x (nx = 0 \rightarrow x = 0)$ (torsion-freeness)
+\end{itemize}
+Theories formed over above sentences include:
+\begin{itemize}
+    \item $\mathfrak{A} \models \sigma_1 \iff \mathfrak{A}$ is a partial order
+    \item $\mathfrak{A} \models \{\sigma_1, \sigma_2\} \iff \mathfrak{A}$ is a linear/total order
+    \item $\mathfrak{A} \models \{\sigma_1, \sigma_2, \sigma_3, \sigma_4\} \iff \mathfrak{A}$ is a dense linear order without endpoints
+    \item $\mathfrak{A} \models \{\varphi_1, \varphi_2\} \iff \mathfrak{A}$ is a group
+    \item $\mathfrak{A} \models \{\varphi_1, \varphi_2, \varphi_3\} \iff \mathfrak{A}$ is an abelian group
+    \item $\mathfrak{A} \models \{\varphi_1, \varphi_2, \varphi_3, \varphi_4, \sigma_1, \sigma_2\} \iff \mathfrak{A}$ is an ordered abelian group
+    \item $\mathfrak{A} \models \{\varphi_1, \varphi_2, \varphi_3, \psi_n\}_{n \in \mathbb{N}} \iff \mathfrak{A}$ is a torsion-free abelian group
+\end{itemize}
+\subsubsection{Monontonicity under theory inclusion}
+\begin{lemma}
+    If $T_1 \subseteq T_2$ , $\phi$ is $T_1$-valid $\implies \phi_2$ is $T_2$-valid. Or
+    \[T_1 \subseteq T_2, T_1 \models \phi \implies T_2 \models \phi\]
+\end{lemma}
+\begin{lemma}
+    If $T_1 \subseteq T_2$ , $\phi$ is $T_2$-sat $\implies \phi$ is $T_1$-sat. Or
+    \[T_1 \subseteq T_2, T_2 \cup \{\phi\} \text{ is satisfiable } \implies T_1 \cup \{\phi\} \text{ is satisfiable}\]
+    \[T_1 \subseteq T_2, T_1 \cup \{\phi\} \text{ is unsatisfiable } \implies T_2 \cup \{\phi\} \text{ is unsatisfiable}\]
+\end{lemma}
+\subsubsection{Theory of a structure}
+Instead od a set of sentences, we can also define a theory with a structure. 
+\begin{definition}
+    Let $\mathfrak{A}$ be a structutre, 
+    \[Th(\mathfrak{A}) = \{\phi \mid \phi \text{ is a sentence }, \mathfrak{A} \models \phi\}\]
+\end{definition}
+
+\begin{definition}[Class of structures]
+    Let $\mathfrak{C}$ be a collection of strucutre, 
+    \[Th(\mathfrak{C}) = \bigcap_{\mathfrak{A} \in \mathfrak{C}} Th(\mathfrak{A})\]
+\end{definition}
+
+\begin{definition}
+    \[Th(\Gamma) = \{\phi \mid \phi \text{ is a sentence }, \Gamma \models \phi\}\]
+\end{definition}
+
+\begin{theorem}
+    \[Th(Th(\Gamma)) \subseteq Th(\Gamma)\]
+\end{theorem}
+\begin{proof}
+    Suppose otherwise, $\exists \phi \in Th(Th(\Gamma)), \phi \notin Th(\Gamma).$
+    \[\phi \in Th(Th(\Gamma)) \implies Th(\Gamma) \models \phi\]
+    \[\phi \notin Th(\Gamma) \implies \Gamma \not\models \phi \implies \exists \mathfrak{A}, \mathfrak{A} \models \Gamma, \mathfrak{A} \not\models \phi\]
+    \[\mathfrak{A} \models Th(\Gamma), \text{ contradiction}\]
+\end{proof}
+
+\begin{theorem}
+    \[Th(\Gamma) \text{ is inconsistent } \implies Th(\Gamma) \models \text{ all sentences}\]
+\end{theorem}
+\begin{definition}[Consistency of a theory]
+    Theory $T$ is consistent if 
+    \[\forall \phi, \neg (\{\phi\} \subseteq T \land \{\neg \phi \} \subseteq T)\]
+\end{definition}
+
+\begin{definition}[Completeness of a theory]
+    Theory $T$ is complete if
+    \[\forall \phi, \{\phi, \neg \phi\} \cap T \neq \emptyset\]
+\end{definition}
+\begin{lemma}
+    \[Th(\mathfrak{A}) \text{ is consistnet}\]
+\end{lemma}
+\begin{proof}
+    Suppose otherwise, $\phi, \neg \phi \in Th(\mathfrak{A}). \mathfrak{A} \models \phi \oplus \mathfrak{A} \models \neg \phi$, contradiction.
+\end{proof}
+
+\begin{lemma}
+    \[Th(\mathfrak{A}) \text{ is complete}\]
+\end{lemma}
+\begin{proof}
+    Let $\phi$ be a sentence, 
+    \begin{itemize}
+        \item if $\mathfrak{A} \models \phi, \phi \in Th(\mathfrak{A})$
+        \item if $\mathfrak{A} \not\models \phi, \mathfrak{A} \models \neg \phi, \neg \phi \in Th(\mathfrak{A})$
+    \end{itemize}
+\end{proof}
+
+
+\
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3349,8 +3510,44 @@ There are languages beyond the RE class. For example
     $L$ is RE-hard, if 
     \[\forall L' \in RE, L' \leq_m L\]
 \end{definition}
+\begin{example}
+    \[MP = \{\langle \mathcal{M}, w\rangle \mid w \in L(\mathcal{M})\}\]
+    \subsubsection*{$L_{Halt} \leq_m MP$}
+    \begin{proof}
+        We construct a computable function $f(\langle M, w \rangle) = \langle M', w \rangle$. 
+        The machine $M'$ is defined as follows:
+        \begin{lstlisting}[mathescape=true]
+$M'(x)$:
+    Simulate $M$ on input $w$
+    Accept // Only reached if $M(w)$ halts
+        \end{lstlisting}
+        Clearly, $M$ halts on $w \iff M'$ accepts $x$ (for any $x$). 
+        Thus $\langle M, w \rangle \in L_{Halt} \iff \langle M', w \rangle \in MP$.
+    \end{proof}
+\end{example}
 
-
+Similarly reduction can show some languages are not in RE, if they are at least as hard as a known not in RE language 
+\begin{example}
+    $\bar{MP} \notin RE$
+    \subsubsection*{Proof by Reduction: $\bar{K} \leq_m \bar{MP}$}
+    Given $\bar{K} = \{\langle M\rangle \mid \langle M \rangle \notin L(M)\}$ is not in $RE$.
+    Define a computable transformation $f(\langle M \rangle) = \langle M', \epsilon \rangle$, where $M'$ is:
+    \begin{lstlisting}[mathescape=true]
+$M'(x)$:
+    Simulate $M$ on input $\langle M \rangle$
+    Accept // Only reached if M accepts <M>
+    \end{lstlisting}
+    \begin{enumerate}
+        \item If $\langle M \rangle \in \bar{K}$, then $M$ does not accept $\langle M \rangle$. 
+       $M'$ will loop/reject on the simulation, so $L(M') = \emptyset$. 
+       Thus, $\epsilon \notin L(M') \implies \langle M', \epsilon \rangle \in \bar{MP}$.
+       \item If $\langle M \rangle \notin \bar{K}$, then $M$ accepts $\langle M \rangle$. 
+       $M'$ will reach the "Accept" command for any input. 
+       Thus, $\epsilon \in L(M') \implies \langle M', \epsilon \rangle \notin \bar{MP}$.
+    \end{enumerate}
+    
+    Conclusion: $\langle M \rangle \in \bar{K} \iff f(\langle M \rangle) \in \bar{MP}$.
+\end{example}
 \subsection{Validity of FOL}
 \begin{definition}
     \[VALID: \{\varphi \mid \varphi \text{ is valid }\}\]
@@ -3490,13 +3687,45 @@ Then we can formally define the relation reachable:
 \[\phi_{reach}(X^2) \equiv \phi_{closed}(X^2) \land \forall Y^2 (\phi_{closed}(Y^2) \rightarrow X^2\supseteq Y^2 )\]
 
 
+\subsubsection{Cyclic graph}
+A cyclic graph is a graph that contains at least one cycle. \\
+Irreflaxive reachability can be defined similarly as reachability, but without the reflexive clause. 
+\[\phi_{irreflexive\_closed} = \phi_{transitive}(X^2) \land E \subseteq X\]
+\[\phi_{irreflexive\_reach}(X^2) \equiv \phi_{irreflexive\_closed} \land \forall Y^2(\phi_{irreflexive\_closed}(Y^2) \rightarrow X^2 \supseteq Y^2)\]
+\[\phi_{cyclic} \equiv \exists x \exists X^2(\phi_{irreflexive\_reach}(X^2) \land X(x, x))\]
+Alternatively we can use reachability and additional constraints to enforce reflexivity:
+\[\exists x \exists y (\exists X^2 \phi_{reach}(X^2) \land E(x, y) \land E(y, x))\]
 
 
 
+\subsubsection{Even}
+All structures that have finite and even number of elements in the universe
+\[\phi_{disjoint}(X_1, X_2) \equiv \forall x X_1(x) \leftrightarrow \neg (X_2(x))\] 
+\[\phi_{exhaustive}(X_1, X_2) \equiv \forall x X_1(x) \lor X_2(x)\]
+Before we defined a formula to describe relations that are injection-function-like, now we define a formula that describe, there exists a binary relation, between the sets defined by 2 relations.
+$$\begin{aligned}
+\phi_{injection}(X, Y) \equiv \exists F \Bigl[
+& (\forall x : X(x) \rightarrow \exists y : (Y(y) \land F(x, y))) \land \\
+& (\forall x, y_1, y_2 : X(x) \land Y(y_1) \land Y(y_2) \land F(x, y_1) \land F(x, y_2) \rightarrow y_1 = y_2) \land \\
+& (\forall x_1, x_2, y : X(x_1) \land X(x_2) \land Y(y) \land F(x_1, y) \land F(x_2, y) \rightarrow x_1 = x_2) \Bigr]
+\end{aligned}$$
+$$\begin{aligned}
+\phi_{surjection}(X, Y) \equiv \exists F \Bigl[ 
+& (\forall x : X(x) \rightarrow \exists y : (Y(y) \land F(x, y))) \land \\
+& (\forall x, y_1, y_2 : X(x) \land Y(y_1) \land Y(y_2) \land F(x, y_1) \land F(x, y_2) \rightarrow y_1 = y_2) \land \\
+& (\forall y : Y(y) \rightarrow \exists x : (X(x) \land F(x, y))) \Bigr]
+\end{aligned}$$
+The first and second lines define totality and function-like property.
+\[\phi_{bijection}(X_1, X_2) \equiv \phi_{injection}(X_1, X_2) \land \phi_{surjection}(X_1, X_2)\]
+\[\phi_{even} \equiv \exists X^1_1 \exists X^1_2 (\phi_{disjoint}(X_1, X_2) \land \phi_{bijection}(X_1, X_2) \land \phi_{exhaustive}(X_1, X_2))\]
 
 
-
-
+\subsubsection{Bipartite graph}
+$$\begin{aligned}
+\phi_{bipartite} \equiv \exists X_1^1, X_2^1 \Bigl[ & \phi_{disjoint}(X_1, X_2) \land \phi_{exhaustive}(X_1, X_2) \land \\
+& \forall x, y \bigl( E(x, y) \rightarrow \neg(X_1(x) \land X_1(y)) \land \neg(X_2(x) \land X_2(y)) \bigr) \Bigr]
+\end{aligned}$$
+We can observe that n-partite graphs are exactly thos graphs that are n-colorable, they are identical structures
 
 
 
