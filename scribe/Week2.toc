@@ -81,25 +81,32 @@
 \contentsline {subsection}{\numberline {8.2}Skolemization}{41}{subsection.8.2}%
 \contentsline {subsection}{\numberline {8.3}Proof of the compactness theorem for FOL}{44}{subsection.8.3}%
 \contentsline {subsubsection}{\numberline {8.3.1}$\Gamma $ is satisfiable $\DOTSB \tmspace +\thickmuskip {.2777em}\DOTSB \Relbar \joinrel \Rightarrow \tmspace +\thickmuskip {.2777em}Gr(\Gamma )$ is propositionally satisfiable}{45}{subsubsection.8.3.1}%
-\contentsline {subsection}{\numberline {8.4}Homomorphism and Isomorphism}{47}{subsection.8.4}%
-\contentsline {subsection}{\numberline {8.5}Theory}{47}{subsection.8.5}%
-\contentsline {subsubsection}{\numberline {8.5.1}Common clauses used to define theories}{48}{subsubsection.8.5.1}%
-\contentsline {subsubsection}{\numberline {8.5.2}Monontonicity under theory inclusion}{48}{subsubsection.8.5.2}%
-\contentsline {subsubsection}{\numberline {8.5.3}Theory of a structure}{48}{subsubsection.8.5.3}%
-\contentsline {section}{\numberline {9}Computability}{49}{section.9}%
-\contentsline {subsection}{\numberline {9.1}Halting problem}{49}{subsection.9.1}%
-\contentsline {subsection}{\numberline {9.2}Reduction}{51}{subsection.9.2}%
-\contentsline {subsection}{\numberline {9.3}RE-hardness}{52}{subsection.9.3}%
-\contentsline {subsection}{\numberline {9.4}Validity of FOL}{53}{subsection.9.4}%
-\contentsline {section}{\numberline {10}Second Order Logics}{53}{section.10}%
-\contentsline {subsection}{\numberline {10.1}Syntax of Second Order Logics}{53}{subsection.10.1}%
-\contentsline {subsection}{\numberline {10.2}Expressiveness of SOL}{54}{subsection.10.2}%
-\contentsline {subsubsection}{\numberline {10.2.1}Finite structures}{54}{subsubsection.10.2.1}%
-\contentsline {subsubsection}{\numberline {10.2.2}Reachability}{54}{subsubsection.10.2.2}%
-\contentsline {subsubsection}{\numberline {10.2.3}Cyclic graph}{55}{subsubsection.10.2.3}%
-\contentsline {subsubsection}{\numberline {10.2.4}Even}{55}{subsubsection.10.2.4}%
-\contentsline {subsubsection}{\numberline {10.2.5}Bipartite graph}{56}{subsubsection.10.2.5}%
-\contentsline {paragraph}{Structural Induction Principle.}{70}{section*.156}%
-\contentsline {paragraph}{Case 1: $\psi _i \in \Gamma $ or $\psi _i$ is an Axiom}{82}{section*.217}%
-\contentsline {paragraph}{Case 2: $\psi _i = \varphi $}{82}{section*.218}%
-\contentsline {paragraph}{Case 3: $\psi _i$ via MP from $\psi _j, \psi _k$ where $\psi _j = \psi _k \rightarrow \psi _i$}{82}{section*.219}%
+\contentsline {subsection}{\numberline {8.4}Special FOL fragments}{47}{subsection.8.4}%
+\contentsline {subsubsection}{\numberline {8.4.1}Quantifier-free FOL}{47}{subsubsection.8.4.1}%
+\contentsline {subsection}{\numberline {8.5}Homomorphism and Isomorphism}{47}{subsection.8.5}%
+\contentsline {subsection}{\numberline {8.6}Theory}{48}{subsection.8.6}%
+\contentsline {subsubsection}{\numberline {8.6.1}Common clauses used to define theories}{48}{subsubsection.8.6.1}%
+\contentsline {subsubsection}{\numberline {8.6.2}Monontonicity under theory inclusion}{49}{subsubsection.8.6.2}%
+\contentsline {subsubsection}{\numberline {8.6.3}Theory of a structure}{49}{subsubsection.8.6.3}%
+\contentsline {section}{\numberline {9}Computability}{51}{section.9}%
+\contentsline {subsection}{\numberline {9.1}Halting problem}{51}{subsection.9.1}%
+\contentsline {subsection}{\numberline {9.2}Reduction}{53}{subsection.9.2}%
+\contentsline {subsection}{\numberline {9.3}RE-hardness}{53}{subsection.9.3}%
+\contentsline {subsection}{\numberline {9.4}Validity of FOL}{54}{subsection.9.4}%
+\contentsline {section}{\numberline {10}Second Order Logics}{54}{section.10}%
+\contentsline {subsection}{\numberline {10.1}Syntax of Second Order Logics}{54}{subsection.10.1}%
+\contentsline {subsection}{\numberline {10.2}Expressiveness of SOL}{55}{subsection.10.2}%
+\contentsline {subsubsection}{\numberline {10.2.1}Finite structures}{55}{subsubsection.10.2.1}%
+\contentsline {subsubsection}{\numberline {10.2.2}Reachability}{56}{subsubsection.10.2.2}%
+\contentsline {subsubsection}{\numberline {10.2.3}Cyclic graph}{57}{subsubsection.10.2.3}%
+\contentsline {subsubsection}{\numberline {10.2.4}Even}{57}{subsubsection.10.2.4}%
+\contentsline {subsubsection}{\numberline {10.2.5}Bipartite graph}{57}{subsubsection.10.2.5}%
+\contentsline {subsubsection}{\numberline {10.2.6}Connectedness}{57}{subsubsection.10.2.6}%
+\contentsline {subsubsection}{\numberline {10.2.7}Well-Ordering}{57}{subsubsection.10.2.7}%
+\contentsline {subsubsection}{\numberline {10.2.8}Hamiltonian Graphs}{58}{subsubsection.10.2.8}%
+\contentsline {subsubsection}{\numberline {10.2.9}Well-Foundedness}{58}{subsubsection.10.2.9}%
+\contentsline {subsubsection}{\numberline {10.2.10}Graph Isomorphism}{58}{subsubsection.10.2.10}%
+\contentsline {paragraph}{Structural Induction Principle.}{72}{section*.158}%
+\contentsline {paragraph}{Case 1: $\psi _i \in \Gamma $ or $\psi _i$ is an Axiom}{84}{section*.219}%
+\contentsline {paragraph}{Case 2: $\psi _i = \varphi $}{84}{section*.220}%
+\contentsline {paragraph}{Case 3: $\psi _i$ via MP from $\psi _j, \psi _k$ where $\psi _j = \psi _k \rightarrow \psi _i$}{84}{section*.221}%

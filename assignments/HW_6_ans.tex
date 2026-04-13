@@ -1,0 +1,636 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}    
+\usepackage[T1]{fontenc}       
+\usepackage{lmodern}           
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,       % false: boxed links; true: colored links
+    linkcolor=blue,        % color of internal links (sections, etc.)
+    urlcolor=cyan,         % color of external links
+    linktoc=all            % 'all' makes both text and page number clickable
+}
+\usepackage{amsmath}   
+\usepackage{amssymb}   
+\usepackage{geometry}  
+\usepackage{enumerate} 
+\usepackage{xcolor}  
+\usepackage{amsthm}
+\usepackage{pdfpages}
+\usepackage{mathrsfs}
+\newtheorem{theorem}{Theorem}[section]
+% \newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+% \newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\usepackage{listings}  
+\usepackage{tikz-cd}
+\usetikzlibrary{positioning}
+\usepackage{forest}     
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems}
+
+% remove/comment out the old line:
+% \newtheorem{definition}[theorem]{Definition}
+
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{question}[theorem]{Question}
+\let\olddefinition\definition
+\let\endolddefinition\enddefinition
+\renewenvironment{definition}
+  {\begin{tcolorbox}[
+      colback=red!10,
+      colframe=red!50!black,
+      boxrule=0.6pt,
+      arc=2pt,
+      left=6pt,right=6pt,top=4pt,bottom=4pt,
+      breakable
+    ]\olddefinition}
+  {\endolddefinition\end{tcolorbox}}
+
+\newtheorem{lemma}[theorem]{Lemma}
+\let\oldlemma\lemma
+\let\endoldlemma\endlemma
+\renewenvironment{lemma}
+  {\begin{tcolorbox}[
+      colback=green!8,
+      colframe=green!50!black,
+      boxrule=0.6pt,
+      arc=2pt,
+      left=6pt,right=6pt,top=4pt,bottom=4pt
+    ]\oldlemma}
+  {\endoldlemma\end{tcolorbox}}
+
+  \let\oldtheorem\theorem
+\let\endoldtheorem\endtheorem
+\renewenvironment{theorem}
+  {\begin{tcolorbox}[
+      colback=yellow!6,
+      colframe=yellow!60!black,
+      boxrule=0.6pt,
+      arc=2pt,
+      left=6pt,right=6pt,top=4pt,bottom=4pt,
+      parbox=false
+    ]\oldtheorem}
+  {\endoldtheorem\end{tcolorbox}}
+\usepackage{bussproofs}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{arrows.meta,decorations.pathreplacing,calc}
+\lstset{frame=tb,
+  language=C,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,   
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{brown},
+  stringstyle=\color{orange},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+\geometry{top=0.5in, bottom=0.5in, left=1in, right=1in}
+% ctrl shift D to toggle night 
+\begin{document}
+
+\title{HW6}
+\author{Wang Xiyu A0282500R}
+\date{}
+\maketitle
+\section*{Computability}
+
+In the first part of this homework, you will be doing some warm-up exercises relevant to topics in computability.
+
+\paragraph{Turing Machines Syntax.}
+Let us first briefly recall the syntax of the Turing machine. We will work with single tape Turing machines.\footnote{For every $k$-tape Turing machine $M$, there is a $1$-tape Turing machine $M'$ such that $L(M)=L(M')$.}
+A Turing Machine is a tuple
+\[
+M = (Q, q_{\mathrm{init}}, q_{\mathrm{acc}}, q_{\mathrm{rej}}, \Gamma, \delta),
+\]
+where
+\begin{itemize}
+    \item $Q$ is the (finite) set of states of $M$.
+    \item $q_{\mathrm{init}} \in Q$ is the initial state of $M$.
+    \item $q_{\mathrm{acc}} \in Q$ is the unique accepting state of $M$.
+    \item $q_{\mathrm{rej}} \in Q$ is the unique rejecting state of $M$; this is sometimes omitted.
+    \item $\Gamma$ is the (finite) tape alphabet. We assume that this also includes the blank symbol: $\textvisiblespace \in \Gamma$. We will use
+    \[
+    \Gamma^{\neq \textvisiblespace} = \Gamma \setminus \{\textvisiblespace\}
+    \]
+    to denote the set of tape symbols other than the blank symbol.
+    \item
+    \[
+    \delta : Q \times \Gamma \times \Gamma \to Q \times \{L,R,S\} \times \Gamma \times \{L,R,S\}
+    \]
+    is the transition function of $M$.
+\end{itemize}
+
+Given a state $q \in Q$, tape symbol $\sigma_{\mathrm{Inp}} \in \Gamma$ at the input tape head and $\sigma_{\mathrm{work}} \in \Gamma$ at the work tape head, the transition function returns a tuple
+\[
+(q', m_{\mathrm{Inp}}, \sigma'_{\mathrm{work}}, m_{\mathrm{work}})
+= \delta(q,\sigma_{\mathrm{Inp}},\sigma_{\mathrm{work}}).
+\]
+Based on this, the Turing machine changes its state from $q$ to $q'$, moves the input tape head (resp.\ work tape head) left/right/nowhere depending upon whether $m_{\mathrm{Inp}}$ (resp.\ $m_{\mathrm{work}}$) is $L$, $R$ or $S$, and writes the symbol $\sigma'_{\mathrm{work}}$ at the cell corresponding to the current work tape head.
+
+\paragraph{Accepting inputs.}
+A Turing machine $M$ halts on input $w \in (\Gamma^{\neq \textvisiblespace})^*$ if the run of $M$ on $w$ reaches either the state $q_{\mathrm{acc}}$ or the state $q_{\mathrm{rej}}$. An input $w$ is accepted by $M$ if the run (which may be finite or infinite) of $M$ on $w$ reaches the state $q_{\mathrm{acc}}$; otherwise $w$ is said to be not accepted by $M$. The language accepted by a Turing Machine $M$ is
+\[
+L(M)=\{w \mid w \text{ is accepted by } M\}.
+\]
+
+\paragraph{RE and REC languages.}
+A language $L \subseteq (\Gamma^{\neq \textvisiblespace})^*$ is said to be recursively enumerable if there is a Turing machine $M$ such that $L=L(M)$. The set\footnote{Sets of languages are also sometimes referred to as classes of languages, to avoid the confusion arising from the fact that languages themselves are sets (of strings).} of recursively enumerable languages is denoted $\mathrm{RE}$. A language $L$ is said to be recursive if there is a Turing machine $M$ such that $L=L(M)$ and further, $M$ halts on every input (whether or not that input is accepted or rejected by $M$). The class of recursive languages is called $\mathrm{REC}$. The class $\mathrm{REC}$ is also the class of decidable languages (or decidable problems). A problem/language not in $\mathrm{REC}$ is said to be undecidable. A problem/language is said to be semi-decidable if it is in $\mathrm{RE}$ but not in $\mathrm{REC}$.
+
+\paragraph{Computable Functions.}
+Turing machines can also sometimes have a dedicated output tape, which is write-only. In this case, the transition function also describes what symbol to write on the current cell of the output tape and where to move the output tape head. We will skip formalizing this. Any such Turing Machine $M$ defines a partial function as follows:
+\[
+f_M(w)=
+\begin{cases}
+w' & \text{if $M$ halts on $w$ and writes $w'$ on the output tape},\\
+\mathrm{undef} & \text{otherwise (i.e.\ $M$ does not halt on $w$).}
+\end{cases}
+\]
+A total function
+\[
+f : (\Gamma^{\neq \textvisiblespace})^* \to (\Gamma^{\neq \textvisiblespace})^*
+\]
+is said to be a computable function if there is a Turing machine $M$ such that $M$ halts on every input and $f=f_M$.
+
+\paragraph{Many-one Reductions and RE-hardness.}
+A language $A \subseteq (\Gamma^{\neq \textvisiblespace})^*$ many-one reduces to a language $B \subseteq (\Gamma^{\neq \textvisiblespace})^*$, denoted
+\[
+A \le_m B,
+\]
+if there is a computable function
+\[
+f : (\Gamma^{\neq \textvisiblespace})^* \to (\Gamma^{\neq \textvisiblespace})^*
+\]
+such that for every $w \in (\Gamma^{\neq \textvisiblespace})^*$, we have
+\[
+w \in A \iff f(w) \in B.
+\]
+In this case, the function $f$ is called a reduction from $A$ to $B$. A language $L$ is said to be RE-hard if for every language $L' \in \mathrm{RE}$, we have
+\[
+L' \le_m L.
+\]
+A language $L$ is said to be RE-complete if $L \in \mathrm{RE}$ and $L$ is RE-hard.
+
+Now, consider the following languages:
+\[
+\mathrm{MP} = \{\langle M,w\rangle \mid w \in L(M)\}
+\]
+\[
+\overline{\mathrm{MP}} = \{\langle M,w\rangle \mid w \notin L(M)\}
+\]
+\[
+K = \{\langle M\rangle \mid \langle M\rangle \in L(M)\}
+\]
+\[
+\overline{K} = \{\langle M\rangle \mid \langle M\rangle \notin L(M)\}.
+\]
+
+In the above, $\langle M,w\rangle$ (resp.\ $\langle M\rangle$) is an encoding of the pair $(M,w)$ (resp.\ encoding of the machine $M$) as a string.
+
+\begin{question}{1}
+Establish the following for the above languages:
+\begin{enumerate}
+    \item $\mathrm{MP} \in \mathrm{RE}$. \emph{(Hint: Define the Universal Turing machine and show that it accepts $\mathrm{MP}$.)}
+    \item $K \in \mathrm{RE}$.
+    \item $\overline{K}$ is not in $\mathrm{RE}$. \emph{(Hint: Use a diagonalization argument.)}
+    \item $\mathrm{MP}$ is RE-hard, and thus $\mathrm{MP}$ is RE-complete.
+    \item $\overline{\mathrm{MP}}$ is not in $\mathrm{RE}$ via a many-one reduction from $\overline{K}$.
+\end{enumerate}
+\end{question}
+
+\begin{proof}
+    Consider the following TM construction: 
+    \begin{lstlisting}[mathescape=true]
+$M'(M, w)$:
+    $b := M(w)$
+    return b
+    \end{lstlisting}
+\end{proof}
+
+\begin{proof}
+    Consider the following construction 
+    \begin{lstlisting}[mathescape=true]
+$M'(M)$:
+    $b := M(\langle M\rangle)$
+    return b      
+    \end{lstlisting}
+\end{proof}
+
+\begin{proof}
+    We show that $K \notin REC$ first.
+    We use the same contradiction proof in showing Halting problem is not in $REC$ to show that $K \notin REC$. 
+    Suppose $\bar{K} \in RE, K \in RE \land \bar{K} \in RE\implies K \in REC$, contradiction.  
+\end{proof}
+
+
+\begin{proof}
+    \[L_{Halt} \leq_m MP\]
+    Consider the following function: 
+    \[f(\langle M, w\rangle) = \langle M', w\rangle\]
+    where we define $M'$ as 
+    \begin{lstlisting}[mathescape=true]
+$M'(w)$:
+    $M(w)$
+    return true      
+    \end{lstlisting}
+    clearly, $\langle M, w \rangle \in L_{Halt} \iff \langle M', w \rangle \in MP$
+\end{proof}
+
+\begin{proof}
+    Consider function
+    \[f(\langle M \rangle) = \langle M', \varepsilon \rangle\]
+    Where $M'$ is the same as previous question. 
+\end{proof}
+
+\section*{Church--Turing Theorem}
+
+In this section, we will work towards proving the undecidability of the validity problem for FOL. Let us first formally define the language of all valid formulae:
+\[
+\mathrm{VALID}_{\mathrm{FOL}} = \{\varphi \mid \varphi \text{ is a FOL formula and } \emptyset \models \varphi\}.
+\]
+
+\begin{theorem}[Church and Turing]
+$\mathrm{VALID}_{\mathrm{FOL}}$ is RE-hard (and thus undecidable).
+\end{theorem}
+
+In order to establish Theorem 1, we show that the language $\mathrm{MP}$ many-one reduces to the language $\mathrm{VALID}_{\mathrm{FOL}}$.
+
+\begin{lemma}
+\[
+\mathrm{MP} \le_m \mathrm{VALID}_{\mathrm{FOL}}.
+\]
+\end{lemma}
+
+In order to establish the reduction for Lemma 1, we show that there is a computable procedure to translate every string $w$ to a well-formed FOL formula $\varphi_w$ such that
+\[
+w \in \mathrm{MP} \iff \varphi_w \in \mathrm{VALID}_{\mathrm{FOL}}.
+\]
+
+The formula we construct will depend upon the word $w$ and the Turing Machine $M$ such that $\mathrm{MP}=L(M)$; let this Turing Machine be
+\[
+M=(Q,q_{\mathrm{init}},q_{\mathrm{acc}},q_{\mathrm{rej}},\Gamma,\delta).
+\]
+
+Let us first describe our signature $\Sigma=(C,F,R)$. Our signature will use symbols that correspond to different parts of the Turing Machine.
+
+\paragraph{Constant Symbols.}
+\[
+C = \{0\} \cup \{\mathbf{q} \mid q \in Q\} \cup \{\boldsymbol{\gamma} \mid \gamma \in \Gamma\}.
+\]
+\begin{itemize}
+    \item The constant symbol $0$ will be used to denote the number $0$, which we will use to encode the initial configuration of the Turing machine.
+    \item For every state $q \in Q$, there is a constant symbol $\mathbf{q}$.
+    \item For every tape symbol $\gamma \in \Gamma$, there is a constant symbol $\boldsymbol{\gamma}$.
+\end{itemize}
+
+\paragraph{Function Symbols.}
+\[
+F=\{s,\mathrm{state@},\mathrm{inpHead@},\mathrm{inpCell},\mathrm{workHead@},\mathrm{workCell}\}.
+\]
+\begin{itemize}
+    \item The function symbol $s$ is the successor function and $\mathrm{arity}(s)=1$.
+    \item The function symbol $\mathrm{state@}$ will be used to denote the state of the Turing Machine at any particular time step; $\mathrm{arity}(\mathrm{state@})=1$.
+    \item The function symbols $\mathrm{inpHead@}$ and $\mathrm{workHead@}$ will be used to denote the position of the head of the input and work tapes; both have arity $1$.
+    \item The function symbols $\mathrm{inpCell}$ and $\mathrm{workCell}$ will be used to denote the contents of a particular cell of the input and work tapes; both have arity $2$.
+\end{itemize}
+
+\paragraph{Relation Symbols.}
+We do not need any relation symbols for our encoding, so
+\[
+R=\emptyset
+\]
+suffices.
+
+The formula $\varphi_w$ will be a sentence (no free variables) and will have the following form:
+\[
+\varphi_w \equiv
+(\varphi_{\mathrm{successor}} \land \varphi_{\mathrm{consistent}} \land \varphi_{\mathrm{init}} \land \varphi_{\mathrm{transition}})
+\to \varphi_{\mathrm{accept}}.
+\]
+
+Let us describe each of the sub-formulae $\varphi_{\mathrm{successor}}$, $\varphi_{\mathrm{consistent}}$, $\varphi_{\mathrm{init}}$, $\varphi_{\mathrm{transition}}$ and $\varphi_{\mathrm{accept}}$ below.
+
+\paragraph{Successor.}
+\[
+\varphi_{\mathrm{successor}} \equiv
+\left(\forall x\, \neg(0=s(x))\right)
+\land
+\left(\forall x \forall y\, (s(x)=s(y) \to x=y)\right).
+\]
+
+\begin{lemma}
+Let $\mathcal{A}=(U,I)$ be a $\Sigma$-structure such that $\mathcal{A}\models \varphi_{\mathrm{successor}}$. Then, there is a subset $U' \subseteq U$ that is isomorphic to $\mathbb{N}$. That is,
+\[
+U'=\{u_0,u_1,\dots\}
+\]
+(where each $u_i$ is distinct), $u_0=I(0)$, and for each $i\in \mathbb{N}$,
+\[
+u_i = I(s^i(0)),
+\]
+where
+\[
+s^i(0)
+\]
+is shorthand for
+\[
+\underbrace{s(s(\cdots s}_{i \text{ times}}(0)\cdots)).
+\]
+\end{lemma}
+
+\begin{question}{2}
+Prove Lemma 2.
+\end{question}
+
+\paragraph{Consistency.}
+The formula $\varphi_{\mathrm{consistent}}$ talks about some basic consistency properties that we expect our structures to satisfy:
+\[
+\varphi_{\mathrm{consistent}} \equiv
+\bigwedge_{\substack{q\neq q'\\ q,q'\in Q}} \mathbf{q}\neq \mathbf{q'}
+\;\land\;
+\bigwedge_{\substack{\gamma\neq \gamma'\\ \gamma,\gamma'\in \Gamma}} \boldsymbol{\gamma}\neq \boldsymbol{\gamma'}
+\]
+\[
+\land\;
+\forall t\, \left(\bigvee_{q\in Q}\mathrm{state@}(t)=\mathbf{q}\right)
+\;\land\;
+\forall t \forall i\, \left(\bigvee_{\gamma\in \Gamma}\mathrm{inpCell}(t,i)=\boldsymbol{\gamma}\right)
+\;\land\;
+\forall t \forall i\, \left(\bigvee_{\gamma\in \Gamma}\mathrm{workCell}(t,i)=\boldsymbol{\gamma}\right).
+\]
+
+\paragraph{Initial Configuration.}
+\[
+\varphi_{\mathrm{init}} \equiv
+\mathrm{state@}(0)=\mathbf{q_{\mathrm{init}}}
+\land
+\mathrm{inpHead@}(0)=0
+\land
+\mathrm{workHead@}(0)=0
+\]
+\[
+\land\;
+\bigwedge_{i=0}^{|w|-1}\left(\mathrm{inpCell}(0,s^i(0))=\mathbf{w[i]}\right)
+\]
+\[
+\land\;
+\left(
+\forall x\,
+\left(
+\bigwedge_{i=0}^{|w|-1}\neg(x=s^i(0))
+\to
+\mathrm{inpCell}(0,x)=\boldsymbol{\textvisiblespace}
+\right)
+\right)
+\land
+\forall x\, \mathrm{workCell}(0,x)=\boldsymbol{\textvisiblespace}.
+\]
+
+\paragraph{Transition.}
+\[
+\varphi_{\mathrm{transition}} \equiv
+\bigwedge_{\substack{q\in Q\\ \sigma_{\mathrm{Inp}}\in \Gamma\\ \sigma_{\mathrm{work}}\in \Gamma}}
+\varphi_{(q,\sigma_{\mathrm{Inp}},\sigma_{\mathrm{work}})}.
+\]
+
+For fixed $(q,\sigma_{\mathrm{Inp}},\sigma_{\mathrm{work}})$, suppose
+\[
+(q',m_{\mathrm{Inp}},\sigma'_{\mathrm{work}},m_{\mathrm{work}})
+=
+\delta(q,\sigma_{\mathrm{Inp}},\sigma_{\mathrm{work}}).
+\]
+Then
+\[
+\varphi_{(q,\sigma_{\mathrm{Inp}},\sigma_{\mathrm{work}})}
+\equiv
+\forall t\,
+\Bigl(
+\mathrm{state@}(t)=\mathbf{q}
+\land
+\mathrm{inpCell}(t,\mathrm{inpHead@}(t))=\boldsymbol{\sigma_{\mathrm{Inp}}}
+\land
+\mathrm{workCell}(t,\mathrm{workHead@}(t))=\boldsymbol{\sigma_{\mathrm{work}}}
+\Bigr)
+\to
+\psi_{(q,\sigma_{\mathrm{Inp}},\sigma_{\mathrm{work}})}.
+\]
+
+The formula $\psi_{(q,\sigma_{\mathrm{Inp}},\sigma_{\mathrm{work}})}$ is:
+\[
+\psi_{(q,\sigma_{\mathrm{Inp}},\sigma_{\mathrm{work}})} \equiv
+\mathrm{state@}(s(t))=\mathbf{q'}
+\land
+\alpha_{m_{\mathrm{Inp}}}
+\land
+\beta_{m_{\mathrm{work}}}
+\]
+\[
+\land\;
+\forall x\, \mathrm{inpCell}(s(t),x)=\mathrm{inpCell}(t,x)
+\land
+\mathrm{workCell}(s(t),\mathrm{workHead@}(t))=\boldsymbol{\sigma'_{\mathrm{work}}}
+\]
+\[
+\land\;
+\forall x\,
+\left(
+\neg(x=\mathrm{workHead@}(t))
+\to
+\mathrm{workCell}(s(t),x)=\mathrm{workCell}(t,x)
+\right).
+\]
+
+Here the formulae $\{\alpha_m\}_{m\in \{L,S,R\}}$ and $\{\beta_m\}_{m\in \{L,S,R\}}$ relate the position of the input and work tape heads at time $t$ with their positions at time $t+1$:
+\[
+\alpha_m \equiv
+\begin{cases}
+\exists x\, \bigl(s(x)=\mathrm{inpHead@}(t)\land \mathrm{inpHead@}(s(t))=x\bigr) & \text{if } m=L,\\[4pt]
+\mathrm{inpHead@}(s(t))=\mathrm{inpHead@}(t) & \text{if } m=S,\\[4pt]
+\mathrm{inpHead@}(s(t))=s(\mathrm{inpHead@}(t)) & \text{if } m=R,
+\end{cases}
+\]
+\[
+\beta_m \equiv
+\begin{cases}
+\exists x\, \bigl(s(x)=\mathrm{workHead@}(t)\land \mathrm{workHead@}(s(t))=x\bigr) & \text{if } m=L,\\[4pt]
+\mathrm{workHead@}(s(t))=\mathrm{workHead@}(t) & \text{if } m=S,\\[4pt]
+\mathrm{workHead@}(s(t))=s(\mathrm{workHead@}(t)) & \text{if } m=R.
+\end{cases}
+\]
+
+\paragraph{Accepting Condition.}
+\[
+\varphi_{\mathrm{accept}} \equiv \exists t\, (\mathrm{state@}(t)=\mathbf{q_{\mathrm{acc}}}).
+\]
+
+\subsection*{Proof of Correctness of Reduction}
+
+To prove that the reduction is correct, we need to establish that:
+\begin{enumerate}
+    \item it can be effectively computed,
+    \item it is sound (i.e.\ if $\varphi_w \in \mathrm{VALID}_{\mathrm{FOL}}$, then $w\in \mathrm{MP}$),
+    \item it is complete (i.e.\ if $w\in \mathrm{MP}$, then $\varphi_w \in \mathrm{VALID}_{\mathrm{FOL}}$).
+\end{enumerate}
+
+\begin{question}{3}
+Argue that the reduction is a computable function.
+\end{question}
+
+\paragraph{Soundness.}
+We assume that $\varphi_w$ is valid. Starting with this assumption, we will show that $w$ has an accepting run in the Turing machine $M$. In particular, for the structure
+\[
+\mathcal{A}_{\mathbb{N},M}=(U_{\mathbb{N},M},I_{\mathbb{N},M}),
+\]
+we must have
+\[
+\mathcal{A}_{\mathbb{N},M}\models \varphi_w.
+\]
+The universe of the structure $\mathcal{A}_{\mathbb{N},M}$ is the set of natural numbers.
+
+\begin{question}{4}
+Complete the description of the interpretation $I_{\mathbb{N},M}$ by specifying it for every constant and function symbol in the signature $\Sigma$.
+\end{question}
+
+\begin{question}{5}
+Complete the proof of soundness of the reduction by arguing that the interpretation constructed above can be used to construct a run of the Turing machine $M$ on $w$ that is also an accepting run.
+
+\emph{Hint:} You may want to use induction to argue that each prefix of the run obeys the semantics of the Turing machine $M$.
+\end{question}
+
+\paragraph{Completeness.}
+Here, we start with the assumption that $w\in \mathrm{MP}$ and argue that $\varphi_w$ is valid, or equivalently, for every structure $\mathcal{A}$, we have
+\[
+\mathcal{A}\models \varphi_w.
+\]
+If $\mathcal{A}$ does not satisfy one or more of
+\[
+\varphi_{\mathrm{successor}},\;
+\varphi_{\mathrm{consistent}},\;
+\varphi_{\mathrm{init}},\;
+\varphi_{\mathrm{transition}},
+\]
+then clearly $\mathcal{A}\models \varphi_w$. So we only need to argue about those structures $\mathcal{A}$ for which each of
+\[
+\mathcal{A}\models \varphi_{\mathrm{successor}},\quad
+\mathcal{A}\models \varphi_{\mathrm{consistent}},\quad
+\mathcal{A}\models \varphi_{\mathrm{init}},\quad
+\mathcal{A}\models \varphi_{\mathrm{transition}}
+\]
+hold.
+
+Let the sequence of configurations of $M$ on $w$ be
+\[
+c_0,c_1,\dots,c_k
+\]
+where $c_k$ is the accepting configuration.
+
+\begin{question}{6}
+Prove completeness of the reduction by formally establishing the above argument. That is, formally show that if $w \in \mathrm{MP}$, then $\varphi_w$ is a valid FOL formula.
+\end{question}
+
+\begin{question}{7}
+Prove Theorem 1.
+\end{question}
+
+\section*{A Resolution Proof System for FOL}
+
+As with propositional logic, a resolution-style proof system has also been defined for proving unsatisfiability of FOL formulae. We will recall this proof system in modern terminology and also prove its soundness and completeness using the results we have already learnt in the course so far. As with propositional logic, the resolution proof system for FOL is also catered towards establishing unsatisfiability of a set of formulae $\Gamma$ (instead of establishing validity as in Hilbert style proof systems) over some signature $\Sigma$.
+
+\paragraph{Simplifying assumptions.}
+We will assume that $\Gamma$ is a countable set of formulae, each of which is presented in prenex normal form. Also, we will assume that all formulae are universally quantified sentences. Further, we will assume that the formulae do not contain the ``$=$'' symbol. Finally, we assume that the matrix of every formula $\varphi \in \Gamma$ is a clause, i.e.
+\[
+\varphi = \forall x_1 \forall x_2 \cdots \forall x_k \, \left(\bigvee_{i=1}^n \alpha_i\right),
+\]
+where each $\alpha_i$ is an atomic formula, with
+\[
+\mathrm{FVar}(\alpha_i)\subseteq \{x_1,\dots,x_k\}.
+\]
+
+\begin{definition}[Resolution Proof for FOL]
+A sequence
+\[
+\pi=\varphi_1,\varphi_2,\dots,\varphi_n
+\]
+of sentences over a signature $\Sigma$ is said to be a resolution proof for a set of universally quantified sentences $\Gamma$ (over the same signature $\Sigma$) if $\varphi_n=\emptyset$ is the empty clause, and for every $1\le i\le n$, one of the following holds:
+\begin{enumerate}
+    \item \textbf{(Axiom)} $\varphi_i \in \Gamma$.
+    \item \textbf{(Instantiation)} There is a $j<i$ such that $\varphi_i \in \mathrm{Ground}(\varphi_j)$.
+    \item \textbf{(Resolvent)} There are $j,k<i$ such that $\varphi_j$ and $\varphi_k$ are ground clauses, and there is a ground atom $\alpha$ such that $\alpha \in \varphi_j$ and $\neg \alpha \in \varphi_k$ and
+    \[
+    \varphi_i = (\varphi_j \setminus \{\alpha\}) \cup (\varphi_k \setminus \{\neg \alpha\}).
+    \]
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}
+The resolution proof system defined above is sound. That is, let $\Gamma$ be a set of universally quantified sentences, with the assumptions outlined above, over signature $\Sigma$. If $\Gamma$ has a resolution proof, then $\Gamma$ is unsatisfiable.
+\end{theorem}
+
+\begin{question}{8}
+Prove Theorem 2.
+
+\emph{Hint:} Instead of proving soundness from scratch, use Herbrand's Theorem, together with the soundness of propositional resolution proof system.
+\end{question}
+
+\begin{theorem}
+The resolution proof system defined above is complete. That is, let $\Gamma$ be a set of universally quantified sentences, with the assumptions outlined above, over signature $\Sigma$. If $\Gamma$ is unsatisfiable, then there is a resolution proof for $\Gamma$.
+\end{theorem}
+
+\begin{question}{9}
+Prove Theorem 3.
+
+\emph{Hint:} Instead of proving completeness from scratch, use Herbrand's Theorem, together with the completeness of propositional resolution proof system.
+\end{question}
+
+\begin{question}{10}
+Use the soundness and completeness of the FOL resolution proof system to show that
+\[
+\mathrm{VALID}_{\mathrm{FOL}} \in \mathrm{RE}
+\]
+and thus $\mathrm{VALID}_{\mathrm{FOL}}$ is RE-complete.
+\end{question}
+
+\section*{Small Model Property and FOL Fragments}
+
+In the last question, we proved that the validity problem for FOL is RE-complete, thus undecidable. Its dual problem, the satisfiability problem for FOL,
+\[
+\mathrm{SAT}_{\mathrm{FOL}},
+\]
+is coRE-complete, which is also undecidable. In this part, we focus on FOL fragments for which the classical decision problems $\mathrm{SAT}_{\mathrm{FOL}}$ and $\mathrm{VALID}_{\mathrm{FOL}}$ are decidable.
+
+\begin{definition}[Small Model Property]
+A class $\mathcal{C}$ of FOL has the small model property if there is a computable function $f$ such that for every $\phi \in \mathcal{C}$, if $\phi$ is satisfiable then it has a model of size at most $f(|\phi|)$.
+\end{definition}
+
+The first FOL fragment is the class of quantifier-free FOL formulae.
+
+\begin{question}{11}
+Formally define the quantifier-free fragment of FOL and show that it has the small model property.
+\end{question}
+
+\begin{question}{12}
+Prove that the satisfiability and validity problems for the quantifier-free fragment of FOL are decidable.
+\end{question}
+
+The second FOL fragment is EPR (or Bernays--Sch\"onfinkel) class of FOL formulae, containing function-free formulae with quantifiers of the form
+\[
+\exists^* \forall^*.
+\]
+
+\begin{question}{13}
+Prove that the satisfiability problem for the EPR fragment of FOL is decidable.
+\end{question}
+
+\end{document}
+
+
+
