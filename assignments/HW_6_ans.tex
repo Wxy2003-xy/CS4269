@@ -351,6 +351,19 @@ is shorthand for
 Prove Lemma 2.
 \end{question}
 
+\begin{proof}
+    Easy to show that $\forall \mathfrak{A} \models \phi_{succ}, U_{\mathfrak{A}}$ is infinite. 
+    \begin{proof}
+        Consider function $s, s$ is clearly injective by definition, and $\forall x \in U_{\mathfrak{A}}, \neg(s(x) = 0) \implies s$ is not surjective
+        $\implies U_{\mathfrak{A}}$ is not finite 
+    \end{proof}
+    Define find a infinite subset $U' \subseteq U$, such that \\
+    $u_0 = I(0)$\\
+    $u_i = I(s^i(0))$
+    we can show that $u_i = u_j\implies i = j$\\
+    Suppose otherwise, WLOG, let $i < j, s^i(0) = s^j(0) \implies 0 = s^{j - i}(0)$, contradiction.
+\end{proof}
+
 \paragraph{Consistency.}
 The formula $\varphi_{\mathrm{consistent}}$ talks about some basic consistency properties that we expect our structures to satisfy:
 \[
@@ -484,7 +497,10 @@ To prove that the reduction is correct, we need to establish that:
 \begin{question}{3}
 Argue that the reduction is a computable function.
 \end{question}
-
+\begin{proof}
+    For $\phi_{consistent}, \phi_{transition}, \phi_{accept}$, we are constructing formula from a fixed machine, which means finite number of states, transitions, accepting stataes. These clauses are constructed via looping over these finite machine specs. 
+    For $\phi_{init}$, it also involves the input string $w$. which require reading the input tape, which is also finite and agorithmically done.
+\end{proof}
 \paragraph{Soundness.}
 We assume that $\varphi_w$ is valid. Starting with this assumption, we will show that $w$ has an accepting run in the Turing machine $M$. In particular, for the structure
 \[
@@ -499,6 +515,22 @@ The universe of the structure $\mathcal{A}_{\mathbb{N},M}$ is the set of natural
 \begin{question}{4}
 Complete the description of the interpretation $I_{\mathbb{N},M}$ by specifying it for every constant and function symbol in the signature $\Sigma$.
 \end{question}
+\begin{proof}
+    \begin{itemize}
+        \item $I(0) = 0$
+        \item $I(q_i) = i$
+        \item $I(\gamma_j) = i + j$ 
+        \item $I(s)(x) = x + 1$
+    \end{itemize}
+    Consider the run $c_0, c_1, \dots$, 
+    \begin{itemize}
+        \item $I(\mathrm{state@})(t) = $ the number of $q$ which $M$ is in at configuration $c_t$
+        \item $I(\mathrm{inpHead@})(t) = $ the number of input head position which $M$ is in at configuration $c_t$
+        \item $I(\mathrm{workHead@})(t) = $ the number of workput head position which $M$ is in at configuration $c_t$
+        \item $I(\mathrm{inpCell})(t, i) = I(\gamma)$ where $\gamma$ is the input tape symbol at cell $i$, at time $t$
+        \item $I(\mathrm{workCell})(t, i) = I(\gamma)$ where $\gamma$ is the work tape symbol at cell $i$, at time $t$
+    \end{itemize}
+\end{proof}
 
 \begin{question}{5}
 Complete the proof of soundness of the reduction by arguing that the interpretation constructed above can be used to construct a run of the Turing machine $M$ on $w$ that is also an accepting run.
